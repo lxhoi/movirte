@@ -58,6 +58,19 @@ canvas {
     transform: translateY(0);
 }
 
+/* Fade target for SPA content swaps */
+#main-content {
+    opacity: 1;
+    transition: opacity 0.25s ease;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-content.swapping {
+    opacity: 0;
+}
+
 /* Header row: title left, controls right */
 .product-grid-wrap {
     width: 100%;

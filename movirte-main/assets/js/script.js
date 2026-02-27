@@ -239,3 +239,5 @@ window.addEventListener('resize', () => {
 // Start the animation loop
 preloadImages();
 animate();
+
+
