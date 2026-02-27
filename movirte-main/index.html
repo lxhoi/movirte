@@ -65,7 +65,23 @@
         </div>
     </div>
 
-    <section id="product-section">
+    <!-- Nav items show/hide toggle — appears when scroll sequence ends -->
+    <button id="nav-list-toggle" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Burger toggle + centered logo — shown when nav minimizes at scroll end -->
+    <button id="nav-burger" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" id="nav-center-logo">MOVIRTE</a>
+
+    <!-- Nav-title background — appears when scroll sequence ends, sits above announcement strip -->
+    <div id="nav-title-bg"></div>
+
+    <section id="product-section" data-lenis-prevent>
         <div class="product-grid-wrap">
             <!-- ANNOUNCEMENT STRIP -->
             <div class="announce-strip">

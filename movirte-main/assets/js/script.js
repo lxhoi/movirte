@@ -3,6 +3,21 @@ const context = canvas.getContext('2d');
 
 const frameCount = 511;
 
+// Nav list toggle
+const navOverlay = document.getElementById('nav-overlay');
+const navListToggle = document.getElementById('nav-list-toggle');
+const navTitleBg = document.getElementById('nav-title-bg');
+let navItemsAreHidden = false;
+
+if (navListToggle) {
+    navListToggle.addEventListener('click', () => {
+        navItemsAreHidden = !navItemsAreHidden;
+        if (navOverlay) navOverlay.classList.toggle('nav-items-hidden', navItemsAreHidden);
+        document.body.classList.toggle('nav-collapsed', navItemsAreHidden);
+        navListToggle.classList.toggle('hidden-state', navItemsAreHidden);
+    });
+}
+
 // Helper to draw image with "object-fit: cover"
 const drawImageCover = (ctx, img) => {
     const canvas = ctx.canvas;
@@ -100,9 +115,13 @@ function onScroll({ scroll }) {
     if (scrollFraction > 0.80) {
         productSection.classList.add('visible');
         if (navContent) navContent.classList.add('dark-text');
+        if (navListToggle) navListToggle.classList.add('dark');
+        if (navTitleBg) navTitleBg.classList.add('visible');
     } else {
         productSection.classList.remove('visible');
         if (navContent) navContent.classList.remove('dark-text');
+        if (navListToggle) navListToggle.classList.remove('dark');
+        if (navTitleBg) navTitleBg.classList.remove('visible');
     }
 
     // Fade out nav frame (white bordered box)
@@ -121,8 +140,11 @@ function onScroll({ scroll }) {
         if (scrollFraction > headingThreshold) {
             if (!navTitle.classList.contains('fly-to-top')) {
                 const rect = navTitle.getBoundingClientRect();
-                const targetX = 32 - rect.left;
-                const targetY = 24 - rect.top;
+                // Scale is 0.38 (from CSS), so scaled height ≈ rect.height * 0.38
+                // Center vertically in the 50px nav-title-bg: top = 25 - scaledHeight/2
+                const scaledHeight = rect.height * 0.38;
+                const targetX = 48 - rect.left; // leave room for toggle button (~40px)
+                const targetY = (25 - scaledHeight / 2) - rect.top;
                 navTitle.style.setProperty('--fly-x', `${targetX}px`);
                 navTitle.style.setProperty('--fly-y', `${targetY}px`);
                 navTitle.style.transitionDelay = '0s';
@@ -189,6 +211,21 @@ function onScroll({ scroll }) {
             }
         }
     });
+    // Show / hide the toggle button only when scroll sequence ends (last frame)
+    if (navListToggle) {
+        if (scrollFraction > 0.80) {
+            navListToggle.classList.add('visible');
+        } else {
+            navListToggle.classList.remove('visible');
+            // If the user scrolls back, reset hidden state so items reappear naturally
+            if (navItemsAreHidden) {
+                navItemsAreHidden = false;
+                if (navOverlay) navOverlay.classList.remove('nav-items-hidden');
+                document.body.classList.remove('nav-collapsed');
+                navListToggle.classList.remove('hidden-state');
+            }
+        }
+    }
 }
 
 lenis.on('scroll', onScroll);

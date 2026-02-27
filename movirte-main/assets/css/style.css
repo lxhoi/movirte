@@ -48,6 +48,8 @@ canvas {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    padding-top: 50px;
+    box-sizing: border-box;
 }
 
 #product-section.visible {
@@ -65,6 +67,8 @@ canvas {
     padding-left: calc(100vw / 6);
     box-sizing: border-box;
     position: relative;
+    /* Smooth layout shift when nav is toggled */
+    transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Vertical divider between nav and content */
@@ -78,6 +82,17 @@ canvas {
     background: rgba(0, 0, 0, 0.12);
     z-index: 16;
     pointer-events: none;
+    transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+/* When nav items are hidden, expand content to fill the full width */
+body.nav-collapsed .product-grid-wrap {
+    padding-left: 0;
+}
+
+body.nav-collapsed .product-grid-wrap::before {
+    left: 0;
+    opacity: 0;
 }
 
 .product-grid-header {
@@ -439,6 +454,14 @@ canvas {
     align-items: center;
     pointer-events: none;
     /* Visual overlay only */
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+#nav-overlay.collapsed {
+    transform: translateX(-110%);
+    opacity: 0;
 }
 
 /* Allow clicks on the actual nav links inside the overlay */
@@ -597,6 +620,100 @@ canvas {
 .nav-col-left p.fly-to-corner,
 .nav-col-left a.fly-to-corner {
     transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
+}
+
+/* ── NAV LIST TOGGLE BUTTON ─────────────────────── */
+/* Burger/X toggle — appears when scroll sequence ends.
+   Positioned at the left of the nav-title inside the nav-title-bg strip. */
+#nav-list-toggle {
+    position: fixed;
+    top: 0;
+    left: 10px;
+    z-index: 20;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 8px;
+    width: 40px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    will-change: opacity;
+}
+
+#nav-list-toggle.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Three burger bars */
+#nav-list-toggle .tbar {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: #111;
+    border-radius: 1px;
+    transform-origin: center;
+    transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s ease;
+}
+
+/* X state — first bar rotates +45°, middle fades, last rotates -45° */
+#nav-list-toggle.hidden-state .tbar-1 {
+    transform: translateY(6.5px) rotate(45deg);
+}
+
+#nav-list-toggle.hidden-state .tbar-2 {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+#nav-list-toggle.hidden-state .tbar-3 {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── NAV ITEMS HIDDEN STATE ─────────────────────── */
+/* When .nav-items-hidden is on #nav-overlay,
+   all nav items + the glassmorphism panel fade out */
+#nav-overlay.nav-items-hidden .nav-col-left p,
+#nav-overlay.nav-items-hidden .nav-col-left a {
+    opacity: 0;
+    pointer-events: none;
+    /* We override the staggered delay so they all hide at once */
+    transition-delay: 0s !important;
+}
+
+#nav-overlay.nav-items-hidden .nav-content::before {
+    opacity: 0;
+}
+
+/* ── NAV TITLE BACKGROUND ────────────────────────── */
+/* Full-width background strip behind the nav-title.
+   Appears when the PNG scroll sequence ends.
+   Sits above the announcement strip, below the nav-title text.
+   Not affected by the nav-list toggle. */
+#nav-title-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 50px;
+    background: #d1cfc2;
+    z-index: 14;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+#nav-title-bg.visible {
+    opacity: 1;
 }
 
 /* ══════════════════════════════════════════════════════
