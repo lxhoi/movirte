@@ -143,7 +143,7 @@ function onScroll({ scroll }) {
                 // Scale is 0.38 (from CSS), so scaled height ≈ rect.height * 0.38
                 // Center vertically in the 50px nav-title-bg: top = 25 - scaledHeight/2
                 const scaledHeight = rect.height * 0.38;
-                const targetX = 48 - rect.left; // leave room for toggle button (~40px)
+                const targetX = 68 - rect.left; // leave room for toggle button (~40px) + extra gap
                 const targetY = (25 - scaledHeight / 2) - rect.top;
                 navTitle.style.setProperty('--fly-x', `${targetX}px`);
                 navTitle.style.setProperty('--fly-y', `${targetY}px`);

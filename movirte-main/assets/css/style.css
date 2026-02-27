@@ -714,6 +714,32 @@ body.nav-collapsed .product-grid-wrap::before {
 
 #nav-title-bg.visible {
     opacity: 1;
+    pointer-events: auto;
+}
+
+/* Icons pinned to the right of the nav-title-bg strip */
+.nav-title-icons {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #111;
+}
+
+.nav-title-icons svg {
+    display: block;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    color: #111;
+    stroke: #111;
+}
+
+.nav-title-icons svg:hover {
+    opacity: 1;
 }
 
 /* ══════════════════════════════════════════════════════
