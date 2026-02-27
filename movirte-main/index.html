@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOVIRTE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- MOBILE DRAWER NAV -->
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <div class="scroll-container">
+        <canvas id="hero-canvas"></canvas>
+    </div>
+
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-heading">
+                <h1 class="nav-title">MOVIRTE</h1>
+                <p class="nav-subtitle">A new world of commerce.<br>150+ product updates.</p>
+            </div>
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <a href="men.html">Men</a>
+                    <a href="women.html">Women</a>
+                    <a href="new-in.html">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="product-section">
+        <div class="product-grid-wrap">
+            <!-- ANNOUNCEMENT STRIP -->
+            <div class="announce-strip">
+                <div class="announce-track-wrap">
+                    <div class="announce-track">
+                        <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">UK Free shipping on orders over £175</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                        <span class="announce-sep">·</span>
+                        <!-- duplicate for seamless loop -->
+                        <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">UK Free shipping on orders over £175</span>
+                        <span class="announce-sep">·</span>
+                        <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                        <span class="announce-sep">·</span>
+                    </div>
+                </div>
+                <div class="announce-icons">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" style="cursor:pointer">
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- EDITORIAL BANNER -->
+            <div class="editorial-banner">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="New Arrivals" class="editorial-banner-img">
+                <div class="editorial-banner-overlay"></div>
+                <div class="editorial-banner-content">
+                    <p class="editorial-banner-label">New Arrivals — SS26</p>
+                    <h2 class="editorial-banner-heading">Crafted for<br><em>quiet luxury.</em></h2>
+                    <a href="#" class="editorial-banner-cta">SHOP THE COLLECTION</a>
+                </div>
+            </div>
+
+            <div class="product-grid-header">
+                <h2>New Arrivals</h2>
+                <div class="product-grid-controls">
+                    <span class="sort-btn">SORT BY ↓</span>
+                    <span class="filter-btn">FILTER</span>
+                </div>
+            </div>
+
+            <div class="product-grid">
+                <!-- Row 1 -->
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Trucker Cap">
+                            <img class="product-img human"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Trucker Cap — on model">
+                        </div>
+                        <p class="product-name">Specialist Trucker Cap</p>
+                        <span class="product-price">$68</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Graphic Tee">
+                            <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Graphic Tee — on model">
+                        </div>
+                        <p class="product-name">Acron Graphic Tee</p>
+                        <span class="product-price">$85</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Black">
+                            <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Black on model">
+                        </div>
+                        <p class="product-name">Acron Hoodie — Black</p>
+                        <span class="product-price">$120</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/noir%20heritage%20pants/8904.webp"
+                                alt="Noir Heritage Pant">
+                            <img class="product-img human" src="products/noir%20heritage%20pants/8904.webp"
+                                alt="Noir Heritage Pant — on model">
+                        </div>
+                        <p class="product-name">Noir Heritage Pant</p>
+                        <span class="product-price">$145</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Cocoa">
+                            <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Cocoa on model">
+                        </div>
+                        <p class="product-name">Acron Hoodie — Cocoa</p>
+                        <span class="product-price">$120</span>
+                    </div>
+                </a>
+                <!-- Row 2 — NEW -->
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Slate">
+                            <img class="product-img human"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Slate on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Specialist Cap — Slate</p>
+                        <span class="product-price">$72</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Tee — Embroid">
+                            <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Tee — Embroid on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acron Tee — Embroid</p>
+                        <span class="product-price">$85</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acron Heavyweight Hoodie">
+                            <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acron Heavyweight Hoodie on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acron Heavyweight Hoodie</p>
+                        <span class="product-price">$130</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Olive">
+                            <img class="product-img human"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Olive on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Specialist Cap — Olive</p>
+                        <span class="product-price">$72</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Script Tee — Cream">
+                            <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Script Tee — Cream on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acron Script Tee — Cream</p>
+                        <span class="product-price">$55</span>
+                    </div>
+                </a>
+                <!-- Row 3 -->
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acorn Hoodie — Sand">
+                            <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acorn Hoodie — Sand on model">
+                        </div>
+                        <p class="product-name">Acorn Hoodie — Sand</p>
+                        <span class="product-price">$120</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                alt="Noir Heritage Pant — Washed">
+                            <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                alt="Noir Heritage Pant — Washed on model">
+                        </div>
+                        <p class="product-name">Noir Heritage Pant — Washed</p>
+                        <span class="product-price">$145</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Onyx">
+                            <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
+                                alt="Acron Hoodie — Onyx on model">
+                        </div>
+                        <p class="product-name">Acron Hoodie — Onyx</p>
+                        <span class="product-price">$120</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                alt="Noir Cargo Pant">
+                            <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                alt="Noir Cargo Pant on model">
+                        </div>
+                        <p class="product-name">Noir Cargo Pant</p>
+                        <span class="product-price">$155</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Desert">
+                            <img class="product-img human"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Desert on model">
+                        </div>
+                        <p class="product-name">Specialist Cap — Desert</p>
+                        <span class="product-price">$72</span>
+                    </div>
+                </a>
+                <!-- Row 4 — NEW -->
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Tee — Forest">
+                            <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Tee — Forest on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acron Tee — Forest</p>
+                        <span class="product-price">$85</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                alt="Noir Relaxed Pant">
+                            <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                alt="Noir Relaxed Pant on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Noir Relaxed Pant</p>
+                        <span class="product-price">$145</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acorn Heavyweight Hoodie — Cocoa">
+                            <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                alt="Acorn Heavyweight Hoodie — Cocoa on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acorn Heavyweight — Cocoa</p>
+                        <span class="product-price">$130</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Charcoal">
+                            <img class="product-img human"
+                                src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                alt="Specialist Cap — Charcoal on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Specialist Cap — Charcoal</p>
+                        <span class="product-price">$72</span>
+                    </div>
+                </a>
+                <a class="product-link" href="product.html">
+                    <div class="product-item">
+                        <div class="product-image">
+                            <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Script Tee — Slate">
+                            <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                alt="Acron Script Tee — Slate on model">
+                            <span class="badge-new">NEW</span>
+                        </div>
+                        <p class="product-name">Acron Script Tee — Slate</p>
+                        <span class="product-price">$55</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Footer placed inside grid-wrap so it inherits the left offset properly -->
+            <!-- AVAILABLE AT -->
+            <div class="available-at">
+                <p class="available-at-title">AVAILABLE AT</p>
+                <div class="stockist-logos">
+                    <span class="stockist-logo selfridges">SELFRIDGES<sup>&amp;CO</sup></span>
+                    <span class="stockist-logo harvey">HARVEY NICHOLS</span>
+                    <span class="stockist-logo printemps">PRINTEMPS</span>
+                    <span class="stockist-logo galeries">Galeries<br><em>Lafayette</em></span>
+                </div>
+            </div>
+
+            <!-- FEATURES BAR -->
+            <div class="features-bar-index">
+                <div class="feature-index">
+                    <div class="feature-index-icon">↺</div>
+                    <p class="feature-index-title">FREE SHIPPING IN THE UK</p>
+                    <p class="feature-index-sub">On orders over $175</p>
+                </div>
+                <div class="feature-index">
+                    <div class="feature-index-icon">↩</div>
+                    <p class="feature-index-title">FREE EXCHANGES &amp; RETURNS</p>
+                    <p class="feature-index-sub">For UK Orders</p>
+                </div>
+                <div class="feature-index">
+                    <div class="feature-index-icon">✦</div>
+                    <p class="feature-index-title">DUTIES &amp; TAXES PREPAID</p>
+                    <p class="feature-index-sub">All Orders to USA, Canada &amp; Europe shipped with taxes prepaid</p>
+                </div>
+                <div class="feature-index">
+                    <div class="feature-index-icon">★</div>
+                    <p class="feature-index-title">EXCELLENT SERVICE</p>
+                    <p class="feature-index-sub">Rated Excellent</p>
+                </div>
+            </div>
+
+            <footer class="pdp-footer">
+                <div class="footer-grid">
+                    <div class="footer-col about">
+                        <h4>ABOUT THE BRAND</h4>
+                        <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you love
+                            to
+                            wear. Fine things done their own path, on our road to style, transparency.</p>
+                        <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent throughout
+                            its
+                            collections.</p>
+                        <p class="footer-location">London, United Kingdom</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>DISCOVER</h4>
+                        <a href="#">Shopping</a>
+                        <a href="#">Returns</a>
+                        <a href="#">Stockists</a>
+                        <a href="#">Join Movirte Club</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>SUPPORT</h4>
+                        <a href="#">FAQ</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Privacy Policy</a>
+                    </div>
+                    <div class="footer-col newsletter">
+                        <h4>NEWSLETTER</h4>
+                        <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                            subscribing,
+                            you agree to the Privacy policy.</p>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="E-Mail">
+                            <button>SUBSCRIBE</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="footer-social">
+                        <a href="#">𝕏</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">YouTube</a>
+                        <a href="#">TikTok</a>
+                    </div>
+                    <p>© MOVIRTE 2026</p>
+                </div>
+            </footer>
+        </div> <!-- /.product-grid-wrap -->
+    </section>
+
+    <!-- GSAP + ScrollTrigger + Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script>
+        // Mobile drawer for index page
+        const burgerBtn = document.getElementById('burgerBtn');
+        const drawerClose = document.getElementById('drawerClose');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+
+        function openDrawer() {
+            if (!mobileDrawer) return;
+            mobileDrawer.classList.add('open');
+            drawerOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDrawer() {
+            if (!mobileDrawer) return;
+            mobileDrawer.classList.remove('open');
+            drawerOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        if (burgerBtn) burgerBtn.addEventListener('click', openDrawer);
+        if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+        if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+    </script>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3>
+            <button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+            <div class="cart-item">
+                <img src="products/tee/tee1.webp" alt="Graphic Tee" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Script Logo Tee</p>
+                    <p class="cart-item-variant">Black / L</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£85</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>£330</span>
+            </div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- CHATBOT FLOAT -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script>
+        const chatFab = document.getElementById('chatFab');
+        const chatPanel = document.getElementById('chatPanel');
+        const chatClose = document.getElementById('chatClose');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatBody = document.querySelector('.chat-panel-body');
+
+        chatFab.addEventListener('click', () => {
+            chatPanel.classList.toggle('open');
+            if (chatPanel.classList.contains('open')) chatInput.focus();
+        });
+        chatClose.addEventListener('click', () => chatPanel.classList.remove('open'));
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            const msg = document.createElement('div');
+            msg.className = 'chat-bubble user';
+            msg.textContent = text;
+            chatBody.appendChild(msg);
+            chatInput.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.className = 'chat-bubble bot';
+                reply.textContent = 'Thanks for your message! A member of our team will be with you shortly.';
+                chatBody.appendChild(reply);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 800);
+        }
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+    </script>
+
+    <script>
+        const cartBtn = document.getElementById('cartBtn');
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartCloseBtn = document.getElementById('cartClose');
+        const cartContinue = document.querySelector('.cart-continue');
+
+        function openCart() { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); }
+        function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); }
+
+        cartBtn.addEventListener('click', openCart);
+        cartCloseBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+        if (cartContinue) cartContinue.addEventListener('click', e => { e.preventDefault(); closeCart(); });
+    </script>
+</body>
+
+</html>

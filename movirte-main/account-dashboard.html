@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account — MOVIRTE</title>
+    <meta name="description" content="Manage your MOVIRTE account — orders, wishlist, and personal details.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+</head>
+
+<body>
+    <header class="mobile-header"><button class="burger-btn"
+            id="burgerBtn"><span></span><span></span><span></span></button><a href="index.html"
+            class="mobile-logo">MOVIRTE</a><a href="bag.html" class="mobile-bag">Bag (0)</a></header>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <nav class="mobile-drawer" id="mobileDrawer"><button class="drawer-close" id="drawerClose">✕</button><a
+            href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav"><a href="men.html">Men</a><a href="women.html">Women</a><a href="new-in.html">New
+                In</a><a href="best-sellers.html">Best Sellers</a><a href="sale.html">Sale</a><a
+                href="collections.html">Collections &amp; Capsules</a><a href="gifting.html">Gifting</a></div>
+    </nav>
+    <!-- SIDEBAR NAV -->
+    <script src="assets/js/nav-sidebar.js"></script>
+
+    <div class="account-shell">
+        <div class="announce-strip">
+            <div class="announce-track-wrap">
+                <div class="announce-track"><span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span><span
+                        class="announce-sep">·</span><span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR
+                        UK</span><span class="announce-sep">·</span><span class="announce-item">UK Free shipping on
+                        orders over £175</span><span class="announce-sep">·</span><span
+                        class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span><span
+                        class="announce-sep">·</span><span class="announce-item">FREE TOTE BAG WITH ORDERS OVER
+                        £175</span><span class="announce-sep">·</span><span class="announce-item">FREE EXCHANGES &amp;
+                        RETURNS FOR UK</span><span class="announce-sep">·</span><span class="announce-item">UK Free
+                        shipping on orders over £175</span><span class="announce-sep">·</span><span
+                        class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span><span
+                        class="announce-sep">·</span></div>
+            </div>
+            <div class="announce-icons"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg></div>
+        </div>
+
+        <div class="account-hero">
+            <h1 class="account-title">My Account</h1>
+            <a href="account-login.html" class="account-logout">Sign Out</a>
+        </div>
+        <nav class="account-tabs">
+            <a href="account-dashboard.html" class="account-tab active">Dashboard</a>
+            <a href="account-orders.html" class="account-tab">Orders</a>
+            <a href="account-wishlist.html" class="account-tab">Wishlist</a>
+            <a href="#" class="account-tab">Settings</a>
+        </nav>
+
+        <div class="account-body">
+            <p class="dashboard-hello">Good morning, Alex.</p>
+            <p class="dashboard-greeting">Welcome back to your MOVIRTE account.</p>
+
+            <div class="dashboard-grid">
+                <a href="account-orders.html" class="dashboard-card">
+                    <span class="dashboard-card-icon">📦</span>
+                    <p class="dashboard-card-title">My Orders</p>
+                    <p class="dashboard-card-desc">Track, view, and manage your recent purchases.</p>
+                </a>
+                <a href="account-wishlist.html" class="dashboard-card">
+                    <span class="dashboard-card-icon">♡</span>
+                    <p class="dashboard-card-title">Wishlist</p>
+                    <p class="dashboard-card-desc">Your saved pieces — ready to add to your bag.</p>
+                </a>
+                <a href="#" class="dashboard-card">
+                    <span class="dashboard-card-icon">✎</span>
+                    <p class="dashboard-card-title">Account Settings</p>
+                    <p class="dashboard-card-desc">Update your details, address, and password.</p>
+                </a>
+                <a href="#" class="dashboard-card">
+                    <span class="dashboard-card-icon">✦</span>
+                    <p class="dashboard-card-title">MOVIRTE Club</p>
+                    <p class="dashboard-card-desc">Exclusive benefits, early access, and rewards.</p>
+                </a>
+                <a href="#" class="dashboard-card">
+                    <span class="dashboard-card-icon">↩</span>
+                    <p class="dashboard-card-title">Returns</p>
+                    <p class="dashboard-card-desc">Start a return or exchange for a recent order.</p>
+                </a>
+                <a href="#" class="dashboard-card">
+                    <span class="dashboard-card-icon">✉</span>
+                    <p class="dashboard-card-title">Preferences</p>
+                    <p class="dashboard-card-desc">Manage your email preferences and size profile.</p>
+                </a>
+            </div>
+
+            <!-- Recent order summary -->
+            <p
+                style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9A8070;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #E0D6CC;">
+                Recent Order</p>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#MV-2024-0091</td>
+                        <td>24 Feb 2026</td>
+                        <td>Acron Hoodie · Cap</td>
+                        <td>£313</td>
+                        <td><span class="order-status processing">Processing</span></td>
+                        <td><a href="account-orders.html" class="orders-view-link">View →</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="pdp-footer">
+            <div class="footer-grid">
+                <div class="footer-col about">
+                    <h4>ABOUT THE BRAND</h4>
+                    <p>MOVIRTE is a British luxury contemporary fashion brand.</p>
+                    <p class="footer-location">London, United Kingdom</p>
+                </div>
+                <div class="footer-col">
+                    <h4>DISCOVER</h4><a href="#">Shopping</a><a href="#">Returns</a><a href="#">Stockists</a><a
+                        href="#">Join Movirte Club</a>
+                </div>
+                <div class="footer-col">
+                    <h4>SUPPORT</h4><a href="#">FAQ</a><a href="#">Contact</a><a href="#">Terms of Service</a><a
+                        href="#">Privacy Policy</a>
+                </div>
+                <div class="footer-col newsletter">
+                    <h4>NEWSLETTER</h4>
+                    <p>Subscribe for 15% off.</p>
+                    <div class="newsletter-form"><input type="email" placeholder="E-Mail"><button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-social"><a href="#">𝕏</a><a href="#">Instagram</a><a href="#">YouTube</a><a
+                        href="#">TikTok</a></div>
+                <p>© MOVIRTE 2026</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online</p>
+            </div><button class="chat-panel-close" id="chatClose">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">Hi Alex 👋 How can I help you today?</div>
+        </div>
+        <div class="chat-panel-input"><input type="text" placeholder="Type a message..." id="chatInput"><button
+                class="chat-send" id="chatSend">↑</button></div>
+    </div>
+    <button class="chat-fab" id="chatFab"><svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg></button>
+    <script>
+        const burgerBtn = document.getElementById('burgerBtn'), drawerClose = document.getElementById('drawerClose'), mobileDrawer = document.getElementById('mobileDrawer'), drawerOverlay = document.getElementById('drawerOverlay');
+        function openDrawer() { mobileDrawer.classList.add('open'); drawerOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+        if (burgerBtn) burgerBtn.addEventListener('click', openDrawer); if (drawerClose) drawerClose.addEventListener('click', closeDrawer); if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+        const chatFab = document.getElementById('chatFab'), chatPanel = document.getElementById('chatPanel'), chatClose = document.getElementById('chatClose'), chatInput = document.getElementById('chatInput'), chatSend = document.getElementById('chatSend'), chatBody = document.querySelector('.chat-panel-body');
+        chatFab.addEventListener('click', () => { chatPanel.classList.toggle('open'); if (chatPanel.classList.contains('open')) chatInput.focus(); });
+        chatClose.addEventListener('click', () => chatPanel.classList.remove('open'));
+        function sendMsg() { const t = chatInput.value.trim(); if (!t) return; const m = document.createElement('div'); m.className = 'chat-bubble user'; m.textContent = t; chatBody.appendChild(m); chatInput.value = ''; chatBody.scrollTop = chatBody.scrollHeight; setTimeout(() => { const r = document.createElement('div'); r.className = 'chat-bubble bot'; r.textContent = 'Thanks! A member of our team will be with you shortly.'; chatBody.appendChild(r); chatBody.scrollTop = chatBody.scrollHeight; }, 800); }
+        chatSend.addEventListener('click', sendMsg); chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+    </script>
+</body>
+
+</html>

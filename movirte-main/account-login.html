@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — MOVIRTE</title>
+    <meta name="description" content="Sign in to your MOVIRTE account to track orders, manage your wishlist, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/listing.css">
+</head>
+
+<body>
+    <div class="auth-page">
+        <!-- HEADER -->
+        <header class="auth-header">
+            <a href="index.html" class="auth-logo">MOVIRTE</a>
+            <div class="auth-header-links">
+                <a href="men.html">Men</a>
+                <a href="women.html">Women</a>
+                <a href="new-in.html">New In</a>
+                <a href="bag.html">Bag (0)</a>
+            </div>
+        </header>
+
+        <!-- BODY -->
+        <div class="auth-body">
+            <div class="auth-card">
+                <h1 class="auth-card-title">Your Account</h1>
+                <!-- TABS -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="loginTab" onclick="switchTab('login')">Sign In</button>
+                    <button class="auth-tab" id="registerTab" onclick="switchTab('register')">Create Account</button>
+                </div>
+
+                <!-- LOGIN PANEL -->
+                <div class="auth-form-panel active" id="loginPanel">
+                    <div class="auth-input-group">
+                        <input type="email" id="loginEmail" placeholder=" ">
+                        <label for="loginEmail">Email address</label>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="password" id="loginPass" placeholder=" ">
+                        <label for="loginPass">Password</label>
+                    </div>
+                    <div class="auth-forgot"><a href="#" class="auth-link">Forgot your password?</a></div>
+                    <button class="auth-submit" onclick="window.location.href='account-dashboard.html'">SIGN IN</button>
+                    <p class="auth-divider">— or —</p>
+                    <button class="auth-submit" style="background:#F5EDE0;color:#3B1F10;border:1px solid #D0C5BA;"
+                        onclick="window.location.href='account-dashboard.html'">CONTINUE AS GUEST</button>
+                </div>
+
+                <!-- REGISTER PANEL -->
+                <div class="auth-form-panel" id="registerPanel">
+                    <div class="auth-input-group">
+                        <input type="text" id="regFirst" placeholder=" ">
+                        <label for="regFirst">First name</label>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="text" id="regLast" placeholder=" ">
+                        <label for="regLast">Last name</label>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="email" id="regEmail" placeholder=" ">
+                        <label for="regEmail">Email address</label>
+                    </div>
+                    <div class="auth-input-group">
+                        <input type="password" id="regPass" placeholder=" ">
+                        <label for="regPass">Password (min. 8 characters)</label>
+                    </div>
+                    <button class="auth-submit" onclick="window.location.href='account-dashboard.html'">CREATE
+                        ACCOUNT</button>
+                    <p class="auth-terms">By creating an account you agree to our <a href="#">Terms of Service</a> and
+                        <a href="#">Privacy Policy</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function switchTab(t) {
+            document.getElementById('loginTab').classList.toggle('active', t === 'login');
+            document.getElementById('registerTab').classList.toggle('active', t === 'register');
+            document.getElementById('loginPanel').classList.toggle('active', t === 'login');
+            document.getElementById('registerPanel').classList.toggle('active', t === 'register');
+        }
+    </script>
+</body>
+
+</html>

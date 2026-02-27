@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acorn Forest Hood — MOVIRTE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/product.css">
+</head>
+
+<body>
+
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <header class="mobile-header">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- MOBILE DRAWER NAV -->
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- PERSISTENT LEFT NAV SIDEBAR (desktop only) -->
+    <nav id="nav-sidebar">
+        <a href="index.html" class="sidebar-logo">MOVIRTE</a>
+        <div class="sidebar-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- PAGE CONTENT (offset right by sidebar width) -->
+    <div class="pdp-shell">
+        <!-- ANNOUNCEMENT STRIP -->
+        <div class="announce-strip">
+            <div class="announce-track-wrap">
+                <div class="announce-track">
+                    <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">UK Free shipping on orders over £175</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">UK Free shipping on orders over £175</span>
+                    <span class="announce-sep">·</span>
+                    <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                    <span class="announce-sep">·</span>
+                </div>
+            </div>
+            <div class="announce-icons">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </div>
+        </div>
+
+
+        <!-- MAIN PRODUCT LAYOUT -->
+        <section class="pdp-main">
+
+            <!-- Thumbnail strip -->
+            <div class="thumb-strip">
+                <div class="thumb active" onclick="setMain(this, 'products/black%20acorn/ACRONHOODIE.webp')">
+                    <img src="products/black%20acorn/ACRONHOODIE.webp" alt="Thumb 1">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/hoodie/ACRONHOODIE.webp')">
+                    <img src="products/hoodie/ACRONHOODIE.webp" alt="Thumb 2">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/black%20acorn/acrontee.jpg')">
+                    <img src="products/black%20acorn/acrontee.jpg" alt="Thumb 3">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/noir%20heritage%20pants/8904.webp')">
+                    <img src="products/noir%20heritage%20pants/8904.webp" alt="Thumb 4">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/noir%20heritage%20pants/NHPANTS2.webp')">
+                    <img src="products/noir%20heritage%20pants/NHPANTS2.webp" alt="Thumb 5">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/noir%20heritage%20pants/NHPANTS3.webp')">
+                    <img src="products/noir%20heritage%20pants/NHPANTS3.webp" alt="Thumb 6">
+                </div>
+                <div class="thumb" onclick="setMain(this, 'products/noir%20heritage%20pants/NHPANTS4.webp')">
+                    <img src="products/noir%20heritage%20pants/NHPANTS4.webp" alt="Thumb 7">
+                </div>
+                <div class="thumb"
+                    onclick="setMain(this, 'products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp')">
+                    <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp" alt="Thumb 8">
+                </div>
+            </div>
+
+            <!-- Main image -->
+            <div class="pdp-image-main">
+                <img id="main-img" src="products/black%20acorn/ACRONHOODIE.webp" alt="Acorn Forest Hood">
+            </div>
+
+            <!-- Product info -->
+            <div class="pdp-info">
+                <p class="pdp-brand">MOVIRTE</p>
+                <h1 class="pdp-title">Acorn Forest Hood</h1>
+                <p class="pdp-price">$120.00</p>
+
+                <p class="pdp-desc">
+                    Rooted in warmth and woodland tranquility, the Acorn Forest Hood brings nature's quiet beauty in one
+                    of
+                    our most comfortable silhouettes. Crafted from our heavyweight brushed-back cotton in a rich cocoa
+                    shade, the shoulder is embroidered with delicate acorn and foliage motifs, symbolic of growth,
+                    grounding
+                    and endurance.
+                </p>
+                <p class="pdp-desc">
+                    Featuring a relaxed oversized fit, ribbed seams, and a kangaroo pocket, this piece is built for
+                    effortless comfort while elevating everyday wear. A small MOVIRTE embroidery sits softly on the
+                    hood.
+                </p>
+
+                <!-- Size -->
+                <div class="size-section">
+                    <div class="size-label-row">
+                        <span>Size</span>
+                        <a href="#" class="size-guide">Size chart</a>
+                    </div>
+                    <div class="size-grid">
+                        <button class="size-btn selected">XS</button>
+                        <button class="size-btn">S</button>
+                        <button class="size-btn">M</button>
+                        <button class="size-btn">L</button>
+                        <button class="size-btn">XL</button>
+                        <button class="size-btn">XXL</button>
+                    </div>
+                    <p class="in-stock">● In stock</p>
+                </div>
+
+                <!-- Shipping notice -->
+                <p class="shipping-notice">Order within the next <strong>21 hours 29 minutes</strong> with Priority
+                    Shipping
+                    to receive by <strong>Fri, Feb 21</strong></p>
+
+                <!-- CTA -->
+                <button class="btn-add-cart">ADD TO CART</button>
+                <button class="btn-shop-pay">Buy with <strong>Shop</strong> Pay</button>
+                <a href="#" class="more-payment">More payment options</a>
+                <p class="afterpay-note">Pay in 4 installments of <strong>$30.00</strong> with <span
+                        class="afterpay-logo">afterpay</span></p>
+
+                <!-- SKU -->
+                <p class="sku">SKU: MVT-0764N-30</p>
+
+                <!-- Accordion -->
+                <div class="accordion">
+                    <div class="accord-item">
+                        <button class="accord-header" onclick="toggleAccord(this)">
+                            <span>Product Details</span>
+                            <span class="accord-icon">+</span>
+                        </button>
+                        <div class="accord-body">
+                            <p>100% Heavyweight Cotton. Brushed back fleece interior. Oversized fit. Ribbed cuffs, hem
+                                and
+                                hood. Kangaroo pocket. Embroidered acorn and foliage motif on shoulder.</p>
+                        </div>
+                    </div>
+                    <div class="accord-item">
+                        <button class="accord-header" onclick="toggleAccord(this)">
+                            <span>Shipping & Duties</span>
+                            <span class="accord-icon">+</span>
+                        </button>
+                        <div class="accord-body">
+                            <p>Free shipping on orders over $175. Standard delivery 3–5 business days. Priority delivery
+                                1–2
+                                business days. Duties included for US, Canada & Europe.</p>
+                        </div>
+                    </div>
+                    <div class="accord-item">
+                        <button class="accord-header" onclick="toggleAccord(this)">
+                            <span>Returns & Exchanges</span>
+                            <span class="accord-icon">+</span>
+                        </button>
+                        <div class="accord-body">
+                            <p>Free returns & exchanges within 30 days of delivery. Items must be unworn, unwashed and
+                                in
+                                original packaging with tags attached.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RELATED PRODUCTS -->
+        <section class="related-section">
+            <h2 class="related-title">RELATED PRODUCTS</h2>
+            <div class="related-grid">
+                <a href="product.html" class="related-item">
+                    <div class="related-img-wrap">
+                        <img src="products/black%20acorn/acrontee.jpg" alt="Black Acorn T-Shirt">
+                    </div>
+                    <p class="related-name">Black Acorn T-Shirt</p>
+                    <p class="related-price">$85.00</p>
+                </a>
+                <a href="product.html" class="related-item">
+                    <div class="related-img-wrap">
+                        <img src="products/hoodie/ACRONHOODIE.webp" alt="Acorn Forest Hood">
+                    </div>
+                    <p class="related-name">Acorn Forest Hood</p>
+                    <p class="related-price">$120.00</p>
+                </a>
+                <a href="product.html" class="related-item">
+                    <div class="related-img-wrap">
+                        <img src="products/noir%20heritage%20pants/8904.webp" alt="Noir Heritage Pant">
+                    </div>
+                    <p class="related-name">Noir Heritage Pant</p>
+                    <p class="related-price">$145.00</p>
+                </a>
+                <a href="product.html" class="related-item">
+                    <div class="related-img-wrap">
+                        <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                            alt="Specialist Trucker Cap">
+                    </div>
+                    <p class="related-name">Specialist Trucker Cap</p>
+                    <p class="related-price">$68.00</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- FEATURES BAR -->
+        <div class="features-bar">
+            <div class="feature">
+                <div class="feature-icon">↺</div>
+                <p class="feature-title">FREE SHIPPING IN THE UK</p>
+                <p class="feature-sub">On orders over $175</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">↩</div>
+                <p class="feature-title">FREE EXCHANGES & RETURNS</p>
+                <p class="feature-sub">For UK Orders</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✦</div>
+                <p class="feature-title">DUTIES & TAXES PREPAID</p>
+                <p class="feature-sub">All Orders to USA, Canada & Europe shipped with duties prepaid</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">★</div>
+                <p class="feature-title">EXCELLENT SERVICE</p>
+                <p class="feature-sub">Rated Excellent</p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="pdp-footer">
+            <div class="footer-grid">
+                <div class="footer-col about">
+                    <h4>ABOUT THE BRAND</h4>
+                    <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you love to
+                        wear. Fine things done their own path, on our road to style, transparency.</p>
+                    <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent throughout its
+                        collections.</p>
+                    <p class="footer-location">London, United Kingdom</p>
+                </div>
+                <div class="footer-col">
+                    <h4>DISCOVER</h4>
+                    <a href="#">Shopping</a>
+                    <a href="#">Returns</a>
+                    <a href="#">Stockists</a>
+                    <a href="#">Join Blinder Club</a>
+                </div>
+                <div class="footer-col">
+                    <h4>SUPPORT</h4>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="footer-col newsletter">
+                    <h4>NEWSLETTER</h4>
+                    <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By subscribing,
+                        you
+                        agree to the Privacy policy.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="E-Mail">
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="#">𝕏</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">TikTok</a>
+                </div>
+                <p>© MOVIRTE 2026</p>
+            </div>
+        </footer>
+
+        <script>
+            function setMain(thumb, src) {
+                document.getElementById('main-img').src = src;
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+            }
+
+            function toggleAccord(btn) {
+                const item = btn.closest('.accord-item');
+                const body = item.querySelector('.accord-body');
+                const icon = btn.querySelector('.accord-icon');
+                const isOpen = item.classList.contains('open');
+
+                document.querySelectorAll('.accord-item').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.accord-body').style.maxHeight = null;
+                    i.querySelector('.accord-icon').textContent = '+';
+                });
+
+                if (!isOpen) {
+                    item.classList.add('open');
+                    body.style.maxHeight = body.scrollHeight + 'px';
+                    icon.textContent = '−';
+                }
+            }
+
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                });
+            });
+
+            // Burger menu
+            const burgerBtn = document.getElementById('burgerBtn');
+            const drawerClose = document.getElementById('drawerClose');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+
+            function openDrawer() {
+                mobileDrawer.classList.add('open');
+                drawerOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeDrawer() {
+                mobileDrawer.classList.remove('open');
+                drawerOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            burgerBtn.addEventListener('click', openDrawer);
+            drawerClose.addEventListener('click', closeDrawer);
+            drawerOverlay.addEventListener('click', closeDrawer);
+        </script>
+
+    </div><!-- /.pdp-shell -->
+
+    <!-- CHATBOT FLOAT -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script>
+        const chatFab = document.getElementById('chatFab');
+        const chatPanel = document.getElementById('chatPanel');
+        const chatClose = document.getElementById('chatClose');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatBody = document.querySelector('.chat-panel-body');
+
+        chatFab.addEventListener('click', () => {
+            chatPanel.classList.toggle('open');
+            if (chatPanel.classList.contains('open')) chatInput.focus();
+        });
+        chatClose.addEventListener('click', () => chatPanel.classList.remove('open'));
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            const msg = document.createElement('div');
+            msg.className = 'chat-bubble user';
+            msg.textContent = text;
+            chatBody.appendChild(msg);
+            chatInput.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.className = 'chat-bubble bot';
+                reply.textContent = 'Thanks for your message! A member of our team will be with you shortly.';
+                chatBody.appendChild(reply);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 800);
+        }
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+    </script>
+
+</body>
+
+</html>
