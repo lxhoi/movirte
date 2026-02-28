@@ -31,7 +31,7 @@
         <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
         <a href="index.html" class="drawer-logo">MOVIRTE</a>
         <div class="drawer-nav">
-            <a href="men.html">Men</a>
+            <a href="men/new-in.html">Men</a>
             <a href="women.html">Women</a>
             <a href="new-in.html">New In</a>
             <a href="best-sellers.html">Best Sellers</a>
@@ -53,7 +53,15 @@
             </div>
             <div class="nav-list">
                 <div class="nav-col-left">
-                    <a href="men.html">Men</a>
+                    <span class="nav-item-row" id="menNavRow">
+                        <button class="men-nav-btn" id="menNavBtn">Men</button>
+                        <button class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
                     <a href="women.html">Women</a>
                     <a href="new-in.html">New In</a>
                     <a href="best-sellers.html">Best Sellers</a>
@@ -62,6 +70,17 @@
                     <a href="gifting.html">Gifting</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- LEVEL-2 MEN SUB-NAV PANEL —————————————————————————————————
+         Fixed floating overlay, does NOT affect document flow.
+         Opens when menChevron is clicked. Height = 100vh - 50px.
+    ——————————————————————————————————————————————————————————————— -->
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
         </div>
     </div>
 
@@ -529,6 +548,95 @@
         if (burgerBtn) burgerBtn.addEventListener('click', openDrawer);
         if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
         if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+        // ── Level-2 Men Sub-nav Panel ────────────────────────────────────────
+        const menChevron = document.getElementById('menChevron');
+        const menNavBtn = document.getElementById('menNavBtn');
+        const menSubnavPanel = document.getElementById('men-subnav-panel');
+        const menSubnavLinks = document.getElementById('menSubnavLinks');
+
+        // ── Sub-items data — add/remove entries here ──
+        const MEN_SUBNAV_ITEMS = [
+            { label: 'New In', href: 'men/new-in.html', active: true },
+            { label: 'Tops', href: 'men/tops.html' },
+            { label: 'Bottoms', href: 'men/bottoms.html' },
+            { label: 'Outerwear', href: 'men/outerwear.html' },
+            { label: 'Accessories', href: 'men/accessories.html' },
+            { label: 'Sale', href: 'men/sale.html' },
+        ];
+
+        // Build the sub-nav links from the data array
+        function buildMenuSubnav() {
+            if (!menSubnavLinks) return;
+            menSubnavLinks.innerHTML = '';
+            MEN_SUBNAV_ITEMS.forEach(item => {
+                const a = document.createElement('a');
+                a.href = item.href;
+                a.textContent = item.label;
+                a.className = 'men-subnav-link' + (item.active ? ' active' : '');
+                // Close panel when a sub-item link is clicked
+                a.addEventListener('click', () => closeMenPanel());
+                menSubnavLinks.appendChild(a);
+            });
+        }
+
+        // ── Vertical alignment: first sub-item top = Men label top ──
+        // Panel top: 50px (CSS). Inside: [padding-top] > category-span > [gap 14px] > links
+        // So: padding-top = menLabel.top - 50 - categorySpan.offsetHeight - 14 (gap)
+        function alignSubnavPanel() {
+            const menLabel = menNavBtn || document.querySelector('#menNavRow .men-nav-btn');
+            const catSpan = menSubnavPanel && menSubnavPanel.querySelector('.men-subnav-category');
+            if (!menLabel || !menSubnavPanel || !catSpan) return;
+            const panelTop = 50;
+            const menTop = menLabel.getBoundingClientRect().top;
+            const catHeight = catSpan.offsetHeight;
+            const innerGap = 14; // matches CSS gap: 14px in .men-subnav-inner
+            const paddingTop = Math.max(0, menTop - panelTop - catHeight - innerGap);
+            menSubnavPanel.style.paddingTop = paddingTop + 'px';
+        }
+
+        function openMenPanel() {
+            if (!menSubnavPanel) return;
+            alignSubnavPanel();               // sync position on every open
+            menSubnavPanel.classList.add('open');
+            if (menChevron) { menChevron.classList.add('open'); menChevron.setAttribute('aria-expanded', 'true'); }
+        }
+
+        function closeMenPanel() {
+            if (!menSubnavPanel) return;
+            menSubnavPanel.classList.remove('open');
+            if (menChevron) { menChevron.classList.remove('open'); menChevron.setAttribute('aria-expanded', 'false'); }
+        }
+
+        function toggleMenPanel(e) {
+            e.stopPropagation();
+            menSubnavPanel.classList.contains('open') ? closeMenPanel() : openMenPanel();
+        }
+
+        if (menNavBtn) menNavBtn.addEventListener('click', toggleMenPanel);
+        if (menChevron) menChevron.addEventListener('click', toggleMenPanel);
+
+        // Realign on viewport resize (keeps alignment in sync during scroll/animation)
+        window.addEventListener('resize', () => {
+            if (menSubnavPanel && menSubnavPanel.classList.contains('open')) alignSubnavPanel();
+        });
+
+        // ── nav-list-toggle: also closes Level-2 panel ───────────────────────
+        window.addEventListener('DOMContentLoaded', () => {
+            buildMenuSubnav();   // inject links from data array
+            const toggle = document.getElementById('nav-list-toggle');
+            if (toggle) toggle.addEventListener('click', () => closeMenPanel());
+        });
+
+        // Close sub-panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (menSubnavPanel && menSubnavPanel.classList.contains('open')) {
+                const inside = menSubnavPanel.contains(e.target)
+                    || (menNavBtn && (e.target === menNavBtn || menNavBtn.contains(e.target)))
+                    || (menChevron && (e.target === menChevron || menChevron.contains(e.target)));
+                if (!inside) closeMenPanel();
+            }
+        });
     </script>
 
     <!-- CART DRAWER -->

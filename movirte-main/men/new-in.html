@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/product.css">
-    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/product.css">
+    <link rel="stylesheet" href="../assets/css/listing.css">
     <style>
         /* ── Men page: clean static layout ── */
         body {
@@ -73,6 +73,12 @@
             transition: letter-spacing 0.3s ease, opacity 0.25s ease;
         }
 
+        /* ── On men/new-in the nav is always settled — show chevron immediately ── */
+        body .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         #men-sidebar .sidebar-links a::after {
             content: '';
             position: absolute;
@@ -81,7 +87,7 @@
             width: 0;
             height: 1px;
             background: currentColor;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.3s ease;
         }
 
         #men-sidebar .sidebar-links a:hover::after {
@@ -137,8 +143,8 @@
         <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
             <span></span><span></span><span></span>
         </button>
-        <a href="index.html" class="mobile-logo">MOVIRTE</a>
-        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+        <a href="../index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="../bag.html" class="mobile-bag">Bag (0)</a>
     </header>
 
     <!-- MOBILE DRAWER OVERLAY -->
@@ -147,30 +153,46 @@
     <!-- MOBILE DRAWER NAV -->
     <nav class="mobile-drawer" id="mobileDrawer">
         <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
-        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <a href="../index.html" class="drawer-logo">MOVIRTE</a>
         <div class="drawer-nav">
-            <a href="men.html">Men</a>
-            <a href="women.html">Women</a>
-            <a href="new-in.html">New In</a>
-            <a href="best-sellers.html">Best Sellers</a>
-            <a href="sale.html">Sale</a>
-            <a href="collections.html">Collections &amp; Capsules</a>
-            <a href="gifting.html">Gifting</a>
+            <a href="new-in.html">Men</a>
+            <a href="../women.html">Women</a>
+            <a href="../new-in.html">New In</a>
+            <a href="../best-sellers.html">Best Sellers</a>
+            <a href="../sale.html">Sale</a>
+            <a href="../collections.html">Collections &amp; Capsules</a>
+            <a href="../gifting.html">Gifting</a>
         </div>
     </nav>
 
     <!-- SIDEBAR NAV — clean static element, no scroll-sequence CSS -->
     <aside id="men-sidebar">
         <div class="sidebar-links">
-            <a href="men.html" class="active">Men</a>
-            <a href="women.html">Women</a>
-            <a href="new-in.html">New In</a>
-            <a href="best-sellers.html">Best Sellers</a>
-            <a href="sale.html">Sale</a>
-            <a href="collections.html">Collections &amp; Capsules</a>
-            <a href="gifting.html">Gifting</a>
+            <span class="nav-item-row" id="menNavRow">
+                <a href="new-in.html" class="active">Men</a>
+                <button class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                    <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </span>
+            <a href="../women.html">Women</a>
+            <a href="../new-in.html">New In</a>
+            <a href="../best-sellers.html">Best Sellers</a>
+            <a href="../sale.html">Sale</a>
+            <a href="../collections.html">Collections &amp; Capsules</a>
+            <a href="../gifting.html">Gifting</a>
         </div>
     </aside>
+
+    <!-- LEVEL-2 MEN SUB-NAV PANEL -->
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
 
     <!-- Nav-list toggle — always visible on this page -->
     <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
@@ -181,7 +203,7 @@
 
     <!-- Nav-title background strip — always visible on this page -->
     <div id="nav-title-bg" class="visible">
-        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <a href="../index.html" class="men-nav-title">MOVIRTE</a>
         <div class="nav-title-icons">
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -231,7 +253,7 @@
 
                 <!-- EDITORIAL BANNER — Men specific -->
                 <div class="editorial-banner">
-                    <img src="products/black%20acorn/ACRONHOODIE.webp" alt="Men's Collection"
+                    <img src="../products/black%20acorn/ACRONHOODIE.webp" alt="Men's Collection"
                         class="editorial-banner-img">
                     <div class="editorial-banner-overlay"></div>
                     <div class="editorial-banner-content">
@@ -251,12 +273,12 @@
 
                 <div class="product-grid">
                     <!-- Row 1 -->
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Onyx">
-                                <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Onyx on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -264,24 +286,24 @@
                             <span class="product-price">£120</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/noir%20heritage%20pants/8904.webp"
+                                <img class="product-img base" src="../products/noir%20heritage%20pants/8904.webp"
                                     alt="Noir Heritage Pant">
-                                <img class="product-img human" src="products/noir%20heritage%20pants/8904.webp"
+                                <img class="product-img human" src="../products/noir%20heritage%20pants/8904.webp"
                                     alt="Noir Heritage Pant — on model">
                             </div>
                             <p class="product-name">Noir Heritage Pant</p>
                             <span class="product-price">£145</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Cocoa">
-                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Cocoa on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -289,26 +311,26 @@
                             <span class="product-price">£120</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
                                 <img class="product-img base"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Trucker Cap">
                                 <img class="product-img human"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Trucker Cap — on model">
                             </div>
                             <p class="product-name">Specialist Trucker Cap</p>
                             <span class="product-price">£68</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img base" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Graphic Tee">
-                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img human" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Graphic Tee — on model">
                             </div>
                             <p class="product-name">Acron Graphic Tee</p>
@@ -316,24 +338,24 @@
                         </div>
                     </a>
                     <!-- Row 2 -->
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                <img class="product-img base" src="../products/noir%20heritage%20pants/NHPANTS2.webp"
                                     alt="Noir Heritage Pant — Washed">
-                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                <img class="product-img human" src="../products/noir%20heritage%20pants/NHPANTS2.webp"
                                     alt="Noir Heritage Pant — Washed on model">
                             </div>
                             <p class="product-name">Noir Heritage Pant — Washed</p>
                             <span class="product-price">£145</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                <img class="product-img base" src="../products/noir%20heritage%20pants/NHPANTS3.webp"
                                     alt="Noir Cargo Pant">
-                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                <img class="product-img human" src="../products/noir%20heritage%20pants/NHPANTS3.webp"
                                     alt="Noir Cargo Pant on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -341,26 +363,26 @@
                             <span class="product-price">£155</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
                                 <img class="product-img base"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Slate">
                                 <img class="product-img human"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Slate on model">
                             </div>
                             <p class="product-name">Specialist Cap — Slate</p>
                             <span class="product-price">£72</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                <img class="product-img base" src="../products/noir%20heritage%20pants/NHPANTS4.webp"
                                     alt="Noir Relaxed Pant">
-                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                <img class="product-img human" src="../products/noir%20heritage%20pants/NHPANTS4.webp"
                                     alt="Noir Relaxed Pant on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -368,12 +390,12 @@
                             <span class="product-price">£145</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img base" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Tee — Embroid">
-                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img human" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Tee — Embroid on model">
                             </div>
                             <p class="product-name">Acron Tee — Embroid</p>
@@ -381,12 +403,12 @@
                         </div>
                     </a>
                     <!-- Row 3 -->
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Heavyweight Hoodie">
-                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Heavyweight Hoodie on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -394,26 +416,26 @@
                             <span class="product-price">£130</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
                                 <img class="product-img base"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Olive">
                                 <img class="product-img human"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Olive on model">
                             </div>
                             <p class="product-name">Specialist Cap — Olive</p>
                             <span class="product-price">£72</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img base" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Script Tee — Cream">
-                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img human" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Script Tee — Cream on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -421,24 +443,24 @@
                             <span class="product-price">£55</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acorn Hoodie — Sand">
-                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acorn Hoodie — Sand on model">
                             </div>
                             <p class="product-name">Acorn Hoodie — Sand</p>
                             <span class="product-price">£120</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Onyx Premium">
-                                <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Onyx Premium on model">
                             </div>
                             <p class="product-name">Acron Hoodie — Onyx Premium</p>
@@ -446,12 +468,12 @@
                         </div>
                     </a>
                     <!-- Row 4 -->
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                <img class="product-img base" src="../products/noir%20heritage%20pants/NHPANTS3.webp"
                                     alt="Noir Cargo Pant — Dark">
-                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                <img class="product-img human" src="../products/noir%20heritage%20pants/NHPANTS3.webp"
                                     alt="Noir Cargo Pant — Dark on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -459,24 +481,24 @@
                             <span class="product-price">£155</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img base" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Tee — Forest">
-                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img human" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Tee — Forest on model">
                             </div>
                             <p class="product-name">Acron Tee — Forest</p>
                             <span class="product-price">£85</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img base" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acorn Heavyweight — Cocoa">
-                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                <img class="product-img human" src="../products/hoodie/ACRONHOODIE.webp"
                                     alt="Acorn Heavyweight — Cocoa on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -484,14 +506,14 @@
                             <span class="product-price">£130</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
                                 <img class="product-img base"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Charcoal">
                                 <img class="product-img human"
-                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    src="../products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Charcoal on model">
                                 <span class="badge-new">NEW</span>
                             </div>
@@ -499,12 +521,12 @@
                             <span class="product-price">£72</span>
                         </div>
                     </a>
-                    <a class="product-link" href="product.html">
+                    <a class="product-link" href="../product.html">
                         <div class="product-item">
                             <div class="product-image">
-                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img base" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Script Tee — Slate">
-                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                <img class="product-img human" src="../products/black%20acorn/acrontee.jpg"
                                     alt="Acron Script Tee — Slate on model">
                             </div>
                             <p class="product-name">Acron Script Tee — Slate</p>
@@ -606,7 +628,7 @@
         </div>
         <div class="cart-drawer-body">
             <div class="cart-item">
-                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <img src="../products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
                 <div class="cart-item-info">
                     <p class="cart-item-name">Acronym Embroidered Hoodie</p>
                     <p class="cart-item-variant">Brown / M</p>
@@ -625,8 +647,8 @@
                 <span>£245</span>
             </div>
             <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
-            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
-            <a href="men.html" class="cart-continue">Continue Shopping</a>
+            <a href="../checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
         </div>
     </div>
 
@@ -670,13 +692,93 @@
         const navListToggle = document.getElementById('nav-list-toggle');
         let navItemsAreHidden = false;
 
+        // ── Level-2 Men Sub-nav Panel ──────────────────────────────────────
+        const menChevron = document.getElementById('menChevron');
+        const menSubnavPanel = document.getElementById('men-subnav-panel');
+        const menSubnavLinks = document.getElementById('menSubnavLinks');
+        // Men sidebar link — used for alignment reference
+        const menSidebarLink = document.querySelector('#men-sidebar .sidebar-links .nav-item-row');
+
+        // ── Sub-items data — add/remove entries here ──
+        const MEN_SUBNAV_ITEMS = [
+            { label: 'New In', href: 'new-in.html', active: true },
+            { label: 'Tops', href: 'tops.html' },
+            { label: 'Bottoms', href: 'bottoms.html' },
+            { label: 'Outerwear', href: 'outerwear.html' },
+            { label: 'Accessories', href: 'accessories.html' },
+            { label: 'Sale', href: 'sale.html' },
+        ];
+
+        function buildMenuSubnav() {
+            if (!menSubnavLinks) return;
+            menSubnavLinks.innerHTML = '';
+            MEN_SUBNAV_ITEMS.forEach(item => {
+                const a = document.createElement('a');
+                a.href = item.href;
+                a.textContent = item.label;
+                a.className = 'men-subnav-link' + (item.active ? ' active' : '');
+                a.addEventListener('click', () => closeMenPanel());
+                menSubnavLinks.appendChild(a);
+            });
+        }
+
+        // ── Vertical alignment ──
+        // Panel at top:50px. Inside: [padding-top] > category-span > [gap 14px] > links
+        function alignSubnavPanel() {
+            const ref = menSidebarLink || document.querySelector('#men-sidebar .sidebar-links a.active');
+            const catSpan = menSubnavPanel && menSubnavPanel.querySelector('.men-subnav-category');
+            if (!ref || !menSubnavPanel || !catSpan) return;
+            const panelTop = 50;
+            const refTop = ref.getBoundingClientRect().top;
+            const catHeight = catSpan.offsetHeight;
+            const innerGap = 14; // matches CSS gap: 14px in .men-subnav-inner
+            const paddingTop = Math.max(0, refTop - panelTop - catHeight - innerGap);
+            menSubnavPanel.style.paddingTop = paddingTop + 'px';
+        }
+
+        function openMenPanel() {
+            if (!menSubnavPanel) return;
+            alignSubnavPanel();
+            menSubnavPanel.classList.add('open');
+            if (menChevron) { menChevron.classList.add('open'); menChevron.setAttribute('aria-expanded', 'true'); }
+        }
+
+        function closeMenPanel() {
+            if (!menSubnavPanel) return;
+            menSubnavPanel.classList.remove('open');
+            if (menChevron) { menChevron.classList.remove('open'); menChevron.setAttribute('aria-expanded', 'false'); }
+        }
+
+        if (menChevron) {
+            menChevron.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menSubnavPanel.classList.contains('open') ? closeMenPanel() : openMenPanel();
+            });
+        }
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (menSubnavPanel && menSubnavPanel.classList.contains('open')) {
+                const inside = menSubnavPanel.contains(e.target)
+                    || (menChevron && (e.target === menChevron || menChevron.contains(e.target)));
+                if (!inside) closeMenPanel();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (menSubnavPanel && menSubnavPanel.classList.contains('open')) alignSubnavPanel();
+        });
+
         if (navListToggle) {
             navListToggle.addEventListener('click', () => {
+                closeMenPanel();
                 navItemsAreHidden = !navItemsAreHidden;
                 document.body.classList.toggle('nav-collapsed', navItemsAreHidden);
                 navListToggle.classList.toggle('hidden-state', navItemsAreHidden);
             });
         }
+
+        buildMenuSubnav();   // inject links from data array
 
         // ── Mobile drawer ──────────────────────────────────────────────────────
         const burgerBtn = document.getElementById('burgerBtn');

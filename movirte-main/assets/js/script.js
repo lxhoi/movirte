@@ -117,11 +117,18 @@ function onScroll({ scroll }) {
         if (navContent) navContent.classList.add('dark-text');
         if (navListToggle) navListToggle.classList.add('dark');
         if (navTitleBg) navTitleBg.classList.add('visible');
+        document.body.classList.add('nav-settled');
     } else {
         productSection.classList.remove('visible');
         if (navContent) navContent.classList.remove('dark-text');
         if (navListToggle) navListToggle.classList.remove('dark');
         if (navTitleBg) navTitleBg.classList.remove('visible');
+        document.body.classList.remove('nav-settled');
+        // Close sub-panel if scroll goes back
+        const subPanel = document.getElementById('men-subnav-panel');
+        const chevron = document.getElementById('menChevron');
+        if (subPanel) { subPanel.classList.remove('open'); }
+        if (chevron) { chevron.classList.remove('open'); chevron.setAttribute('aria-expanded', 'false'); }
     }
 
     // Fade out nav frame (white bordered box)
@@ -178,7 +185,7 @@ function onScroll({ scroll }) {
     }
 
     // Trigger nav items to fly one-by-one to bottom-left corner at 30% scroll
-    const navItems = document.querySelectorAll('.nav-col-left p, .nav-col-left a');
+    const navItems = document.querySelectorAll('.nav-col-left p, .nav-col-left > a, .nav-col-left .nav-item-row');
     const listThreshold = 0.3;
 
     navItems.forEach((item, i) => {

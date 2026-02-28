@@ -594,7 +594,8 @@ body.nav-collapsed .product-grid-wrap::before {
 
 /* Each nav item animates independently to bottom-left */
 .nav-col-left p,
-.nav-col-left a {
+.nav-col-left>a,
+.nav-col-left .nav-item-row {
     display: block;
     transform: translate(0px, 0px);
     transition:
@@ -628,11 +629,194 @@ body.nav-collapsed .product-grid-wrap::before {
 .nav-col-left a:hover {
     letter-spacing: 0.06em;
     opacity: 0.75;
+    cursor: pointer;
 }
 
 .nav-col-left p.fly-to-corner,
-.nav-col-left a.fly-to-corner {
+.nav-col-left>a.fly-to-corner,
+.nav-col-left .nav-item-row.fly-to-corner {
     transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
+}
+
+/* ── MEN NAV ROW (link + chevron inline) ─────────── */
+.nav-item-row {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+/* "Men" label button — same look as the other nav links, no redirect */
+.men-nav-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+    text-align: left;
+    line-height: inherit;
+    position: relative;
+    padding-bottom: 2px;
+    transition: letter-spacing 0.3s ease, opacity 0.25s ease;
+}
+
+.men-nav-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.men-nav-btn:hover::after {
+    width: 100%;
+}
+
+.men-nav-btn:hover {
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+}
+
+/* The chevron arrow button beside "Men" */
+.nav-chevron {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    transform: rotate(0deg);
+    transform-origin: center;
+    will-change: transform, opacity;
+}
+
+/* Show arrow only after nav animation completes (JS adds .nav-settled to body) */
+body.nav-settled .nav-chevron {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Rotate chevron when sub-panel is open */
+.nav-chevron.open {
+    transform: rotate(180deg);
+}
+
+/* ── LEVEL-2 MEN SUB-NAV PANEL ───────────────────── */
+/* ── LEVEL-2 MEN SUB-NAV PANEL ────────────────────────────────────
+   Floating overlay. Does NOT affect document flow.
+   Appears flush to the RIGHT of the sidebar nav column.
+   Height = 100vh - 50px  (50px = topbar strip height).
+   ────────────────────────────────────────────────────────────────── */
+#men-subnav-panel {
+    position: fixed;
+    top: 50px;
+    /* flush below the topbar strip       */
+    left: calc(100vw / 6);
+    /* right after the sidebar column     */
+    width: calc(100vw / 7);
+    /* a clean column-width slice         */
+    height: calc(100vh - 50px);
+    background: #eeede9;
+    /* light warm parchment               */
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    z-index: 13;
+    /* above sidebar (z:12), below topbar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* alignment driven by JS padding-top */
+    padding: 0 24px 32px 28px;
+    box-sizing: border-box;
+    /* Hidden state — slides in from left */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-12px);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#men-subnav-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+/* ── Panel inner layout ────────────────────────────── */
+.men-subnav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Section label: "Men" */
+.men-subnav-category {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.62rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(17, 17, 17, 0.45);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+/* Vertical stack of sub-nav links */
+.men-subnav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.men-subnav-link {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #111;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    position: relative;
+    padding-bottom: 2px;
+    display: block;
+    transition: letter-spacing 0.3s ease, opacity 0.25s ease;
+}
+
+.men-subnav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.men-subnav-link:hover::after {
+    width: 100%;
+}
+
+.men-subnav-link:hover {
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+}
+
+/* Active / current page link */
+.men-subnav-link.active {
+    font-weight: 500;
 }
 
 /* ── NAV LIST TOGGLE BUTTON ─────────────────────── */
@@ -696,7 +880,8 @@ body.nav-collapsed .product-grid-wrap::before {
 /* When .nav-items-hidden is on #nav-overlay,
    all nav items + the glassmorphism panel fade out */
 #nav-overlay.nav-items-hidden .nav-col-left p,
-#nav-overlay.nav-items-hidden .nav-col-left a {
+#nav-overlay.nav-items-hidden .nav-col-left>a,
+#nav-overlay.nav-items-hidden .nav-col-left .nav-item-row {
     opacity: 0;
     pointer-events: none;
     /* We override the staggered delay so they all hide at once */

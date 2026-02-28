@@ -11,7 +11,7 @@
  */
 (function () {
     const navLinks = [
-        { href: 'men.html', label: 'Men' },
+        { href: 'men/new-in.html', label: 'Men' },
         { href: 'women.html', label: 'Women' },
         { href: 'new-in.html', label: 'New In' },
         { href: 'best-sellers.html', label: 'Best Sellers' },
