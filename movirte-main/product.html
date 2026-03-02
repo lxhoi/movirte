@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pdpPageTitle">Product — MOVIRTE</title>
+    <meta name="description"
+        content="MOVIRTE product detail. Crafted for quiet luxury.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <style>
+        /* Product page: same nav/sidebar setup as new-in.html */
+        body {
+            height: auto;
+        }
+
+        body.nav-settled .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #nav-overlay {
+            display: flex !important;
+            justify-content: flex-start;
+            align-items: stretch;
+            pointer-events: none;
+        }
+
+        #nav-overlay .nav-content {
+            position: fixed;
+            left: 0;
+            top: 50px;
+            width: calc(100vw / 6);
+            height: calc(100vh - 50px);
+            min-width: 0;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 20px 32px 32px;
+            color: #111;
+            pointer-events: auto;
+            background: transparent;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #nav-overlay .nav-content::before {
+            display: none;
+        }
+
+        #nav-overlay .nav-heading {
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-title {
+            transform: translate(0, 0) scale(0.38);
+            transform-origin: top left;
+            font-size: 3.4rem;
+        }
+
+        #nav-overlay .nav-subtitle {
+            display: none;
+        }
+
+        #nav-overlay .nav-list {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-col-left {
+            gap: 6px;
+        }
+
+        body.nav-collapsed #nav-overlay .nav-content {
+            transform: translateX(-110%);
+            pointer-events: none;
+        }
+
+        /* PDP content offset when sidebar visible (same as product-grid-wrap on new-in) */
+        .pdp-page-wrap {
+            padding-left: calc(100vw / 6);
+            transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.nav-collapsed .pdp-page-wrap {
+            padding-left: 0;
+        }
+
+        #product-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        .men-nav-title {
+            position: absolute;
+            left: 68px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.29rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #111;
+            text-decoration: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* PDP-specific overrides */
+        .pdp-title { font-size: 1.4rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+        .pdp-urgency { font-size: 0.75rem; color: #404040; line-height: 1.4; }
+        .color-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+        .color-swatch { width: 28px; height: 28px; border: 1px solid rgba(0,0,0,0.2); border-radius: 50%; cursor: pointer; padding: 0; background: none; }
+        .color-swatch.selected { border-color: #171717; border-width: 2px; }
+        .btn-shop-pay { background: #5a31f4; color: #fff; width: 100%; padding: 14px; font-size: 0.72rem; letter-spacing: 0.05em; border: none; cursor: pointer; text-transform: capitalize; margin-top: 8px; font-family: inherit; }
+        .btn-shop-pay:hover { opacity: 0.9; }
+        .btn-wishlist { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #171717; background: transparent; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-top: 8px; font-family: inherit; }
+        .btn-wishlist:hover { background: #f5f5f5; }
+        .clearpay-note { font-size: 0.68rem; color: #555; margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+        .pdp-info .accord-header { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
+        .related-item { position: relative; }
+        .related-item .related-img-wrap { position: relative; }
+        .related-item .wishlist-icon { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; opacity: 0.9; }
+        .related-item .wishlist-icon:hover { opacity: 1; }
+        .related-item .wishlist-icon svg { width: 16px; height: 16px; }
+        .related-item .add-cart-icon { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: #171717; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; opacity: 0; transition: opacity 0.2s ease; }
+        .related-item:hover .add-cart-icon { opacity: 1; }
+        .related-item .add-cart-icon:hover { background: #404040; }
+        .related-item .add-cart-icon svg { width: 18px; height: 18px; }
+        .related-grid { grid-template-columns: repeat(4, 1fr); }
+        .pdp-image-main { background: #fff; cursor: zoom-in; }
+
+        /* Image preview lightbox */
+        #img-preview-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #img-preview-overlay.open { display: flex; }
+
+        #img-preview-img {
+            max-width: 80vw;
+            max-height: 88vh;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .preview-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.8;
+            padding: 4px 8px;
+            transition: opacity 0.15s;
+        }
+        .preview-close:hover { opacity: 1; }
+
+        .preview-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-radius: 2px;
+            padding: 0;
+            font-size: 1.1rem;
+        }
+        .preview-nav:hover { background: rgba(255,255,255,0.22); }
+        .preview-nav.prev { left: 24px; }
+        .preview-nav.next { right: 24px; }
+        .preview-nav:disabled { opacity: 0.25; cursor: default; }
+
+        .preview-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.55);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body class="nav-settled">
+
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- MOBILE DRAWER NAV -->
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Same nav sidebar as new-in (settled state) -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="men.html" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="women.html" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html" class="active">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <!-- Nav-list toggle — always visible on this page -->
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip — always visible on this page -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Search float panel -->
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..." autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l14 14M16 2L2 16"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- PRODUCT SECTION — same wrapper as new-in, PDP content inside -->
+    <section id="product-section" data-lenis-prevent>
+        <div id="main-content">
+            <div class="pdp-page-wrap">
+                <div class="breadcrumb">
+                    <a href="new-in.html">New In</a> <span style="margin: 0 6px;">/</span> <span id="pdpBreadcrumbName">Acron Hoodie — Onyx</span>
+                </div>
+
+                <div class="pdp-main">
+                    <div class="thumb-strip">
+                        <div class="thumb active" data-img="products/black%20acorn/ACRONHOODIE.webp"><img src="products/black%20acorn/ACRONHOODIE.webp" alt=""></div>
+                        <div class="thumb" data-img="products/black%20acorn/ACRONHOODIE.webp"><img src="products/black%20acorn/ACRONHOODIE.webp" alt=""></div>
+                        <div class="thumb" data-img="products/noir%20heritage%20pants/8904.webp"><img src="products/noir%20heritage%20pants/8904.webp" alt=""></div>
+                    </div>
+                    <div class="pdp-image-main">
+                        <img id="pdpMainImg" src="products/black%20acorn/ACRONHOODIE.webp" alt="Acron Hoodie — Onyx">
+                    </div>
+                    <div class="pdp-info">
+                        <p class="pdp-brand" style="letter-spacing: 0.15em;">MOVIRTE</p>
+                        <h1 class="pdp-title" id="pdpTitle">Acron Hoodie — Onyx</h1>
+                        <p class="pdp-price" id="pdpPrice">£120</p>
+                        <p class="pdp-desc">Part of the Acron collection. Crafted for quiet luxury with heavy embroidery, tonal stitches, and unique fabrics. Premium cotton blend, relaxed fit. Limited quantities available.</p>
+                        <div class="size-section">
+                            <div class="size-label-row">
+                                <span style="text-transform: uppercase; letter-spacing: 0.1em;">Size</span>
+                                <a href="#" class="size-guide">Size guide</a>
+                            </div>
+                            <div class="size-grid">
+                                <button type="button" class="size-btn">XS</button>
+                                <button type="button" class="size-btn">S</button>
+                                <button type="button" class="size-btn selected">M</button>
+                                <button type="button" class="size-btn">L</button>
+                                <button type="button" class="size-btn">XL</button>
+                            </div>
+                            <p class="in-stock">In stock</p>
+                        </div>
+                        <p class="pdp-urgency">Order within the next 08 Hours 35 Minutes with Priority Shipping to receive by Fri, Mar 28.</p>
+                        <div class="size-section">
+                            <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 8px;">Colour</span>
+                            <div class="color-swatches">
+                                <button type="button" class="color-swatch selected" style="background: #2d3329;" title="Onyx" aria-label="Onyx"></button>
+                                <button type="button" class="color-swatch" style="background: #8b6914;" title="Cocoa" aria-label="Cocoa"></button>
+                                <button type="button" class="color-swatch" style="background: #c4b896;" title="Sand" aria-label="Sand"></button>
+                                <button type="button" class="color-swatch" style="background: #1a1a1a;" title="Black" aria-label="Black"></button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add-cart" id="btnAddCart">Add to cart</button>
+                        <button type="button" class="btn-shop-pay">Buy with Shop Pay</button>
+                        <button type="button" class="btn-wishlist"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Add to wishlist</button>
+                        <p class="clearpay-note">Clearpay available for orders between £70 – £2,500. <span aria-hidden="true">ⓘ</span></p>
+                        <div class="accordion">
+                            <div class="accord-item">
+                                <button type="button" class="accord-header" aria-expanded="false">Product details <span class="accord-icon">+</span></button>
+                                <div class="accord-body"><p>100% organic cotton. Made in Portugal. Relaxed fit. Ribbed cuffs and hem. Composition: 100% organic cotton. Care: Machine wash cold. Do not bleach. Tumble dry low.</p></div>
+                            </div>
+                            <div class="accord-item">
+                                <button type="button" class="accord-header" aria-expanded="false">Shipping &amp; returns <span class="accord-icon">+</span></button>
+                                <div class="accord-body"><p>Free UK delivery on orders over £175. International shipping with duties prepaid to USA, Canada &amp; Europe. Delivery within 5–7 working days.</p></div>
+                            </div>
+                            <div class="accord-item">
+                                <button type="button" class="accord-header" aria-expanded="false">Returns &amp; exchanges <span class="accord-icon">+</span></button>
+                                <div class="accord-body"><p>Free returns within 28 days. Unworn, unwashed items with tags attached. Exchange or full refund to original payment method.</p></div>
+                            </div>
+                        </div>
+                        <p class="sku">SKU: ACR-ONX-001</p>
+                    </div>
+                </div>
+
+                <section class="related-section">
+                    <h2 class="related-title">Related products</h2>
+                    <div class="related-grid">
+                        <a href="product.html" class="related-item">
+                            <div class="related-img-wrap">
+                                <img src="products/noir%20heritage%20pants/8904.webp" alt="Noir Heritage Pant">
+                                <button type="button" class="wishlist-icon" aria-label="Add to wishlist" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                                <button type="button" class="add-cart-icon" aria-label="Add to cart" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                            </div>
+                            <p class="related-name">Noir Heritage Pant</p>
+                            <p class="related-price">£145</p>
+                        </a>
+                        <a href="product.html" class="related-item">
+                            <div class="related-img-wrap">
+                                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acron Hoodie — Cocoa">
+                                <button type="button" class="wishlist-icon" aria-label="Add to wishlist" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                                <button type="button" class="add-cart-icon" aria-label="Add to cart" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                            </div>
+                            <p class="related-name">Acron Hoodie — Cocoa</p>
+                            <p class="related-price">£120</p>
+                        </a>
+                        <a href="product.html" class="related-item">
+                            <div class="related-img-wrap">
+                                <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp" alt="Specialist Trucker Cap">
+                                <button type="button" class="wishlist-icon" aria-label="Add to wishlist" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                                <button type="button" class="add-cart-icon" aria-label="Add to cart" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                            </div>
+                            <p class="related-name">Specialist Trucker Cap</p>
+                            <p class="related-price">£68</p>
+                        </a>
+                        <a href="product.html" class="related-item">
+                            <div class="related-img-wrap">
+                                <img src="products/black%20acorn/acrontee.jpg" alt="Acron Graphic Tee">
+                                <button type="button" class="wishlist-icon" aria-label="Add to wishlist" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                                <button type="button" class="add-cart-icon" aria-label="Add to cart" onclick="event.preventDefault();event.stopPropagation();"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                            </div>
+                            <p class="related-name">Acron Graphic Tee</p>
+                            <p class="related-price">£85</p>
+                        </a>
+                    </div>
+                </section>
+
+                <div class="features-bar">
+                    <div class="feature"><div class="feature-icon">↺</div><p class="feature-title">Free shipping in the UK</p><p class="feature-sub">On orders over £175</p></div>
+                    <div class="feature"><div class="feature-icon">↩</div><p class="feature-title">Free exchanges &amp; returns</p><p class="feature-sub">For UK orders</p></div>
+                    <div class="feature"><div class="feature-icon">✦</div><p class="feature-title">EU &amp; taxes prepaid</p><p class="feature-sub">All orders to USA, Canada &amp; Europe are shipped with taxes prepaid.</p></div>
+                    <div class="feature"><div class="feature-icon">★</div><p class="feature-title">Excellent service</p><p class="feature-sub">Read excellent</p></div>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="#">Shopping</a>
+                            <a href="#">Returns</a>
+                            <a href="#">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="#">FAQ</a>
+                            <a href="#">Contact</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="E-Mail">
+                                <button>SUBSCRIBE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social">
+                            <a href="#">𝕏</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">TikTok</a>
+                        </div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGE PREVIEW LIGHTBOX -->
+    <div id="img-preview-overlay" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="preview-close" id="previewClose" aria-label="Close preview">✕</button>
+        <button class="preview-nav prev" id="previewPrev" aria-label="Previous image">&#8592;</button>
+        <img id="img-preview-img" src="" alt="Product image preview">
+        <button class="preview-nav next" id="previewNext" aria-label="Next image">&#8594;</button>
+        <span class="preview-counter" id="previewCounter"></span>
+    </div>
+
+    <!-- CART DRAWER — same as new-in -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3>
+            <button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>£245</span>
+            </div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- CHATBOT FLOAT — same as new-in -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script src="assets/js/nav-shared.js"></script>
+    <script>
+        // ── PDP-specific: URL params, thumbs, size, accordion, color swatch ──
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var name = params.get('name');
+            var price = params.get('price');
+            var img = params.get('img');
+            if (name || price || img) {
+                if (name) {
+                    var titleEl = document.getElementById('pdpTitle');
+                    var bc = document.getElementById('pdpBreadcrumbName');
+                    var pageTitle = document.getElementById('pdpPageTitle');
+                    if (titleEl) titleEl.textContent = decodeURIComponent(name);
+                    if (bc) bc.textContent = decodeURIComponent(name);
+                    if (pageTitle) pageTitle.textContent = decodeURIComponent(name) + ' — MOVIRTE';
+                }
+                if (price) {
+                    var p = decodeURIComponent(price);
+                    if (/^\d+$/.test(p)) p = '£' + p;
+                    var priceEl = document.getElementById('pdpPrice');
+                    if (priceEl) priceEl.textContent = p;
+                }
+                if (img) {
+                    var mainImg = document.getElementById('pdpMainImg');
+                    if (mainImg) {
+                        mainImg.src = decodeURIComponent(img);
+                        mainImg.alt = name ? decodeURIComponent(name) : 'Product';
+                        document.querySelectorAll('.thumb-strip .thumb').forEach(function(t) {
+                            var imgEl = t.querySelector('img');
+                            if (imgEl) { imgEl.src = mainImg.src; }
+                            t.dataset.img = img;
+                        });
+                    }
+                }
+            }
+
+            document.querySelectorAll('.thumb-strip .thumb').forEach(function(thumb) {
+                thumb.addEventListener('click', function() {
+                    document.querySelectorAll('.thumb-strip .thumb').forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    var src = this.dataset.img;
+                    if (src) {
+                        var main = document.getElementById('pdpMainImg');
+                        if (main) main.src = src;
+                    }
+                });
+            });
+
+            document.querySelectorAll('.size-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('selected'); });
+                    this.classList.add('selected');
+                });
+            });
+
+            document.querySelectorAll('.accord-header').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var open = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !open);
+                    var icon = this.querySelector('.accord-icon');
+                    if (icon) icon.textContent = open ? '+' : '−';
+                    var body = this.nextElementSibling;
+                    if (body) body.style.maxHeight = open ? '0' : body.scrollHeight + 'px';
+                });
+            });
+
+            document.querySelectorAll('.color-swatch').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.color-swatch').forEach(function(b) { b.classList.remove('selected'); });
+                    this.classList.add('selected');
+                });
+            });
+
+        })();
+
+        // ── Image preview lightbox ──
+        (function () {
+            var overlay = document.getElementById('img-preview-overlay');
+            var previewImg = document.getElementById('img-preview-img');
+            var previewClose = document.getElementById('previewClose');
+            var previewPrev = document.getElementById('previewPrev');
+            var previewNext = document.getElementById('previewNext');
+            var previewCounter = document.getElementById('previewCounter');
+            var currentIndex = 0;
+
+            function getImages() {
+                var imgs = [];
+                document.querySelectorAll('.thumb-strip .thumb').forEach(function (t) {
+                    var src = t.dataset.img || (t.querySelector('img') && t.querySelector('img').src);
+                    if (src) imgs.push(src);
+                });
+                if (!imgs.length) {
+                    var main = document.getElementById('pdpMainImg');
+                    if (main && main.src) imgs.push(main.src);
+                }
+                return imgs;
+            }
+
+            function showPreview(index) {
+                var imgs = getImages();
+                if (!imgs.length) return;
+                currentIndex = Math.max(0, Math.min(index, imgs.length - 1));
+                previewImg.src = imgs[currentIndex];
+                previewCounter.textContent = (currentIndex + 1) + ' / ' + imgs.length;
+                previewPrev.disabled = currentIndex === 0;
+                previewNext.disabled = currentIndex === imgs.length - 1;
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closePreview() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // Open on main image click — start at active thumb index
+            var pdpImageMain = document.querySelector('.pdp-image-main');
+            if (pdpImageMain) {
+                pdpImageMain.addEventListener('click', function () {
+                    var thumbs = document.querySelectorAll('.thumb-strip .thumb');
+                    var activeIdx = 0;
+                    thumbs.forEach(function (t, i) { if (t.classList.contains('active')) activeIdx = i; });
+                    showPreview(activeIdx);
+                });
+            }
+
+            if (previewClose) previewClose.addEventListener('click', closePreview);
+            if (previewPrev) previewPrev.addEventListener('click', function () { showPreview(currentIndex - 1); });
+            if (previewNext) previewNext.addEventListener('click', function () { showPreview(currentIndex + 1); });
+
+            // Close on backdrop click
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) closePreview();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (!overlay.classList.contains('open')) return;
+                if (e.key === 'Escape') closePreview();
+                if (e.key === 'ArrowLeft') showPreview(currentIndex - 1);
+                if (e.key === 'ArrowRight') showPreview(currentIndex + 1);
+            });
+        })();
+    </script>
+</body>
+</html>

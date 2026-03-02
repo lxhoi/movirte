@@ -1,0 +1,130 @@
+/* ── MOVIRTE shared nav/sidebar/search CSS ───────────────────────── */
+
+/* Settled state: chevrons visible */
+body.nav-settled .nav-chevron {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Nav overlay as fixed left sidebar (settled position) */
+#nav-overlay {
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: stretch;
+    pointer-events: none;
+}
+
+#nav-overlay .nav-content {
+    position: fixed;
+    left: 0;
+    top: 50px;
+    width: calc(100vw / 6);
+    height: calc(100vh - 50px);
+    min-width: 0;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 20px 32px 32px;
+    color: #111;
+    pointer-events: auto;
+    background: transparent;
+    border: none;
+    box-sizing: border-box;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#nav-overlay .nav-content::before { display: none; }
+#nav-overlay .nav-heading { flex-shrink: 0; }
+#nav-overlay .nav-title { transform: translate(0,0) scale(0.38); transform-origin: top left; font-size: 3.4rem; }
+#nav-overlay .nav-subtitle { display: none; }
+#nav-overlay .nav-list { margin-top: auto; flex-shrink: 0; }
+#nav-overlay .nav-col-left { gap: 6px; }
+
+body.nav-collapsed #nav-overlay .nav-content {
+    transform: translateX(-110%);
+    pointer-events: none;
+}
+
+/* MOVIRTE wordmark in nav-title-bg */
+.men-nav-title {
+    position: absolute;
+    left: 68px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.29rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #111;
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Search icon button in nav-title-icons */
+.nav-title-icons .nav-icon-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-title-icons .nav-icon-btn:hover { opacity: 1; }
+.nav-title-icons .nav-icon-btn svg { display: block; }
+
+/* Search float panel */
+.search-float-panel {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    z-index: 13;
+    background: #d1cfc2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+}
+.search-float-panel.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+.search-float-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.search-float-icon { flex-shrink: 0; color: #404040; }
+.search-float-input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: #111;
+    outline: none;
+}
+.search-float-input::placeholder { color: #737373; }
+.search-float-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    color: #404040;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-float-close:hover { color: #171717; }
