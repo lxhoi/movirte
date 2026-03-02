@@ -184,6 +184,11 @@
                     </div>
                 </div>
 
+                <!-- Product Category Tabs (static) -->
+                <div class="product-tabs">
+                    <button class="product-tab active" data-category="mens">MENS</button>
+                    <button class="product-tab" data-category="womens">WOMENS</button>
+                </div>
 
                 <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <!-- Row 1 - 4 items only -->
@@ -408,6 +413,37 @@
         .search-float-close:hover {
             color: #171717;
         }
+        .product-tabs {
+            display: flex;
+            gap: 32px;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            background: #eeede9;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        .product-tab {
+            background: none;
+            border: none;
+            font: inherit;
+            font-family: "Playfair Display", serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #111;
+            cursor: pointer;
+            padding: 0 0 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .product-tab:hover {
+            opacity: 0.7;
+        }
+        .product-tab.active {
+            border-bottom-color: #111;
+        }
+
         .nav-icon-btn {
             background: none;
             border: none;
