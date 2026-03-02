@@ -530,25 +530,6 @@ body.nav-collapsed .product-grid-wrap::before {
     display: block;
 }
 
-.btn-shop {
-    display: block;
-    margin: 0 10px 12px;
-    padding: 6px 12px;
-    background: #111;
-    color: #fff;
-    font-size: 0.75rem;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-}
-.btn-shop:hover {
-    background: #333;
-}
-.btn-shop:active {
-    background: #000;
-}
-
 
 /* Navigation Overlay */
 #nav-overlay {

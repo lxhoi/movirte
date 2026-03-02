@@ -247,11 +247,11 @@
                         </div>
                     </a>
                 </div>
-                <!-- shop button inserted below first row -->
-                <div class="shop-btn-wrap">
-                    <a href="#" class="shop-btn">SHOP</a>
-                </div>
 
+                <!-- Shop button below first row -->
+                <div class="shop-button-container">
+                    <a href="shop.html" class="shop-button">SHOP</a>
+                </div>
 
                 <!-- EDITORIAL BANNER #2 — Featured Collection -->
                 <div class="editorial-banner">
@@ -448,39 +448,32 @@
         .product-tab.active {
             border-bottom-color: #111;
         }
-        .shop-btn-wrap {
-            grid-column: 1 / -1;
+
+        /* Shop button styles */
+        .shop-button-container {
             text-align: center;
-            margin: 24px 0 16px;
+            margin: 24px 0;
         }
-        .shop-btn {
-            position: relative;
+        .shop-button {
             display: inline-block;
-            padding: 12px 28px;
             background: var(--movirte-rich-brown, #6B3A2A);
             color: #fff;
-            font-family: inherit;
-            font-size: 0.85rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
             text-decoration: none;
+            padding: 12px 28px;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
-            z-index: 1;
         }
-        .shop-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: #fff;
-            transform-origin: right;
-            transform: scaleX(1);
-            transition: transform 0.4s ease;
+        .shop-button:hover {
+            animation: shutter-out-horizontal 0.6s forwards;
         }
-        .shop-btn:hover::before {
-            transform: scaleX(0);
-        }
-        .shop-btn:hover {
-            color: var(--movirte-rich-brown, #6B3A2A);
+        @keyframes shutter-out-horizontal {
+            0% { background: var(--movirte-rich-brown, #6B3A2A); }
+            100% { background: #a7755d; /* lighter brown */ }
         }
 
         .nav-icon-btn {
