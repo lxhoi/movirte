@@ -185,7 +185,6 @@
                 </div>
 
 
-
                 <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <!-- Row 1 - 4 items only -->
                     <a class="product-link" href="product.html">
@@ -435,7 +434,6 @@
             pointer-events: auto !important;
         }
 
-        /* product-tabs removed */
 
         /* Product Wishlist Icon */
         .product-wishlist {
@@ -480,10 +478,6 @@
             position: relative;
         }
 
-        /* product-tabs no longer present; padding removed */
-        .product-grid {
-            padding-top: 0;
-        }
     </style>
     <script>
         // Mobile drawer for index page
@@ -891,6 +885,20 @@
     </script>
 
     <script>
+        // Product Tabs functionality
+        const productTabs = document.querySelectorAll('.product-tab');
+        productTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                productTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                // You can add filtering logic here based on data-category
+                const category = tab.dataset.category;
+                console.log('Selected category:', category);
+            });
+        });
+
         // Wishlist button functionality
         const wishlistButtons = document.querySelectorAll('.product-wishlist');
         wishlistButtons.forEach(btn => {
