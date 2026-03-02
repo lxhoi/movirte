@@ -248,8 +248,7 @@
                     </a>
                 </div>
 
-                <!-- SHOP BUTTON BELOW PRODUCTS -->
-                <div class="shop-button-wrap">
+                <div class="shop-button-container">
                     <a href="#" class="shop-btn">SHOP</a>
                 </div>
 
@@ -418,6 +417,28 @@
         .search-float-close:hover {
             color: #171717;
         }
+        /* Shop button styles */
+        .shop-button-container {
+            text-align: center;
+            margin: 24px 0;
+        }
+        .shop-btn {
+            display: inline-block;
+            background: var(--movirte-rich-brown, #6B3A2A);
+            color: #fff;
+            padding: 12px 28px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: "Playfair Display", serif;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .shop-btn:hover {
+            transform: scale(1.05);
+            background: #593026;
+        }
         .product-tabs {
             display: flex;
             gap: 32px;
@@ -447,29 +468,6 @@
         }
         .product-tab.active {
             border-bottom-color: #111;
-        }
-
-        /* shop button styling */
-        .shop-button-wrap {
-            text-align: center;
-            margin: 40px 0;
-        }
-        .shop-btn {
-            display: inline-block;
-            background: #5a31f4;
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 30px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
-        .shop-btn:hover {
-            opacity: 0.85;
         }
 
         .nav-icon-btn {
