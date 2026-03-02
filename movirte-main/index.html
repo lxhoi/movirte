@@ -205,7 +205,6 @@
                             </div>
                             <p class="product-name">Specialist Trucker Cap</p>
                             <span class="product-price">$68</span>
-                            <span class="btn-shop">Shop</span>
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
@@ -219,7 +218,6 @@
                             </div>
                             <p class="product-name">Acron Graphic Tee</p>
                             <span class="product-price">$85</span>
-                            <span class="btn-shop">Shop</span>
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
@@ -233,7 +231,6 @@
                             </div>
                             <p class="product-name">Acron Hoodie — Black</p>
                             <span class="product-price">$120</span>
-                            <span class="btn-shop">Shop</span>
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
@@ -247,9 +244,13 @@
                             </div>
                             <p class="product-name">Noir Heritage Pant</p>
                             <span class="product-price">$145</span>
-                            <span class="btn-shop">Shop</span>
                         </div>
                     </a>
+                </div>
+
+                <!-- SHOP BUTTON BELOW PRODUCTS -->
+                <div class="shop-button-wrap">
+                    <a href="#" class="shop-btn">SHOP</a>
                 </div>
 
                 <!-- EDITORIAL BANNER #2 — Featured Collection -->
@@ -446,6 +447,29 @@
         }
         .product-tab.active {
             border-bottom-color: #111;
+        }
+
+        /* shop button styling */
+        .shop-button-wrap {
+            text-align: center;
+            margin: 40px 0;
+        }
+        .shop-btn {
+            display: inline-block;
+            background: #5a31f4;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        .shop-btn:hover {
+            opacity: 0.85;
         }
 
         .nav-icon-btn {
