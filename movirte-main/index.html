@@ -184,11 +184,7 @@
                     </div>
                 </div>
 
-                <!-- Product Category Tabs -->
-                <div class="product-tabs">
-                    <button class="product-tab active" data-category="mens">MENS</button>
-                    <button class="product-tab" data-category="womens">WOMENS</button>
-                </div>
+
 
                 <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <!-- Row 1 - 4 items only -->
@@ -439,45 +435,7 @@
             pointer-events: auto !important;
         }
 
-        /* Product Tabs — MENS/WOMENS filter */
-        .product-tabs {
-            display: flex;
-            gap: 32px;
-            padding: 20px 40px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            justify-content: center;
-            background: #eeede9;
-            position: fixed;
-            top: 50px;
-            left: 0;
-            right: 0;
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 20;
-        }
-
-        .product-tab {
-            background: none;
-            border: none;
-            font: inherit;
-            font-family: "Playfair Display", serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #111;
-            cursor: pointer;
-            padding: 0 0 6px 0;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .product-tab:hover {
-            opacity: 0.7;
-        }
-
-        .product-tab.active {
-            border-bottom-color: #111;
-        }
+        /* product-tabs removed */
 
         /* Product Wishlist Icon */
         .product-wishlist {
@@ -522,9 +480,9 @@
             position: relative;
         }
 
-        /* Add padding to account for fixed product-tabs */
+        /* product-tabs no longer present; padding removed */
         .product-grid {
-            padding-top: 68px;
+            padding-top: 0;
         }
     </style>
     <script>
@@ -933,20 +891,6 @@
     </script>
 
     <script>
-        // Product Tabs functionality
-        const productTabs = document.querySelectorAll('.product-tab');
-        productTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs
-                productTabs.forEach(t => t.classList.remove('active'));
-                // Add active class to clicked tab
-                tab.classList.add('active');
-                // You can add filtering logic here based on data-category
-                const category = tab.dataset.category;
-                console.log('Selected category:', category);
-            });
-        });
-
         // Wishlist button functionality
         const wishlistButtons = document.querySelectorAll('.product-wishlist');
         wishlistButtons.forEach(btn => {
