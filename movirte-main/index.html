@@ -247,10 +247,11 @@
                         </div>
                     </a>
                 </div>
-
-                <div class="shop-button-container">
+                <!-- shop button inserted below first row -->
+                <div class="shop-btn-wrap">
                     <a href="#" class="shop-btn">SHOP</a>
                 </div>
+
 
                 <!-- EDITORIAL BANNER #2 — Featured Collection -->
                 <div class="editorial-banner">
@@ -417,28 +418,6 @@
         .search-float-close:hover {
             color: #171717;
         }
-        /* Shop button styles */
-        .shop-button-container {
-            text-align: center;
-            margin: 24px 0;
-        }
-        .shop-btn {
-            display: inline-block;
-            background: var(--movirte-rich-brown, #6B3A2A);
-            color: #fff;
-            padding: 12px 28px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-family: "Playfair Display", serif;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-        .shop-btn:hover {
-            transform: scale(1.05);
-            background: #593026;
-        }
         .product-tabs {
             display: flex;
             gap: 32px;
@@ -468,6 +447,40 @@
         }
         .product-tab.active {
             border-bottom-color: #111;
+        }
+        .shop-btn-wrap {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin: 24px 0 16px;
+        }
+        .shop-btn {
+            position: relative;
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--movirte-rich-brown, #6B3A2A);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .shop-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #fff;
+            transform-origin: right;
+            transform: scaleX(1);
+            transition: transform 0.4s ease;
+        }
+        .shop-btn:hover::before {
+            transform: scaleX(0);
+        }
+        .shop-btn:hover {
+            color: var(--movirte-rich-brown, #6B3A2A);
         }
 
         .nav-icon-btn {
