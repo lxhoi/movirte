@@ -72,7 +72,7 @@
         var womenSubnavLinks = document.getElementById('womenSubnavLinks');
 
         var WOMEN_ITEMS = [
-            { label: 'New In',      href: 'new-in-w.html' },
+            { label: 'New In',      href: 'women/new-in-w.html' },
             { label: 'Sweatshirts', href: 'women/tops.html' },
             { label: 'Bottoms',     href: 'women/bottoms.html' },
             { label: 'Outerwear',   href: 'women/outerwear.html' },
@@ -140,7 +140,7 @@
         // but the same behaviour now applies to all of the men/* category pages
         // (listed in the sidebar screenshot).
         var path = window.location.pathname;
-        var isSpecialPage = path.endsWith('/new-in.html') || path.endsWith('/new-in-w.html') || path.includes('/men/');
+        var isSpecialPage = path.endsWith('/new-in.html') || path.endsWith('/new-in-w.html') || path.endsWith('/women/new-in-w.html') || path.includes('/men/');
         if (navToggle) {
             // decide whether to apply hidden-state class on load
             var showX = isSpecialPage ? !navCollapsed : navCollapsed;
