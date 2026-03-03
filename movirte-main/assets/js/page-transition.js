@@ -16,9 +16,9 @@
     const BLOCK_COUNT = 10;
     const BLOCK_COLOR = '#d1cfc2';   // matches site background
     const LEAVE_DURATION = 0.5;
-    const ENTER_DURATION  = 0.5;
-    const ENTER_DELAY     = 0.15;   // small pause while new page loads
-    const STAGGER_AMOUNT  = 0.3;
+    const ENTER_DURATION = 0.5;
+    const ENTER_DELAY = 0.15;   // small pause while new page loads
+    const STAGGER_AMOUNT = 0.3;
 
     /* ─── 1. Inject CSS (once) ──────────────────────────────────── */
     if (!document.getElementById('page-transition-style')) {
@@ -61,8 +61,8 @@
         for (let i = 0; i < BLOCK_COUNT; i++) {
             const el = document.createElement('div');
             el.className = 'pt-block';
-            el.style.width  = (bw + 5) + 'px';
-            el.style.left   = (i * bw - 2.5) + 'px';
+            el.style.width = (bw + 5) + 'px';
+            el.style.left = (i * bw - 2.5) + 'px';
             gridEl.appendChild(el);
             blocks.push(el);
         }
@@ -101,12 +101,18 @@
         });
     }
 
-    /* ─── 5. Intercept same-origin <a> clicks ───────────────────── */
+    /* ─── 5. Helpers ─────────────────────────────────────────────── */
     function isSameOrigin(href) {
         try {
             const url = new URL(href, window.location.href);
             return url.origin === window.location.origin;
         } catch { return false; }
+    }
+
+    // Returns true when the current page is index.html (or the site root)
+    function isIndexPage() {
+        const p = window.location.pathname;
+        return p === '/' || p === '/index.html' || p.endsWith('/index.html');
     }
 
     document.addEventListener('click', function (e) {
@@ -131,15 +137,22 @@
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
         e.preventDefault();
+        // Skip leave animation when navigating away from the index page
+        if (isIndexPage()) {
+            window.location.href = new URL(href, window.location.href).href;
+            return;
+        }
         playLeave(new URL(href, window.location.href).href);
     }, true);
 
     /* ─── 6. Fire enter animation when DOM is ready ─────────────── */
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', playEnter);
-    } else {
-        // DOMContentLoaded already fired (script loaded late / defer)
-        playEnter();
+    // Skip enter animation on the index page (it has its own scroll animation)
+    if (!isIndexPage()) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', playEnter);
+        } else {
+            playEnter();
+        }
     }
 
 })();
