@@ -842,8 +842,8 @@
                 <div class="editorial-banner">
                     <img src="products/hoodie/ACRONHOODIE.webp" alt="New Arrivals" class="editorial-banner-img">
                     <div class="editorial-banner-overlay"></div>
-                    <div class="editorial-banner-content">
-                        <h2 class="editorial-banner-heading">New in</em></h2>
+                    <div class="editorial-banner-content" style="display: flex; justify-content: center; align-items: center; width:100%; height:100%;">
+                        <h2 class="editorial-banner-heading">New in</h2>
                     </div>
                 </div>
 
@@ -1436,14 +1436,24 @@
         // PRODUCT GRID HEADER STICKY BEHAVIOR
         const productGridHeader = document.querySelector('.product-grid-header');
         const navTitleBg = document.querySelector('.nav-title-bg');
-        const NAV_HEIGHT = 50; // Height of nav-title-bg
+        const NAV_HEIGHT = 50; // Height of nav-title-bg (px)
+
+        // threshold expressed as a fraction of the total scrollable distance
+        // here we choose 10% of the page scroll, but you can adjust this value
+        const STICK_THRESHOLD = 0.10; // 10% of total scroll length
 
         function updateHeaderStickState() {
             if (!productGridHeader) return;
-            
-            const headerRect = productGridHeader.getBoundingClientRect();
-            // When header top reaches nav bottom (at or above 50px from top)
-            if (headerRect.top <= NAV_HEIGHT) {
+
+            // compute scroll progress (0 to 1)
+            const scrollY = window.scrollY || window.pageYOffset;
+            const docHeight = document.body.scrollHeight;
+            const winHeight = window.innerHeight;
+            const scrollable = docHeight - winHeight;
+            const progress = scrollable > 0 ? scrollY / scrollable : 0;
+
+            if (progress >= STICK_THRESHOLD) {
+                // once past the threshold, lock header to nav bottom
                 productGridHeader.classList.add('stuck');
             } else {
                 productGridHeader.classList.remove('stuck');

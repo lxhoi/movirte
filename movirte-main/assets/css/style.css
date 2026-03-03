@@ -355,6 +355,7 @@ body.nav-collapsed .product-grid-wrap::before {
     z-index: 2;
     padding: 0 48px 48px;
     color: #fff;
+    text-align: center; /* center any text inside the banner */
 }
 
 .editorial-banner-label {
