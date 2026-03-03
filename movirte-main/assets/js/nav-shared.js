@@ -132,8 +132,13 @@
 
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
         var navToggle = document.getElementById('nav-list-toggle');
-        var navCollapsed = false;
+        // keep track of current collapsed state; start by reflecting whatever
+        // class the body already has (new-in begins life nav-collapsed).
+        var navCollapsed = document.body.classList.contains('nav-collapsed');
         if (navToggle) {
+            // ensure the toggle icon matches the current state on load
+            navToggle.classList.toggle('hidden-state', navCollapsed);
+
             navToggle.addEventListener('click', function () {
                 navCollapsed = !navCollapsed;
                 document.body.classList.toggle('nav-collapsed', navCollapsed);
