@@ -73,9 +73,14 @@
 
         var WOMEN_ITEMS = [
             { label: 'New In',      href: 'women/new-in-w.html' },
-            { label: 'Sweatshirts', href: 'women/tops.html' },
-            { label: 'Bottoms',     href: 'women/bottoms.html' },
+            { label: 'Sweatshirts', href: 'women/sweats.html' },
+            { label: 'T-shirts',     href: 'women/t-shirts.html' },
+            { label: 'Shirts',      href: 'women/shirts.html' },
             { label: 'Outerwear',   href: 'women/outerwear.html' },
+            { label: 'Denim',       href: 'women/denim.html' },
+            { label: 'Trousers & Bottoms', href: 'women/trousers.html' },
+            { label: 'Shorts',      href: 'women/shorts.html' },
+            { label: 'Hats & Caps', href: 'women/hats-caps.html' },
             { label: 'Accessories', href: 'women/accessories.html' },
             { label: 'Sale',        href: 'women/sale.html' },
         ];
