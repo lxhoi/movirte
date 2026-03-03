@@ -180,7 +180,7 @@
                     <img src="products/hoodie/ACRONHOODIE.webp" alt="New Arrivals" class="editorial-banner-img">
                     <div class="editorial-banner-overlay"></div>
                     <div class="editorial-banner-content" style="justify-content: center; align-items: center; width: 100%; height: 100%;">
-                        <h2 class="editorial-banner-heading" style="text-align: center; margin: 0;">New in</h2>
+                        <h2 class="editorial-banner-heading" style="text-align: center; margin: 0;"> </h2>
                     </div>
                 </div>
 
@@ -579,9 +579,14 @@
         // ── Sub-items data — add/remove entries here ──
         const MEN_SUBNAV_ITEMS = [
             { label: 'New In', href: 'new-in.html', active: true },
-            { label: 'Tops', href: 'men/tops.html' },
-            { label: 'Bottoms', href: 'men/bottoms.html' },
+            { label: 'Sweatshirts', href: 'men/sweatshirts.html' },
+            { label: 'T-shirts', href: 'men/t-shirts.html' },
+            { label: 'Shirts', href: 'men/shirts.html' },
             { label: 'Outerwear', href: 'men/outerwear.html' },
+            { label: 'Denim', href: 'men/denim.html' },
+            { label: 'Trousers & Bottoms', href: 'men/trousers.html' },
+            { label: 'Shorts', href: 'men/shorts.html' },
+            { label: 'Hats & Caps', href: 'men/hats-caps.html' },
             { label: 'Accessories', href: 'men/accessories.html' },
             { label: 'Sale', href: 'men/sale.html' },
         ];
@@ -612,7 +617,8 @@
             const menTop = menLabel.getBoundingClientRect().top;
             const catHeight = catSpan.offsetHeight;
             const innerGap = 14; // matches CSS gap: 14px in .men-subnav-inner
-            const paddingTop = Math.max(0, menTop - panelTop - catHeight - innerGap);
+            // subtract additional space so list begins higher
+            const paddingTop = Math.max(0, menTop - panelTop - catHeight - innerGap - 145);
             menSubnavPanel.style.paddingTop = paddingTop + 'px';
         }
 
@@ -659,7 +665,7 @@
 
         const WOMEN_SUBNAV_ITEMS = [
             { label: 'New In', href: 'new-in.html', active: true },
-            { label: 'Tops', href: 'women/tops.html' },
+            { label: 'Sweatshirts', href: 'women/tops.html' },
             { label: 'Bottoms', href: 'women/bottoms.html' },
             { label: 'Outerwear', href: 'women/outerwear.html' },
             { label: 'Accessories', href: 'women/accessories.html' },
@@ -687,7 +693,7 @@
             const labelTop = womenLabel.getBoundingClientRect().top;
             const catHeight = catSpan.offsetHeight;
             const innerGap = 14;
-            const paddingTop = Math.max(0, labelTop - panelTop - catHeight - innerGap);
+            const paddingTop = Math.max(0, labelTop - panelTop - catHeight - innerGap - 145);
             womenSubnavPanel.style.paddingTop = paddingTop + 'px';
         }
 

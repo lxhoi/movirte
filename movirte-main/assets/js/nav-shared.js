@@ -25,9 +25,14 @@
 
         var MEN_ITEMS = [
             { label: 'New In',      href: 'new-in.html' },
-            { label: 'Tops',        href: 'men/tops.html' },
-            { label: 'Bottoms',     href: 'men/bottoms.html' },
+            { label: 'Sweatshirts', href: 'men/sweats.html' },
+            { label: 'T-shirts',     href: 'men/t-shirts.html' },
+            { label: 'Shirts',      href: 'men/shirts.html' },
             { label: 'Outerwear',   href: 'men/outerwear.html' },
+            { label: 'Denim',       href: 'men/denim.html' },
+            { label: 'Trousers & Bottoms', href: 'men/trousers.html' },
+            { label: 'Shorts',      href: 'men/shorts.html' },
+            { label: 'Hats & Caps', href: 'men/hats-caps.html' },
             { label: 'Accessories', href: 'men/accessories.html' },
             { label: 'Sale',        href: 'men/sale.html' },
         ];
@@ -47,7 +52,9 @@
             var lbl  = menNavBtn || document.querySelector('#menNavRow a');
             var cat  = menSubnavPanel && menSubnavPanel.querySelector('.men-subnav-category');
             if (!lbl || !menSubnavPanel || !cat) return;
-            menSubnavPanel.style.paddingTop = Math.max(0, lbl.getBoundingClientRect().top - 50 - cat.offsetHeight - 14) + 'px';
+            // subtract a small extra value so the list starts higher in the panel
+            var topOffset = lbl.getBoundingClientRect().top - 50 - cat.offsetHeight - 14 - 145;
+            menSubnavPanel.style.paddingTop = Math.max(0, topOffset) + 'px';
         }
 
         function openMenPanel()  { if (!menSubnavPanel) return; closeWomenPanel(); menSubnavPanel.classList.add('open');    alignMenPanel(); if (menChevron) { menChevron.classList.add('open');    menChevron.setAttribute('aria-expanded','true');  } }
@@ -66,7 +73,7 @@
 
         var WOMEN_ITEMS = [
             { label: 'New In',      href: 'new-in.html' },
-            { label: 'Tops',        href: 'women/tops.html' },
+            { label: 'Sweatshirts', href: 'women/tops.html' },
             { label: 'Bottoms',     href: 'women/bottoms.html' },
             { label: 'Outerwear',   href: 'women/outerwear.html' },
             { label: 'Accessories', href: 'women/accessories.html' },
@@ -88,7 +95,8 @@
             var lbl = womenNavBtn || document.querySelector('#womenNavRow a');
             var cat = womenSubnavPanel && womenSubnavPanel.querySelector('.men-subnav-category');
             if (!lbl || !womenSubnavPanel || !cat) return;
-            womenSubnavPanel.style.paddingTop = Math.max(0, lbl.getBoundingClientRect().top - 50 - cat.offsetHeight - 14) + 'px';
+            var topOffset = lbl.getBoundingClientRect().top - 50 - cat.offsetHeight - 14 - 145;
+            womenSubnavPanel.style.paddingTop = Math.max(0, topOffset) + 'px';
         }
 
         function openWomenPanel()  { if (!womenSubnavPanel) return; closeMenPanel(); womenSubnavPanel.classList.add('open');    alignWomenPanel(); if (womenChevron) { womenChevron.classList.add('open');    womenChevron.setAttribute('aria-expanded','true');  } }
@@ -123,29 +131,17 @@
         buildWomenSubnav();
 
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
-        // logic moved into helper so it can run early in the script as well as during init
-        function setupNavToggle() {
-            var navToggle = document.getElementById('nav-list-toggle');
-            if (!navToggle) return;
-
-            var initiallyCollapsed = document.body.classList.contains('nav-collapsed');
-            navToggle.classList.toggle('hidden-state', !initiallyCollapsed);
-
-            if (!navToggle._navToggleBound) {
-                navToggle.addEventListener('click', function () {
-                    var isCollapsed = document.body.classList.contains('nav-collapsed');
-                    var shouldCollapse = !isCollapsed;
-                    document.body.classList.toggle('nav-collapsed', shouldCollapse);
-                    navToggle.classList.toggle('hidden-state', !shouldCollapse);
-                    closeMenPanel();
-                    closeWomenPanel();
-                });
-                navToggle._navToggleBound = true;
-            }
+        var navToggle = document.getElementById('nav-list-toggle');
+        var navCollapsed = false;
+        if (navToggle) {
+            navToggle.addEventListener('click', function () {
+                navCollapsed = !navCollapsed;
+                document.body.classList.toggle('nav-collapsed', navCollapsed);
+                navToggle.classList.toggle('hidden-state', navCollapsed);
+                closeMenPanel();
+                closeWomenPanel();
+            });
         }
-
-        // invoke helper; init() will call it again later
-        setupNavToggle();
 
         // ── Search float panel ────────────────────────────────────────────────
         var searchBtn        = document.getElementById('searchBtn');
@@ -200,9 +196,6 @@
         if (chatSend)  chatSend.addEventListener('click', sendMsg);
         if (chatInput) chatInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendMsg(); });
     }
-
-    // also run setupNavToggle immediately in case user clicks before DOM is ready
-    setupNavToggle();
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);

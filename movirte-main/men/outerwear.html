@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>MOVIRTE - Outerwear </title>
+    <meta name="description"
+        content="Discover the latest arrivals from MOVIRTE. New hoodies, tees, trousers and accessories crafted for quiet luxury.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <style>
+        /* New In page: same nav sidebar as index when fly animation finished (settled state) */
+        /* ensure subnav panel floats above footer on this page only */
+        #men-subnav-panel,
+        #women-subnav-panel {
+            z-index: 21; /* footer uses 20 globally */
+        }
+        body {
+            height: auto;
+        }
+
+        body.nav-settled .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Nav overlay as left sidebar in "settled" position (no fly animation) */
+        #nav-overlay {
+            display: flex !important;
+            justify-content: flex-start;
+            align-items: stretch;
+            pointer-events: none;
+        }
+
+        #nav-overlay .nav-content {
+            position: fixed;
+            left: 0;
+            top: 50px;
+            width: calc(100vw / 6);
+            height: calc(100vh - 50px);
+            min-width: 0;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 20px 32px 32px;
+            color: #111;
+            pointer-events: auto;
+            background: transparent;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #nav-overlay .nav-content::before {
+            display: none;
+        }
+
+        #nav-overlay .nav-heading {
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-title {
+            transform: translate(0, 0) scale(0.38);
+            transform-origin: top left;
+            font-size: 3.4rem;
+        }
+
+        #nav-overlay .nav-subtitle {
+            display: none;
+        }
+
+        #nav-overlay .nav-list {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-col-left {
+            gap: 6px;
+        }
+
+        /* Collapsed: sidebar slides off like index */
+        body.nav-collapsed #nav-overlay .nav-content {
+            transform: translateX(-110%);
+            pointer-events: none;
+        }
+
+        /* Product grid offset when sidebar visible */
+        .product-grid-wrap {
+            padding-left: calc(100vw / 6);
+            transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.nav-collapsed .product-grid-wrap {
+            padding-left: 0;
+        }
+
+        /* Product section always visible, offset by topbar */
+        #product-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        /* Grid layout view options (2col, 3col, list) */
+        .product-grid-view-options {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-grid-view-options .view-option {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: #b0b0b0;
+            transition: color 0.2s ease;
+        }
+
+        .product-grid-view-options .view-option:hover {
+            color: #737373;
+        }
+
+        .product-grid-view-options .view-option.active {
+            color: #404040;
+        }
+
+        /* Sticky product grid header */
+        .product-grid-header {
+            position: static;
+            background: #eeede9;
+            z-index: 20;
+            box-sizing: border-box;
+        }
+
+        /* Stuck state: when scrolled to threshold */
+        .product-grid-header.stuck {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        /* Layout variants for product grid */
+        #productGrid {
+            padding-top: 0;
+        }
+
+        #productGrid.view-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        #productGrid.view-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        #productGrid.view-list {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        #productGrid.view-list .product-link {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        #productGrid.view-list .product-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+            width: 100%;
+            text-align: left;
+        }
+
+        #productGrid.view-list .product-image {
+            width: 120px;
+            min-width: 120px;
+            aspect-ratio: 1;
+        }
+
+        #productGrid.view-list .product-item .product-name,
+        #productGrid.view-list .product-item .product-price {
+            flex: 1;
+        }
+
+        #productGrid.view-list .product-item {
+            border-right: none;
+        }
+
+        /* Sort by dropdown (ref: list style) */
+        .sort-by-wrap {
+            position: relative;
+        }
+
+        .sort-by-wrap .sort-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            font: inherit;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sort-by-wrap .sort-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Filter button: same visual style as sort button */
+        .product-grid-controls .filter-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            font: inherit;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .product-grid-controls .filter-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Filter panel: slide from right, full viewport height */
+        .filter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .filter-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .filter-overlay[hidden] {
+            display: none;
+        }
+
+        .filter-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 320px;
+            max-width: 90vw;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+            z-index: 101;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0 0;
+            box-sizing: border-box;
+        }
+
+        .filter-panel.is-open {
+            transform: translateX(0);
+        }
+
+        .filter-panel-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-panel-footer {
+            flex-shrink: 0;
+            padding: 20px 24px 24px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .filter-view-results-btn {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            background: #171717;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease, opacity 0.2s ease;
+        }
+
+        .filter-view-results-btn:hover {
+            background: #404040;
+        }
+
+        .filter-view-results-btn:active {
+            opacity: 0.9;
+        }
+
+        .filter-panel-header {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px 16px;
+        }
+
+        .filter-panel-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #404040;
+            margin: 0;
+        }
+
+        .filter-panel-close {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: #404040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-panel-close:hover {
+            color: #171717;
+        }
+
+        .filter-panel-separator {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 24px;
+        }
+
+        .filter-section-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: none;
+            border: none;
+            font: inherit;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #404040;
+            cursor: pointer;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .filter-section-header:hover {
+            color: #171717;
+        }
+
+        .filter-chevron {
+            font-size: 0.6rem;
+            color: #737373;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .filter-section.is-collapsed .filter-chevron {
+            transform: rotate(180deg);
+        }
+
+        .filter-section-body {
+            padding: 12px 24px 16px;
+            overflow: hidden;
+        }
+
+        .filter-section.is-collapsed .filter-section-body {
+            display: none;
+        }
+
+        /* In stock only toggle */
+        .filter-toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #737373;
+            user-select: none;
+        }
+
+        .filter-toggle {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .filter-toggle-track {
+            flex-shrink: 0;
+            width: 40px;
+            height: 22px;
+            background: #d4d4d4;
+            border-radius: 11px;
+            position: relative;
+            transition: background 0.2s ease;
+        }
+
+        .filter-toggle-track::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .filter-toggle:checked + .filter-toggle-track {
+            background: #404040;
+        }
+
+        .filter-toggle:checked + .filter-toggle-track::after {
+            transform: translateX(18px);
+        }
+
+        .filter-toggle-label {
+            flex: 1;
+        }
+
+        /* Filter option lists (size, product type) */
+        .filter-option-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .filter-option-list li {
+            margin: 0;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #737373;
+        }
+
+        .filter-option:hover {
+            color: #404040;
+        }
+
+        .filter-option input {
+            margin: 0;
+        }
+
+        .filter-option em {
+            font-style: normal;
+            color: #a3a3a3;
+        }
+
+        .sort-by-wrap .sort-btn-arrow {
+            transition: transform 0.2s ease;
+        }
+
+        .sort-by-wrap.is-open .sort-btn-arrow {
+            transform: rotate(180deg);
+        }
+
+        .sort-by-list {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin: 4px 0 0;
+            padding: 8px 0;
+            min-width: 180px;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            list-style: none;
+            z-index: 30;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+            color: #737373;
+        }
+
+        .sort-by-list[hidden] {
+            display: none;
+        }
+
+        .sort-by-list li {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+
+        .sort-by-list li:hover {
+            background: rgba(0, 0, 0, 0.04);
+            color: #404040;
+        }
+
+        .sort-by-list li.active {
+            color: #171717;
+            font-weight: 500;
+        }
+
+        /* Top bar MOVIRTE link (same as men.html) */
+        .men-nav-title {
+            position: absolute;
+            left: 68px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.29rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #111;
+            text-decoration: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* Search float panel — slides in from bottom edge of nav-title-bg */
+        .search-float-panel {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            z-index: 13;
+            background: #d1cfc2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+        .search-float-panel.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .search-float-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .search-float-icon {
+            flex-shrink: 0;
+            color: #404040;
+        }
+        .search-float-input {
+            flex: 1;
+            min-width: 0;
+            background: none;
+            border: none;
+            font: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            color: #111;
+            outline: none;
+        }
+        .search-float-input::placeholder {
+            color: #737373;
+        }
+        .search-float-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: #404040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-float-close:hover {
+            color: #171717;
+        }
+        .nav-title-icons .nav-icon-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-title-icons .nav-icon-btn:hover {
+            opacity: 1;
+        }
+        .nav-title-icons .nav-icon-btn svg {
+            display: block;
+        }
+
+        /* PAGINATION STYLES */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 48px 0 32px;
+            padding: 0 20px;
+        }
+
+        .pagination-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #404040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            color: #171717;
+            opacity: 0.8;
+        }
+
+        .pagination-btn:disabled {
+            color: #d4d4d4;
+            cursor: not-allowed;
+        }
+
+        .pagination-numbers {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination-number {
+            background: none;
+            border: 1px solid #e0e0e0;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #404040;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .pagination-number:hover {
+            border-color: #404040;
+            background: #f5f5f5;
+        }
+
+        .pagination-number.active {
+            background: #171717;
+            color: #fff;
+            border-color: #171717;
+        }
+
+        .pagination-ellipsis {
+            color: #737373;
+            font-size: 0.85rem;
+            padding: 8px 4px;
+        }
+    </style>
+</head>
+
+<body class="nav-settled nav-collapsed">
+
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- MOBILE DRAWER NAV -->
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Same nav sidebar as index (settled state): level-1 + level-2 panels -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="men.html" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="women.html" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html" class="active">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <!-- Nav-list toggle — always visible on this page -->
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip — always visible on this page -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Search float panel — slides in from bottom edge of nav-title-bg -->
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..." autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l14 14M16 2L2 16"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- PRODUCT SECTION — always visible on this page -->
+    <section id="product-section" data-lenis-prevent>
+        <div id="main-content">
+            <div class="product-grid-wrap">
+                <!-- ANNOUNCEMENT STRIP -->
+                <div class="announce-strip">
+                    <div class="announce-track-wrap">
+                        <div class="announce-track">
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                            <!-- duplicate for seamless loop -->
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDITORIAL BANNER — New In -->
+                <div class="editorial-banner">
+                    <img src="products/hoodie/ACRONHOODIE.webp" alt="New Arrivals" class="editorial-banner-img">
+                    <div class="editorial-banner-overlay"></div>
+                    <div class="editorial-banner-content" style="display: flex; justify-content: center; align-items: center; width:100%; height:100%;">
+                        <h2 class="editorial-banner-heading">Outerwear</h2>
+                    </div>
+                </div>
+
+                <div class="product-grid-header">
+                    <div class="product-grid-view-options" role="group" aria-label="Grid layout">
+                        <button type="button" class="view-option view-option-grid-2" data-view="grid-2" aria-label="2 columns" title="2 columns">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.5" y="0.5" width="9" height="9" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="10.5" y="0.5" width="9" height="9" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="0.5" y="10.5" width="9" height="9" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="10.5" y="10.5" width="9" height="9" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="view-option view-option-grid-3 active" data-view="grid-3" aria-label="3 columns" title="3 columns">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.5" y="0.5" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="6.83" y="0.5" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="13.17" y="0.5" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="0.5" y="6.83" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="6.83" y="6.83" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="13.17" y="6.83" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="0.5" y="13.17" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="6.83" y="13.17" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                                <rect x="13.17" y="13.17" width="5.67" height="5.67" stroke="currentColor" stroke-width="1" fill="currentColor" opacity="0.25"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="view-option view-option-list" data-view="list" aria-label="List view" title="List view">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="2" y1="4" x2="18" y2="4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                                <line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                                <line x1="2" y1="16" x2="18" y2="16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-grid-controls">
+                        <div class="sort-by-wrap">
+                            <button type="button" class="sort-btn" id="sortByTrigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Sort by">
+                                SORT BY <span class="sort-btn-arrow">↓</span>
+                            </button>
+                            <ul class="sort-by-list" id="sortByList" role="listbox" aria-label="Sort options" hidden>
+                                <li role="option" data-sort="featured" class="active">Featured</li>
+                                <li role="option" data-sort="best-selling">Best selling</li>
+                                <li role="option" data-sort="alpha-asc">Alphabetically, A-Z</li>
+                                <li role="option" data-sort="alpha-desc">Alphabetically, Z-A</li>
+                                <li role="option" data-sort="price-asc">Price, low to high</li>
+                                <li role="option" data-sort="price-desc">Price, high to low</li>
+                                <li role="option" data-sort="date-asc">Date, old to new</li>
+                                <li role="option" data-sort="date-desc">Date, new to old</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="filter-btn" id="filterBtn" aria-label="Filter">FILTER</button>
+                    </div>
+                </div>
+
+                <!-- Filter panel: slides in from right, full viewport height -->
+                <div class="filter-overlay" id="filterOverlay" aria-hidden="true" hidden></div>
+                <div class="filter-panel" id="filterPanel" role="dialog" aria-label="Filters" aria-modal="true">
+                    <div class="filter-panel-header">
+                        <h2 class="filter-panel-title">FILTERS</h2>
+                        <button type="button" class="filter-panel-close" id="filterPanelClose" aria-label="Close filters">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l14 14M16 2L2 16"/></svg>
+                        </button>
+                    </div>
+                    <div class="filter-panel-separator"></div>
+
+                    <div class="filter-panel-scroll">
+                    <div class="filter-section" data-section="availability">
+                        <button type="button" class="filter-section-header" aria-expanded="true">
+                            <span>AVAILABILITY</span>
+                            <span class="filter-chevron" aria-hidden="true">▲</span>
+                        </button>
+                        <div class="filter-section-body">
+                            <label class="filter-toggle-row">
+                                <input type="checkbox" class="filter-toggle" id="filterInStock" aria-label="In stock only">
+                                <span class="filter-toggle-track"></span>
+                                <span class="filter-toggle-label">In stock only</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-panel-separator"></div>
+
+                    <div class="filter-section" data-section="size">
+                        <button type="button" class="filter-section-header" aria-expanded="true">
+                            <span>SIZE</span>
+                            <span class="filter-chevron" aria-hidden="true">▲</span>
+                        </button>
+                        <div class="filter-section-body">
+                            <ul class="filter-option-list">
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>XS <em>(78)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>S <em>(82)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>M <em>(74)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>L <em>(75)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>XL <em>(74)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>XXL <em>(78)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>28/34 <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>28/32 <em>(7)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>30/34 <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>30/32 <em>(7)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>32/34 <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>32/32 <em>(7)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>34/34 <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>36/34 <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>34/32 <em>(7)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>36/32 <em>(7)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>M-L <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>XL-XXL <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="size"> <span>XS-S <em>(1)</em></span></label></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filter-panel-separator"></div>
+
+                    <div class="filter-section" data-section="product-type">
+                        <button type="button" class="filter-section-header" aria-expanded="true">
+                            <span>PRODUCT TYPE</span>
+                            <span class="filter-chevron" aria-hidden="true">▲</span>
+                        </button>
+                        <div class="filter-section-body">
+                            <ul class="filter-option-list">
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>ACCESSORIES <em>(10)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>CARGO PANTS <em>(5)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>DENIM PANTS <em>(2)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>HOODIE <em>(14)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>JACKETS <em>(9)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>PANTS <em>(5)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>Polo <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>SHIRT <em>(12)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>SHORTS <em>(17)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>SWEATPANTS <em>(1)</em></span></label></li>
+                                <li><label class="filter-option"><input type="checkbox" name="product-type"> <span>T-SHIRT <em>(26)</em></span></label></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filter-panel-separator"></div>
+                    </div>
+
+                    <div class="filter-panel-footer">
+                        <button type="button" class="filter-view-results-btn" id="filterViewResultsBtn">VIEW RESULTS</button>
+                    </div>
+                </div>
+
+                <!-- PRODUCT GRID — reusing listing system -->
+                <div class="product-grid" id="productGrid">
+                    <!-- Row 1 -->
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
+                                    alt="Acron Hoodie — Onyx">
+                                <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
+                                    alt="Acron Hoodie — Onyx on model">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <p class="product-name">Acron Hoodie — Onyx</p>
+                            <span class="product-price">£120</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/noir%20heritage%20pants/8904.webp"
+                                    alt="Noir Heritage Pant">
+                                <img class="product-img human" src="products/noir%20heritage%20pants/8904.webp"
+                                    alt="Noir Heritage Pant — on model">
+                            </div>
+                            <p class="product-name">Noir Heritage Pant</p>
+                            <span class="product-price">£145</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                    alt="Acron Hoodie — Cocoa">
+                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                    alt="Acron Hoodie — Cocoa on model">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <p class="product-name">Acron Hoodie — Cocoa</p>
+                            <span class="product-price">£120</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Trucker Cap">
+                                <img class="product-img human"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Trucker Cap — on model">
+                            </div>
+                            <p class="product-name">Specialist Trucker Cap</p>
+                            <span class="product-price">£68</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                    alt="Acron Graphic Tee">
+                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                    alt="Acron Graphic Tee — on model">
+                            </div>
+                            <p class="product-name">Acron Graphic Tee</p>
+                            <span class="product-price">£85</span>
+                        </div>
+                    </a>
+
+                    <!-- Row 2 -->
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                    alt="Noir Heritage Pant — Washed">
+                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS2.webp"
+                                    alt="Noir Heritage Pant — Washed on model">
+                            </div>
+                            <p class="product-name">Noir Heritage Pant — Washed</p>
+                            <span class="product-price">£145</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                    alt="Noir Cargo Pant">
+                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS3.webp"
+                                    alt="Noir Cargo Pant on model">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <p class="product-name">Noir Cargo Pant</p>
+                            <span class="product-price">£155</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Cap — Slate">
+                                <img class="product-img human"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Cap — Slate on model">
+                            </div>
+                            <p class="product-name">Specialist Cap — Slate</p>
+                            <span class="product-price">£72</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                    alt="Noir Relaxed Pant">
+                                <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS4.webp"
+                                    alt="Noir Relaxed Pant on model">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <p class="product-name">Noir Relaxed Pant</p>
+                            <span class="product-price">£145</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
+                                    alt="Acron Tee — Embroid">
+                                <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
+                                    alt="Acron Tee — Embroid on model">
+                            </div>
+                            <p class="product-name">Acron Tee — Embroid</p>
+                            <span class="product-price">£85</span>
+                        </div>
+                    </a>
+
+                    <!-- Row 3 -->
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
+                                    alt="Acron Heavyweight Hoodie">
+                                <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
+                                    alt="Acron Heavyweight Hoodie on model">
+                                <span class="badge-new">NEW</span>
+                            </div>
+                            <p class="product-name">Acron Heavyweight Hoodie</p>
+                            <span class="product-price">£130</span>
+                        </div>
+                    </a>
+                    <a class="product-link" href="product.html">
+                        <div class="product-item">
+                            <div class="product-image">
+                                <img class="product-img base"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Cap — Olive">
+                                <img class="product-img human"
+                                    src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Specialist Cap — Olive on model">
+                            </div>
+                            <p class="product-name">Specialist Cap — Olive</p>
+                            <span class="product-price">£72</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- PAGINATION -->
+                <div class="pagination">
+                    <button class="pagination-btn pagination-prev" aria-label="Previous page">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4l-8 6 8 6"/></svg>
+                    </button>
+                    <div class="pagination-numbers">
+                        <button class="pagination-number active" data-page="1">1</button>
+                        <button class="pagination-number" data-page="2">2</button>
+                        <button class="pagination-number" data-page="3">3</button>
+                        <span class="pagination-ellipsis">…</span>
+                        <button class="pagination-number" data-page="6">6</button>
+                    </div>
+                    <button class="pagination-btn pagination-next" aria-label="Next page">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 4l8 6-8 6"/></svg>
+                    </button>
+                </div>
+
+                <!-- AVAILABLE AT -->
+                <div class="available-at">
+                    <p class="available-at-title">AVAILABLE AT</p>
+                    <div class="stockist-logos">
+                        <span class="stockist-logo selfridges">SELFRIDGES<sup>&amp;CO</sup></span>
+                        <span class="stockist-logo harvey">HARVEY NICHOLS</span>
+                        <span class="stockist-logo printemps">PRINTEMPS</span>
+                        <span class="stockist-logo galeries">Galeries<br><em>Lafayette</em></span>
+                    </div>
+                </div>
+
+                <!-- FEATURES BAR -->
+                <div class="features-bar-index">
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↺</div>
+                        <p class="feature-index-title">FREE SHIPPING IN THE UK</p>
+                        <p class="feature-index-sub">On orders over £175</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↩</div>
+                        <p class="feature-index-title">FREE EXCHANGES &amp; RETURNS</p>
+                        <p class="feature-index-sub">For UK Orders</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">✦</div>
+                        <p class="feature-index-title">DUTIES &amp; TAXES PREPAID</p>
+                        <p class="feature-index-sub">All Orders to USA, Canada &amp; Europe shipped with taxes prepaid
+                        </p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">★</div>
+                        <p class="feature-index-title">EXCELLENT SERVICE</p>
+                        <p class="feature-index-sub">Rated Excellent</p>
+                    </div>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="#">Shopping</a>
+                            <a href="#">Returns</a>
+                            <a href="#">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="#">FAQ</a>
+                            <a href="#">Contact</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="E-Mail">
+                                <button>SUBSCRIBE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social">
+                            <a href="#">𝕏</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">TikTok</a>
+                        </div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+
+            </div> <!-- /.product-grid-wrap -->
+        </div> <!-- /#main-content -->
+    </section>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3>
+            <button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>£245</span>
+            </div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- CHATBOT FLOAT -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script src="assets/js/nav-shared.js"></script>
+    <script>
+        // Grid layout view options (2col, 3col, list)
+        const productGrid = document.getElementById('productGrid');
+        if (productGrid) productGrid.classList.add('view-grid-3');
+        const viewOptions = document.querySelectorAll('.product-grid-view-options .view-option');
+        viewOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const view = btn.getAttribute('data-view');
+                viewOptions.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                if (productGrid) {
+                    productGrid.classList.remove('view-grid-2', 'view-grid-3', 'view-list');
+                    productGrid.classList.add('view-' + view);
+                }
+            });
+        });
+
+        // Sort by dropdown
+        const sortByWrap = document.querySelector('.sort-by-wrap');
+        const sortByTrigger = document.getElementById('sortByTrigger');
+        const sortByList = document.getElementById('sortByList');
+        const sortOptions = sortByList ? sortByList.querySelectorAll('li[role="option"]') : [];
+
+        function closeSortBy() {
+            if (sortByWrap) sortByWrap.classList.remove('is-open');
+            if (sortByList) sortByList.hidden = true;
+            if (sortByTrigger) sortByTrigger.setAttribute('aria-expanded', 'false');
+        }
+
+        function openSortBy() {
+            if (sortByWrap) sortByWrap.classList.add('is-open');
+            if (sortByList) sortByList.hidden = false;
+            if (sortByTrigger) sortByTrigger.setAttribute('aria-expanded', 'true');
+        }
+
+        if (sortByTrigger && sortByList) {
+            sortByTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = sortByWrap && sortByWrap.classList.contains('is-open');
+                if (isOpen) closeSortBy();
+                else openSortBy();
+            });
+        }
+
+        sortOptions.forEach(li => {
+            li.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sortOptions.forEach(o => o.classList.remove('active'));
+                li.classList.add('active');
+                closeSortBy();
+                // Optional: trigger actual sort (e.g. reorder productGrid by data attributes)
+                const sort = li.getAttribute('data-sort');
+                if (productGrid && sort) {
+                    // Placeholder for future sort logic (price, name, date, etc.)
+                    productGrid.setAttribute('data-sort', sort);
+                }
+            });
+        });
+
+        document.addEventListener('click', () => closeSortBy());
+
+        // Filter panel: open/close, click outside to close
+        const filterBtn = document.getElementById('filterBtn');
+        const filterPanel = document.getElementById('filterPanel');
+        const filterOverlay = document.getElementById('filterOverlay');
+        const filterPanelClose = document.getElementById('filterPanelClose');
+
+        function openFilterPanel() {
+            if (filterOverlay) { filterOverlay.hidden = false; filterOverlay.classList.add('is-open'); }
+            if (filterPanel) filterPanel.classList.add('is-open');
+        }
+
+        function closeFilterPanel() {
+            if (filterOverlay) { filterOverlay.classList.remove('is-open'); filterOverlay.hidden = true; }
+            if (filterPanel) filterPanel.classList.remove('is-open');
+        }
+
+        function getActiveFilterCount() {
+            let n = 0;
+            const inStock = document.getElementById('filterInStock');
+            if (inStock && inStock.checked) n += 1;
+            document.querySelectorAll('#filterPanel input[name="size"]:checked').forEach(() => n += 1);
+            document.querySelectorAll('#filterPanel input[name="product-type"]:checked').forEach(() => n += 1);
+            return n;
+        }
+
+        function updateFilterButtonLabel() {
+            if (!filterBtn) return;
+            const count = getActiveFilterCount();
+            filterBtn.textContent = count > 0 ? `FILTER (${count})` : 'FILTER';
+        }
+
+        if (filterBtn) filterBtn.addEventListener('click', openFilterPanel);
+        if (filterPanelClose) filterPanelClose.addEventListener('click', closeFilterPanel);
+        if (filterOverlay) filterOverlay.addEventListener('click', closeFilterPanel);
+        const filterViewResultsBtn = document.getElementById('filterViewResultsBtn');
+        if (filterViewResultsBtn) {
+            filterViewResultsBtn.addEventListener('click', () => {
+                updateFilterButtonLabel();
+                closeFilterPanel();
+            });
+        }
+
+        // Filter section expand/collapse
+        document.querySelectorAll('.filter-section').forEach(section => {
+            const header = section.querySelector('.filter-section-header');
+            if (!header) return;
+            header.addEventListener('click', () => {
+                const isCollapsed = section.classList.toggle('is-collapsed');
+                header.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+            });
+        });
+
+        // PRODUCT GRID HEADER STICKY BEHAVIOR
+        const productGridHeader = document.querySelector('.product-grid-header');
+        const navTitleBg = document.querySelector('.nav-title-bg');
+        const NAV_HEIGHT = 50; // Height of nav-title-bg (px)
+
+        // threshold expressed as a fraction of the total scrollable distance
+        // here we choose 10% of the page scroll, but you can adjust this value
+        const STICK_THRESHOLD = 0.17; // 17% of total scroll length
+
+        function updateHeaderStickState() {
+            if (!productGridHeader) return;
+
+            // compute scroll progress (0 to 1)
+            const scrollY = window.scrollY || window.pageYOffset;
+            const docHeight = document.body.scrollHeight;
+            const winHeight = window.innerHeight;
+            const scrollable = docHeight - winHeight;
+            const progress = scrollable > 0 ? scrollY / scrollable : 0;
+
+            if (progress >= STICK_THRESHOLD) {
+                // once past the threshold, lock header to nav bottom
+                productGridHeader.classList.add('stuck');
+            } else {
+                productGridHeader.classList.remove('stuck');
+            }
+        }
+
+        window.addEventListener('scroll', updateHeaderStickState, { passive: true });
+        // Also check on resize
+        window.addEventListener('resize', updateHeaderStickState);
+
+        // PAGINATION FUNCTIONALITY
+        const ITEMS_PER_PAGE = 12;
+        let currentPage = 1;
+        const totalPages = Math.ceil(document.querySelectorAll('.product-link').length / ITEMS_PER_PAGE);
+
+        function updatePagination() {
+            const allProducts = Array.from(document.querySelectorAll('.product-link'));
+            const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIdx = startIdx + ITEMS_PER_PAGE;
+
+            // Hide all products
+            allProducts.forEach(product => {
+                product.style.display = 'none';
+            });
+
+            // Show products for current page
+            allProducts.slice(startIdx, endIdx).forEach(product => {
+                product.style.display = '';
+            });
+
+            // Update active button
+            document.querySelectorAll('.pagination-number').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.getAttribute('data-page')) === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update prev/next buttons
+            const prevBtn = document.querySelector('.pagination-prev');
+            const nextBtn = document.querySelector('.pagination-next');
+            if (prevBtn) prevBtn.disabled = currentPage === 1;
+            if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // Pagination button handlers
+        document.querySelectorAll('.pagination-number').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentPage = parseInt(btn.getAttribute('data-page'));
+                updatePagination();
+                // Scroll back to top of product grid
+                document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        const prevBtn = document.querySelector('.pagination-prev');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                    document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        const nextBtn = document.querySelector('.pagination-next');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                    document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        // Initialize pagination on page load
+        updatePagination();
+    </script>
+</body>
+</html>
+
