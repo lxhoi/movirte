@@ -3,35 +3,7 @@
    Place <script src="assets/js/nav-shared.js"></script> at end of <body>.
 */
 (function () {
-    var hasInit = false;
-
-    // helper used by init and also wired immediately when script loads
-    function setupNavToggle() {
-        var navToggle = document.getElementById('nav-list-toggle');
-        if (!navToggle) return;
-
-        // set icon state based on current collapse class
-        var initiallyCollapsed = document.body.classList.contains('nav-collapsed');
-        navToggle.classList.toggle('hidden-state', !initiallyCollapsed);
-
-        // make sure we don't add duplicate listeners
-        if (!navToggle._navToggleBound) {
-            navToggle.addEventListener('click', function () {
-                var isCollapsed = document.body.classList.contains('nav-collapsed');
-                var shouldCollapse = !isCollapsed;
-                document.body.classList.toggle('nav-collapsed', shouldCollapse);
-                navToggle.classList.toggle('hidden-state', !shouldCollapse);
-                closeMenPanel();
-                closeWomenPanel();
-            });
-            navToggle._navToggleBound = true;
-        }
-    }
-
     function init() {
-        if (hasInit) return;
-        hasInit = true;
-
         // ── Mobile drawer ────────────────────────────────────────────────────
         var burgerBtn      = document.getElementById('burgerBtn');
         var drawerCloseBtn = document.getElementById('drawerClose');
@@ -44,9 +16,6 @@
         if (burgerBtn)     burgerBtn.addEventListener('click', openDrawer);
         if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
         if (drawerOverlay)  drawerOverlay.addEventListener('click', closeDrawer);
-
-        // wire toggle once more (ensures icon state after any late-class changes)
-        setupNavToggle();
 
         // ── Level-2 Men sub-nav panel ────────────────────────────────────────
         var menChevron      = document.getElementById('menChevron');
@@ -154,23 +123,29 @@
         buildWomenSubnav();
 
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
-        var navToggle = document.getElementById('nav-list-toggle');
-        if (navToggle) {
-            // set initial icon state based on whether the nav is collapsed
+        // logic moved into helper so it can run early in the script as well as during init
+        function setupNavToggle() {
+            var navToggle = document.getElementById('nav-list-toggle');
+            if (!navToggle) return;
+
             var initiallyCollapsed = document.body.classList.contains('nav-collapsed');
-            // when the sidebar is open (!collapsed) show X state, otherwise burger
             navToggle.classList.toggle('hidden-state', !initiallyCollapsed);
 
-            navToggle.addEventListener('click', function () {
-                // read current DOM state instead of caching a variable
-                var isCollapsed = document.body.classList.contains('nav-collapsed');
-                var shouldCollapse = !isCollapsed; // toggle
-                document.body.classList.toggle('nav-collapsed', shouldCollapse);
-                navToggle.classList.toggle('hidden-state', !shouldCollapse);
-                closeMenPanel();
-                closeWomenPanel();
-            });
+            if (!navToggle._navToggleBound) {
+                navToggle.addEventListener('click', function () {
+                    var isCollapsed = document.body.classList.contains('nav-collapsed');
+                    var shouldCollapse = !isCollapsed;
+                    document.body.classList.toggle('nav-collapsed', shouldCollapse);
+                    navToggle.classList.toggle('hidden-state', !shouldCollapse);
+                    closeMenPanel();
+                    closeWomenPanel();
+                });
+                navToggle._navToggleBound = true;
+            }
         }
+
+        // invoke helper; init() will call it again later
+        setupNavToggle();
 
         // ── Search float panel ────────────────────────────────────────────────
         var searchBtn        = document.getElementById('searchBtn');
@@ -226,7 +201,7 @@
         if (chatInput) chatInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') sendMsg(); });
     }
 
-    // bind toggle right away in case a user clicks before DOMContentLoaded fires
+    // also run setupNavToggle immediately in case user clicks before DOM is ready
     setupNavToggle();
 
     if (document.readyState === 'loading') {
