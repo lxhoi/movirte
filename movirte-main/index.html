@@ -55,17 +55,21 @@
                 <div class="nav-col-left">
                     <span class="nav-item-row" id="menNavRow">
                         <a href="new-in.html" id="menNavBtn">Men</a>
-                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu"
+                            aria-expanded="false">
                             <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
-                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
                     </span>
                     <span class="nav-item-row" id="womenNavRow">
                         <a href="women/new-in-w.html" id="womenNavBtn">Women</a>
-                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu" aria-expanded="false">
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu"
+                            aria-expanded="false">
                             <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
-                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
                     </span>
@@ -136,13 +140,18 @@
     <!-- Search float panel — slides in from bottom edge of nav-title-bg -->
     <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
         <div class="search-float-inner">
-            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
             </svg>
-            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..." autocomplete="off" aria-label="Search">
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..."
+                autocomplete="off" aria-label="Search">
             <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l14 14M16 2L2 16"/></svg>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                </svg>
             </button>
         </div>
     </div>
@@ -175,12 +184,42 @@
                     </div>
                 </div>
 
-                <!-- EDITORIAL BANNER -->
-                <div class="editorial-banner">
-                    <img src="products/hoodie/ACRONHOODIE.webp" alt="New Arrivals" class="editorial-banner-img">
+                <!-- EDITORIAL BANNER SLIDESHOW -->
+                <div class="editorial-banner editorial-slideshow" id="editorialSlideshow">
+                    <!-- Slides -->
+                    <div class="slide-img-wrap">
+                        <img src="banners/BLAKESHEROBANNEr.webp" alt="Hero Banner 1" class="slide-img active">
+                        <img src="banners/HERO_BANNER_LAUNCH.webp" alt="Hero Banner 2" class="slide-img">
+                        <img src="banners/Website_Hero_Banner.webp" alt="Hero Banner 3" class="slide-img">
+                    </div>
                     <div class="editorial-banner-overlay"></div>
-                    <div class="editorial-banner-content" style="justify-content: center; align-items: center; width: 100%; height: 100%;">
-                        <h2 class="editorial-banner-heading" style="text-align: center; margin: 0;"> </h2>
+                    <div class="editorial-banner-content"
+                        style="justify-content:center;align-items:center;width:100%;height:100%;">
+                        <h2 class="editorial-banner-heading" style="text-align:center;margin:0;"></h2>
+                    </div>
+                    <!-- Pagination indicator -->
+                    <div class="slideshow-indicator" id="slideshowIndicator">
+                        <button class="slide-dot active" data-idx="0" aria-label="Slide 1">
+                            <svg class="progress-ring" viewBox="0 0 36 36">
+                                <circle class="ring-bg" cx="18" cy="18" r="14"></circle>
+                                <circle class="ring-fg" cx="18" cy="18" r="14"></circle>
+                            </svg>
+                            <span class="dot-inner"></span>
+                        </button>
+                        <button class="slide-dot" data-idx="1" aria-label="Slide 2">
+                            <svg class="progress-ring" viewBox="0 0 36 36">
+                                <circle class="ring-bg" cx="18" cy="18" r="14"></circle>
+                                <circle class="ring-fg" cx="18" cy="18" r="14"></circle>
+                            </svg>
+                            <span class="dot-inner"></span>
+                        </button>
+                        <button class="slide-dot" data-idx="2" aria-label="Slide 3">
+                            <svg class="progress-ring" viewBox="0 0 36 36">
+                                <circle class="ring-bg" cx="18" cy="18" r="14"></circle>
+                                <circle class="ring-fg" cx="18" cy="18" r="14"></circle>
+                            </svg>
+                            <span class="dot-inner"></span>
+                        </button>
                     </div>
                 </div>
 
@@ -255,7 +294,8 @@
 
                 <!-- EDITORIAL BANNER #2 — Featured Collection -->
                 <div class="editorial-banner">
-                    <img src="products/noir%20heritage%20pants/8904.webp" alt="Noir Heritage Collection" class="editorial-banner-img">
+                    <img src="products/noir%20heritage%20pants/8904.webp" alt="Noir Heritage Collection"
+                        class="editorial-banner-img">
                     <div class="editorial-banner-overlay"></div>
                     <div class="editorial-banner-content">
                         <p class="editorial-banner-label">Featured — Noir Heritage</p>
@@ -373,11 +413,13 @@
             pointer-events: none;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
         }
+
         .search-float-panel.is-open {
             transform: translateY(0);
             opacity: 1;
             pointer-events: auto;
         }
+
         .search-float-inner {
             display: flex;
             align-items: center;
@@ -386,10 +428,12 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .search-float-icon {
             flex-shrink: 0;
             color: #404040;
         }
+
         .search-float-input {
             flex: 1;
             min-width: 0;
@@ -401,9 +445,11 @@
             color: #111;
             outline: none;
         }
+
         .search-float-input::placeholder {
             color: #737373;
         }
+
         .search-float-close {
             flex-shrink: 0;
             background: none;
@@ -415,9 +461,11 @@
             align-items: center;
             justify-content: center;
         }
+
         .search-float-close:hover {
             color: #171717;
         }
+
         .product-tabs {
             display: flex;
             gap: 32px;
@@ -428,6 +476,7 @@
             box-sizing: border-box;
             margin-top: 20px;
         }
+
         .product-tab {
             background: none;
             border: none;
@@ -442,9 +491,11 @@
             border-bottom: 2px solid transparent;
             transition: border-color 0.3s ease;
         }
+
         .product-tab:hover {
             opacity: 0.7;
         }
+
         .product-tab.active {
             border-bottom-color: #111;
         }
@@ -454,6 +505,7 @@
             text-align: center;
             margin: 24px 0;
         }
+
         .shop-button {
             display: inline-block;
             background: var(--movirte-rich-brown, #6B3A2A);
@@ -468,12 +520,20 @@
             position: relative;
             overflow: hidden;
         }
+
         .shop-button:hover {
             animation: shutter-out-horizontal 0.6s forwards;
         }
+
         @keyframes shutter-out-horizontal {
-            0% { background: var(--movirte-rich-brown, #6B3A2A); }
-            100% { background: #a7755d; /* lighter brown */ }
+            0% {
+                background: var(--movirte-rich-brown, #6B3A2A);
+            }
+
+            100% {
+                background: #a7755d;
+                /* lighter brown */
+            }
         }
 
         .nav-icon-btn {
@@ -489,14 +549,17 @@
             transition: opacity 0.2s;
             pointer-events: auto;
         }
+
         .nav-icon-btn:hover {
             opacity: 1;
         }
+
         .nav-icon-btn svg {
             display: block;
             stroke: currentColor;
             pointer-events: none;
         }
+
         /* Ensure search button is always clickable, even when nav-title-bg has pointer-events: none */
         #searchBtn {
             pointer-events: auto !important;
@@ -546,7 +609,116 @@
             position: relative;
         }
 
+
+        /* ── Editorial Banner Slideshow ──────────────────────────────── */
+        .editorial-slideshow {
+            overflow: hidden;
+        }
+
+        .slide-img-wrap {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-img.active {
+            opacity: 1;
+        }
+
+        /* Indicator bar */
+        .slideshow-indicator {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Each dot button */
+        .slide-dot {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* The small filled circle in the centre */
+        .dot-inner {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: background 0.3s;
+        }
+
+        .slide-dot.active .dot-inner {
+            background: #fff;
+        }
+
+        /* SVG ring */
+        .progress-ring {
+            position: absolute;
+            inset: 0;
+            width: 32px;
+            height: 32px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.2);
+            stroke-width: 2;
+        }
+
+        .ring-fg {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            /* circumference ≈ 2π×14 ≈ 87.96 */
+            stroke-dasharray: 87.96 87.96;
+            stroke-dashoffset: 87.96;
+            /* start: empty */
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        /* Animate ring fill over 5 s */
+        .slide-dot.active .ring-fg {
+            animation: ring-fill 5s linear forwards;
+        }
+
+        @keyframes ring-fill {
+            from {
+                stroke-dashoffset: 87.96;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
     </style>
+
     <script>
         // Mobile drawer for index page
         const burgerBtn = document.getElementById('burgerBtn');
@@ -760,6 +932,55 @@
                 if (!insideWomen) closeWomenPanel();
             }
         });
+
+        // ── Editorial Banner Slideshow ────────────────────────────────────
+        (function () {
+            const DURATION = 5000; // ms per slide
+            const slides = document.querySelectorAll('#editorialSlideshow .slide-img');
+            const dots = document.querySelectorAll('#slideshowIndicator .slide-dot');
+            let current = 0;
+            let timer = null;
+
+            function goTo(idx) {
+                // De-activate old
+                slides[current].classList.remove('active');
+                dots[current].classList.remove('active');
+
+                current = (idx + slides.length) % slides.length;
+
+                // Activate new — re-trigger CSS animation by forcing reflow
+                slides[current].classList.add('active');
+                const dot = dots[current];
+                dot.classList.remove('active');
+                // Force reflow so the animation restarts cleanly
+                void dot.offsetWidth;
+                dot.classList.add('active');
+            }
+
+            function next() { goTo(current + 1); }
+
+            function startTimer() {
+                clearInterval(timer);
+                timer = setInterval(next, DURATION);
+            }
+
+            // Manual dot clicks
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', () => {
+                    goTo(i);
+                    startTimer(); // reset countdown on manual click
+                });
+            });
+
+            // Pause on hover, resume on leave
+            const slideshow = document.getElementById('editorialSlideshow');
+            if (slideshow) {
+                slideshow.addEventListener('mouseenter', () => clearInterval(timer));
+                slideshow.addEventListener('mouseleave', startTimer);
+            }
+
+            startTimer();
+        })();
     </script>
 
     <!-- CART DRAWER -->
