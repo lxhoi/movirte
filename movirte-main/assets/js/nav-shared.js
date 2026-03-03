@@ -124,12 +124,18 @@
 
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
         var navToggle = document.getElementById('nav-list-toggle');
-        var navCollapsed = false;
         if (navToggle) {
+            // set initial icon state based on whether the nav is collapsed
+            var initiallyCollapsed = document.body.classList.contains('nav-collapsed');
+            // when the sidebar is open (!collapsed) show X state, otherwise burger
+            navToggle.classList.toggle('hidden-state', !initiallyCollapsed);
+
             navToggle.addEventListener('click', function () {
-                navCollapsed = !navCollapsed;
-                document.body.classList.toggle('nav-collapsed', navCollapsed);
-                navToggle.classList.toggle('hidden-state', navCollapsed);
+                // read current DOM state instead of caching a variable
+                var isCollapsed = document.body.classList.contains('nav-collapsed');
+                var shouldCollapse = !isCollapsed; // toggle
+                document.body.classList.toggle('nav-collapsed', shouldCollapse);
+                navToggle.classList.toggle('hidden-state', !shouldCollapse);
                 closeMenPanel();
                 closeWomenPanel();
             });

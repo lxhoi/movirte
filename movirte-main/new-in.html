@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="assets/css/nav-shared.css">
     <style>
         /* New In page: same nav sidebar as index when fly animation finished (settled state) */
+        /* ensure subnav panel floats above footer on this page only */
+        #men-subnav-panel,
+        #women-subnav-panel {
+            z-index: 21; /* footer uses 20 globally */
+        }
         body {
             height: auto;
         }
@@ -1440,7 +1445,7 @@
 
         // threshold expressed as a fraction of the total scrollable distance
         // here we choose 10% of the page scroll, but you can adjust this value
-        const STICK_THRESHOLD = 0.10; // 10% of total scroll length
+        const STICK_THRESHOLD = 0.17; // 17% of total scroll length
 
         function updateHeaderStickState() {
             if (!productGridHeader) return;
