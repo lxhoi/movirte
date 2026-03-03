@@ -135,14 +135,26 @@
         // keep track of current collapsed state; start by reflecting whatever
         // class the body already has (new-in begins life nav-collapsed).
         var navCollapsed = document.body.classList.contains('nav-collapsed');
+        // special case: new-in page should show the burger icon initially even
+        // though the nav is collapsed.  We detect via pathname so clones remain
+        // unaffected.
+        var isNewInPage = window.location.pathname.endsWith('/new-in.html');
         if (navToggle) {
-            // ensure the toggle icon matches the current state on load
-            navToggle.classList.toggle('hidden-state', navCollapsed);
+            // ensure the toggle icon matches the current state on load; normally
+            // X (hidden-state) when collapsed, but invert for new-in.
+            var showX = isNewInPage ? !navCollapsed : navCollapsed;
+            navToggle.classList.toggle('hidden-state', showX);
 
             navToggle.addEventListener('click', function () {
                 navCollapsed = !navCollapsed;
                 document.body.classList.toggle('nav-collapsed', navCollapsed);
-                navToggle.classList.toggle('hidden-state', navCollapsed);
+                if (isNewInPage) {
+                    // for first click only we still invert; afterwards clear flag
+                    navToggle.classList.toggle('hidden-state', !navCollapsed);
+                    isNewInPage = false;
+                } else {
+                    navToggle.classList.toggle('hidden-state', navCollapsed);
+                }
                 closeMenPanel();
                 closeWomenPanel();
             });
