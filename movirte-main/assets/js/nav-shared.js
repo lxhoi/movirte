@@ -133,25 +133,26 @@
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
         var navToggle = document.getElementById('nav-list-toggle');
         // keep track of current collapsed state; start by reflecting whatever
-        // class the body already has (new-in begins life nav-collapsed).
+        // class the body already has (most template pages begin life collapsed).
         var navCollapsed = document.body.classList.contains('nav-collapsed');
-        // special case: new-in page should show the burger icon initially even
-        // though the nav is collapsed.  We detect via pathname so clones remain
-        // unaffected.
-        var isNewInPage = window.location.pathname.endsWith('/new-in.html');
+        // special-case pages need to show burger icon initially rather than X
+        // even though the nav is collapsed.  Originally this was only new-in,
+        // but the same behaviour now applies to all of the men/* category pages
+        // (listed in the sidebar screenshot).
+        var path = window.location.pathname;
+        var isSpecialPage = path.endsWith('/new-in.html') || path.includes('/men/');
         if (navToggle) {
-            // ensure the toggle icon matches the current state on load; normally
-            // X (hidden-state) when collapsed, but invert for new-in.
-            var showX = isNewInPage ? !navCollapsed : navCollapsed;
+            // decide whether to apply hidden-state class on load
+            var showX = isSpecialPage ? !navCollapsed : navCollapsed;
             navToggle.classList.toggle('hidden-state', showX);
 
             navToggle.addEventListener('click', function () {
                 navCollapsed = !navCollapsed;
                 document.body.classList.toggle('nav-collapsed', navCollapsed);
-                if (isNewInPage) {
-                    // for first click only we still invert; afterwards clear flag
+                if (isSpecialPage) {
+                    // invert for the first click, then stop special-casing
                     navToggle.classList.toggle('hidden-state', !navCollapsed);
-                    isNewInPage = false;
+                    isSpecialPage = false;
                 } else {
                     navToggle.classList.toggle('hidden-state', navCollapsed);
                 }
