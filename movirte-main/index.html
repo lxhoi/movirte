@@ -411,7 +411,17 @@
             transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* After animation: search panel starts after the sidebar column */
+        body.nav-settled .search-float-panel {
+            left: calc(100vw / 6);
+        }
+
+        /* When sidebar is collapsed, search panel goes full width again */
+        body.nav-settled.nav-collapsed .search-float-panel {
+            left: 0;
         }
 
         .search-float-panel.is-open {
