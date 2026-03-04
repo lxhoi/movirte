@@ -405,7 +405,7 @@
             top: 50px;
             left: 0;
             right: 0;
-            z-index: 15;
+            z-index: 21;
             background: #d1cfc2;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
             transform: translateY(-100%);
@@ -717,6 +717,32 @@
                 stroke-dashoffset: 0;
             }
         }
+
+        /* ── SIDEBAR BACKGROUND PANEL (index page only) ──────── */
+        /* Solid background behind the nav items column.
+           Appears after scroll-sequence animation ends (body.nav-settled).
+           Hides when nav is collapsed via the toggle. */
+        #nav-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100vw / 6);
+            height: 100%;
+            background: #eeede9;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.nav-settled #nav-overlay::after {
+            opacity: 1;
+        }
+
+        body.nav-settled #nav-overlay.nav-items-hidden::after {
+            opacity: 0;
+        }
     </style>
 
     <script>
@@ -813,14 +839,19 @@
             menSubnavPanel.classList.contains('open') ? closeMenPanel() : openMenPanel();
         }
 
-        // When nav has finished fly animation (body.nav-settled), click on Men opens level-2 panel only (no redirect)
+        // Click on Men — intercept in capture phase BEFORE page-transition.js
+        // (page-transition.js registers a document capture handler that would otherwise
+        //  navigate away; stopImmediatePropagation prevents it from firing)
         if (menNavBtn) {
-            menNavBtn.addEventListener('click', (e) => {
-                if (document.body.classList.contains('nav-settled')) {
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('#menNavBtn') || e.target === menNavBtn) {
                     e.preventDefault();
-                    toggleMenPanel(e);
+                    e.stopImmediatePropagation();
+                    if (document.body.classList.contains('nav-settled')) {
+                        toggleMenPanel(e);
+                    }
                 }
-            });
+            }, true);
         }
         if (menChevron) menChevron.addEventListener('click', toggleMenPanel);
 
@@ -893,13 +924,17 @@
             womenSubnavPanel.classList.contains('open') ? closeWomenPanel() : openWomenPanel();
         }
 
+        // Click on Women — same capture-phase intercept as Men
         if (womenNavBtn) {
-            womenNavBtn.addEventListener('click', (e) => {
-                if (document.body.classList.contains('nav-settled')) {
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('#womenNavBtn') || e.target === womenNavBtn) {
                     e.preventDefault();
-                    toggleWomenPanel(e);
+                    e.stopImmediatePropagation();
+                    if (document.body.classList.contains('nav-settled')) {
+                        toggleWomenPanel(e);
+                    }
                 }
-            });
+            }, true);
         }
         if (womenChevron) womenChevron.addEventListener('click', toggleWomenPanel);
 
@@ -1151,10 +1186,7 @@
         // CENTERED LAYOUT — apply after nav animation settles (1s after nav-title-bg becomes visible)
         // ───────────────────────────────────────────────────────────────
         const productGridWrap = document.querySelector('.product-grid-wrap');
-        // navTitleBg is declared in script.js, so check if it exists globally
-        if (typeof navTitleBg === 'undefined') {
-            var navTitleBg = document.getElementById('nav-title-bg');
-        }
+        // Reuse navTitleBg from script.js (already declared as const)
 
         function applyCenteredLayout() {
             if (productGridWrap && !productGridWrap.classList.contains('content-settled')) {

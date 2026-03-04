@@ -89,11 +89,9 @@ canvas {
 }
 
 .product-grid-wrap.content-settled {
-    padding-left: 0;
     max-width: none;
     margin: 0;
     padding-right: 0;
-    padding-left: 0;
 }
 
 .product-grid-wrap.content-settled::before {
@@ -355,7 +353,8 @@ body.nav-collapsed .product-grid-wrap::before {
     z-index: 2;
     padding: 0 48px 48px;
     color: #fff;
-    text-align: center; /* center any text inside the banner */
+    text-align: center;
+    /* center any text inside the banner */
 }
 
 .editorial-banner-label {
@@ -987,6 +986,8 @@ body.nav-settled .nav-chevron {
 #nav-overlay.nav-items-hidden .nav-content::before {
     opacity: 0;
 }
+
+
 
 /* ── NAV TITLE BACKGROUND ────────────────────────── */
 /* Full-width background strip behind the nav-title.
