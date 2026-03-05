@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart — MOVIRTE</title>
+    <meta name="description" content="Review your MOVIRTE shopping bag before checkout.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <style>
+        /* ── RESET ───────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f7f4;
+            color: #111;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        a {
+            color: #111;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #555;
+        }
+
+        /* ── ANNOUNCEMENT STRIP ──────────────────────── */
+        .announce-strip {
+            display: flex;
+            align-items: center;
+            background: #111;
+            color: #d4d0c8;
+            height: 36px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .announce-track-wrap {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .announce-track-wrap::before,
+        .announce-track-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 48px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .announce-track-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, #111 0%, transparent 100%);
+        }
+
+        .announce-track-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, #111 0%, transparent 100%);
+        }
+
+        .announce-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 24px;
+            white-space: nowrap;
+            animation: announce-scroll 28s linear infinite;
+        }
+
+        .announce-item {
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .announce-sep {
+            color: #555;
+            font-size: 0.7rem;
+        }
+
+        @keyframes announce-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ── CART HEADER ─────────────────────────────── */
+        .cart-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 40px;
+            background: #f8f7f4;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .cart-header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-header-burger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cart-header-burger span {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: #111;
+            transition: all 0.3s;
+        }
+
+        .cart-header-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            color: #111;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cart-header-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cart-header-icons a,
+        .cart-header-icons svg {
+            color: #111;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .cart-header-icons a:hover,
+        .cart-header-icons svg:hover {
+            opacity: 0.6;
+        }
+
+        /* ── CART TITLE ──────────────────────────────── */
+        .cart-page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 36px 0 32px;
+            color: #111;
+        }
+
+        /* ── CART TABLE ──────────────────────────────── */
+        .cart-table {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .cart-table-header {
+            display: grid;
+            grid-template-columns: 1fr 180px 120px;
+            padding: 0 0 14px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-table-header span {
+            font-size: 0.6rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .cart-table-header span:nth-child(2) {
+            text-align: center;
+        }
+
+        .cart-table-header span:last-child {
+            text-align: right;
+        }
+
+        /* ── CART ITEM ROW ───────────────────────────── */
+        .cart-item-row {
+            display: grid;
+            grid-template-columns: 1fr 180px 120px;
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            align-items: start;
+        }
+
+        .cart-item-product {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .cart-item-thumb {
+            width: 90px;
+            height: 108px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: #eee;
+            flex-shrink: 0;
+        }
+
+        .cart-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-top: 4px;
+        }
+
+        .cart-item-title {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .cart-item-cost {
+            font-size: 0.74rem;
+            color: #888;
+        }
+
+        .cart-item-estimate {
+            font-size: 0.65rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .cart-item-estimate::before {
+            content: '•';
+            margin-right: 6px;
+        }
+
+        /* ── QUANTITY CONTROL ────────────────────────── */
+        .cart-qty-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding-top: 4px;
+        }
+
+        .cart-qty-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .cart-qty-control button {
+            width: 36px;
+            height: 36px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #555;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-qty-control button:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .cart-qty-control span {
+            width: 36px;
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #111;
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            line-height: 36px;
+        }
+
+        .cart-remove-btn {
+            background: none;
+            border: none;
+            font-size: 0.68rem;
+            color: #888;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .cart-remove-btn:hover {
+            color: #111;
+        }
+
+        /* ── ITEM TOTAL ──────────────────────────────── */
+        .cart-item-total {
+            text-align: right;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #111;
+            padding-top: 4px;
+        }
+
+        /* ── ORDER NOTE ──────────────────────────────── */
+        .cart-order-note {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 28px 40px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .order-note-left h3 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 0.74rem;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 12px;
+        }
+
+        .order-note-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 14px;
+            font-size: 0.76rem;
+            font-family: inherit;
+            color: #111;
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .order-note-textarea::placeholder {
+            color: #bbb;
+        }
+
+        .order-note-textarea:focus {
+            border-color: #333;
+        }
+
+        .order-note-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            padding-top: 8px;
+        }
+
+        .cart-total-line {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #111;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .cart-total-line .cart-total-label {
+            font-weight: 400;
+            font-size: 0.74rem;
+            color: #555;
+        }
+
+        .cart-total-line .cart-total-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .cart-total-line .cart-total-currency {
+            font-size: 0.6rem;
+            color: #888;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+        }
+
+        .cart-tax-note {
+            font-size: 0.62rem;
+            color: #888;
+        }
+
+        .cart-checkout-link {
+            margin-top: 10px;
+            display: inline-block;
+            padding: 14px 48px;
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border-radius: 0;
+            border: 1px solid #111;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .cart-checkout-link:hover {
+            background: transparent;
+            color: #111;
+        }
+
+        /* ── FEATURES BAR ────────────────────────────── */
+        .cart-features-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 1100px;
+            margin: 60px auto 0;
+            padding: 40px 40px 48px;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .cart-feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-feature-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+        }
+
+        .cart-feature-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .cart-feature-title {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .cart-feature-sub {
+            font-size: 0.62rem;
+            color: #888;
+        }
+
+        /* ── FOOTER ──────────────────────────────────── */
+        .cart-footer {
+            background: #111;
+            color: #d4d0c8;
+            padding: 48px 40px 28px;
+        }
+
+        .cart-footer-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+            gap: 32px;
+        }
+
+        .cart-footer-col h4 {
+            font-size: 0.6rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #d4d0c8;
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+
+        .cart-footer-col p {
+            font-size: 0.68rem;
+            line-height: 1.7;
+            color: rgba(212, 208, 200, 0.7);
+        }
+
+        .cart-footer-col a {
+            display: block;
+            font-size: 0.68rem;
+            color: rgba(212, 208, 200, 0.7);
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.2s;
+        }
+
+        .cart-footer-col a:hover {
+            color: #fff;
+        }
+
+        .footer-location {
+            margin-top: 16px;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(212, 208, 200, 0.4);
+        }
+
+        .cart-newsletter-input {
+            display: flex;
+            gap: 0;
+            margin-top: 4px;
+        }
+
+        .cart-newsletter-input input {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 0.7rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #d4d0c8;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .cart-newsletter-input input::placeholder {
+            color: rgba(212, 208, 200, 0.4);
+        }
+
+        .cart-newsletter-input input:focus {
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .cart-newsletter-input button {
+            padding: 10px 18px;
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: none;
+            color: #d4d0c8;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .cart-newsletter-input button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-footer-bottom {
+            max-width: 1100px;
+            margin: 28px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-footer-social {
+            display: flex;
+            gap: 20px;
+        }
+
+        .cart-footer-social a {
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            color: rgba(212, 208, 200, 0.5);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .cart-footer-social a:hover {
+            color: #fff;
+        }
+
+        .cart-footer-bottom p {
+            font-size: 0.6rem;
+            color: rgba(212, 208, 200, 0.3);
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────── */
+        @media (max-width: 768px) {
+            .cart-page-header {
+                padding: 14px 20px;
+            }
+
+            .cart-table {
+                padding: 0 20px;
+            }
+
+            .cart-table-header {
+                display: none;
+            }
+
+            .cart-item-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cart-qty-wrap {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 0;
+            }
+
+            .cart-item-total {
+                text-align: left;
+            }
+
+            .cart-order-note {
+                grid-template-columns: 1fr;
+                padding: 20px 20px 0;
+                gap: 24px;
+            }
+
+            .order-note-right {
+                align-items: flex-start;
+            }
+
+            .cart-features-bar {
+                grid-template-columns: 1fr 1fr;
+                padding: 32px 20px;
+            }
+
+            .cart-footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-page-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════ ANNOUNCEMENT STRIP ═══════════ -->
+    <div class="announce-strip">
+        <div class="announce-track-wrap">
+            <div class="announce-track">
+                <span class="announce-item">FREE SHIPPING ON ORDERS OVER £175</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">ORDERS TO USA, CANADA &amp; EU SHIPPED WITH DUTIES INCLUDED</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                <span class="announce-sep">·</span>
+                <!-- duplicate for loop -->
+                <span class="announce-item">FREE SHIPPING ON ORDERS OVER £175</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">ORDERS TO USA, CANADA &amp; EU SHIPPED WITH DUTIES INCLUDED</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                <span class="announce-sep">·</span>
+                <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                <span class="announce-sep">·</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header class="cart-page-header">
+        <div class="cart-header-left">
+            <button class="cart-header-burger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <a href="index.html" class="cart-header-logo">MOVIRTE</a>
+        <div class="cart-header-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <a href="cart.html" style="position:relative;text-decoration:none;">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                <span
+                    style="position:absolute;top:-6px;right:-8px;width:16px;height:16px;background:#111;color:#fff;font-size:0.5rem;font-weight:700;border-radius:50%;display:flex;align-items:center;justify-content:center;">1</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ═══════════ CART TITLE ═══════════ -->
+    <h1 class="cart-page-title">Cart</h1>
+
+    <!-- ═══════════ CART TABLE ═══════════ -->
+    <section class="cart-table">
+
+        <!-- Table header -->
+        <div class="cart-table-header">
+            <span>Product</span>
+            <span>Quantity</span>
+            <span>Total</span>
+        </div>
+
+        <!-- Cart item -->
+        <div class="cart-item-row">
+            <div class="cart-item-product">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Gift Card" class="cart-item-thumb">
+                <div class="cart-item-details">
+                    <p class="cart-item-title">Gift Card</p>
+                    <p class="cart-item-cost">$16.33</p>
+                    <p class="cart-item-estimate">Estimated between: Fri, Mar 13 - Fri, Mar 27</p>
+                </div>
+            </div>
+            <div class="cart-qty-wrap">
+                <div class="cart-qty-control">
+                    <button type="button" aria-label="Decrease quantity">−</button>
+                    <span>1</span>
+                    <button type="button" aria-label="Increase quantity">+</button>
+                </div>
+                <button class="cart-remove-btn" type="button">Remove</button>
+            </div>
+            <p class="cart-item-total">$16.33</p>
+        </div>
+    </section>
+
+    <!-- ═══════════ ORDER NOTE + TOTAL ═══════════ -->
+    <div class="cart-order-note">
+        <div class="order-note-left">
+            <h3>Add order note</h3>
+            <textarea class="order-note-textarea" placeholder="How can we help you?"></textarea>
+        </div>
+        <div class="order-note-right">
+            <div class="cart-total-line">
+                <span class="cart-total-label">Total:</span>
+                <span class="cart-total-amount">$16.33</span>
+                <span class="cart-total-currency">USD</span>
+            </div>
+            <p class="cart-tax-note">Tax included. Shipping calculated at checkout.</p>
+            <a href="checkout.html" class="cart-checkout-link">CHECKOUT</a>
+        </div>
+    </div>
+
+    <!-- ═══════════ FEATURES BAR ═══════════ -->
+    <div class="cart-features-bar">
+        <div class="cart-feature">
+            <div class="cart-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <rect x="1" y="6" width="22" height="13" rx="2" />
+                    <path d="M1 10h22" />
+                    <path d="M7 15h4" />
+                </svg>
+            </div>
+            <p class="cart-feature-title">Free Shipping in the UK</p>
+            <p class="cart-feature-sub">On orders over £175</p>
+        </div>
+        <div class="cart-feature">
+            <div class="cart-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <polyline points="1 4 1 10 7 10" />
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                </svg>
+            </div>
+            <p class="cart-feature-title">Free Exchanges &amp; Returns</p>
+            <p class="cart-feature-sub">For UK Orders</p>
+        </div>
+        <div class="cart-feature">
+            <div class="cart-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="m9 12 2 2 4-4" />
+                </svg>
+            </div>
+            <p class="cart-feature-title">Duties &amp; Taxes Prepaid</p>
+            <p class="cart-feature-sub">All Orders to USA, Canada &amp; Europe are shipped with taxes prepaid</p>
+        </div>
+        <div class="cart-feature">
+            <div class="cart-feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            </div>
+            <p class="cart-feature-title">Excellent Service</p>
+            <p class="cart-feature-sub">Rated Excellent</p>
+        </div>
+    </div>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="cart-footer">
+        <div class="cart-footer-grid">
+            <div class="cart-footer-col">
+                <h4>About the Brand</h4>
+                <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you love to
+                    wear. Fine things done their own path, on our road to style, transparency.</p>
+                <p style="margin-top:12px;">Heavy embroidery, tonal stitches, unique fabrics and perfected fits are
+                    consistent throughout its collections.</p>
+                <p class="footer-location" style="margin-top:16px;">London, United Kingdom</p>
+            </div>
+            <div class="cart-footer-col">
+                <h4>Discover</h4>
+                <a href="#">Shopping</a>
+                <a href="#">Returns</a>
+                <a href="#">Stockists</a>
+                <a href="#">Join Movirte Club</a>
+            </div>
+            <div class="cart-footer-col">
+                <h4>Support</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Contact</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="cart-footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By subscribing, you
+                    agree to the <a href="#" style="color:#d4d0c8;text-decoration:underline;">Privacy policy</a>.</p>
+                <div class="cart-newsletter-input" style="margin-top:14px;">
+                    <input type="email" placeholder="E-Mail">
+                    <button type="button">SUBSCRIBE</button>
+                </div>
+            </div>
+        </div>
+        <div class="cart-footer-bottom">
+            <div class="cart-footer-social">
+                <a href="#">𝕏</a>
+                <a href="#">Instagram</a>
+                <a href="#">YouTube</a>
+                <a href="#">TikTok</a>
+            </div>
+            <p>© MOVIRTE 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // Quantity controls
+        document.querySelectorAll('.cart-qty-control').forEach(ctrl => {
+            const dec = ctrl.children[0];
+            const val = ctrl.children[1];
+            const inc = ctrl.children[2];
+
+            inc.addEventListener('click', () => {
+                val.textContent = parseInt(val.textContent) + 1;
+            });
+
+            dec.addEventListener('click', () => {
+                const n = parseInt(val.textContent);
+                if (n > 1) val.textContent = n - 1;
+            });
+        });
+
+        // Remove button
+        document.querySelectorAll('.cart-remove-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.cart-item-row');
+                row.style.transition = 'opacity 0.3s';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

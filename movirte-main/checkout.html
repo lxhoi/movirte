@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — MOVIRTE</title>
+    <meta name="description" content="Complete your MOVIRTE order. Secure checkout with multiple payment options.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/checkout.css">
+    <style>
+        /* ── EXPRESS CHECKOUT ─────────────────────────── */
+        .express-checkout {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .express-checkout-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 14px;
+        }
+
+        .express-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .express-btn {
+            flex: 1;
+            max-width: 160px;
+            height: 44px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: opacity 0.2s;
+        }
+
+        .express-btn:hover {
+            opacity: 0.85;
+        }
+
+        .express-btn.shop-pay {
+            background: #5a31f4;
+            color: #fff;
+        }
+
+        .express-btn.paypal {
+            background: #ffc439;
+            color: #111;
+        }
+
+        .express-btn.gpay {
+            background: #111;
+            color: #fff;
+        }
+
+        .express-or {
+            font-size: 0.7rem;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 18px;
+        }
+
+        /* ── CONTACT SECTION ──────────────────────────── */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .section-header a {
+            font-size: 0.72rem;
+            color: #555;
+        }
+
+        /* ── PAYMENT OPTIONS (radio cards) ────────────── */
+        .payment-options {
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #111;
+        }
+
+        .payment-option:last-child {
+            border-bottom: none;
+        }
+
+        .payment-option.selected {
+            background: #f0efeb;
+        }
+
+        .payment-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #111;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .payment-option-label {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .payment-option-icons {
+            margin-left: auto;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .card-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 20px;
+            border-radius: 3px;
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #fff;
+        }
+
+        .card-badge.visa {
+            background: #1a1f71;
+        }
+
+        .card-badge.mc {
+            background: linear-gradient(135deg, #eb001b 40%, #f79e1b 100%);
+        }
+
+        .card-badge.amex {
+            background: #2e77bc;
+        }
+
+        .card-badge.more {
+            background: #ccc;
+            color: #555;
+            font-size: 0.55rem;
+        }
+
+        .payment-card-fields {
+            padding: 16px 18px 4px;
+            background: #fff;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .payment-option-icon-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .payment-option-icon-right img,
+        .payment-option-icon-right svg {
+            height: 20px;
+        }
+
+        /* Shop Pay logo text */
+        .shop-text {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: #5a31f4;
+        }
+
+        .paypal-text {
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: #003087;
+        }
+
+        .paypal-text span {
+            color: #009cde;
+        }
+
+        .crypto-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2775ca;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            font-weight: 700;
+        }
+
+        /* ── INFO ICON (?) ────────────────────────────── */
+        .info-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: #999;
+            cursor: help;
+            flex-shrink: 0;
+        }
+
+        /* ── INPUT WITH ICON ──────────────────────────── */
+        .input-group .input-icon-right {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            pointer-events: none;
+        }
+
+        /* ── SAVE INFO SECTION ────────────────────────── */
+        .save-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .save-info-title {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #111;
+            margin-bottom: 12px;
+        }
+
+        .save-info-phone {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 1px solid rgba(0, 0, 0, 0.14);
+            border-radius: 8px;
+            background: #fff;
+            margin-bottom: 12px;
+        }
+
+        .save-info-phone input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #111;
+        }
+
+        .save-info-phone .phone-label {
+            flex: 1;
+        }
+
+        .save-info-phone .phone-label small {
+            display: block;
+            font-size: 0.62rem;
+            color: #999;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .save-info-phone .phone-label span {
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        .save-info-legal {
+            font-size: 0.62rem;
+            color: #999;
+            line-height: 1.5;
+        }
+
+        .save-info-legal a {
+            color: #555;
+            font-size: 0.62rem;
+        }
+
+        /* ── COUNTRY SELECT ARROW ─────────────────────── */
+        .input-group.select-wrap {
+            position: relative;
+        }
+
+        .input-group.select-wrap::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid #999;
+            pointer-events: none;
+        }
+
+        /* ── HEADER NAV ICONS ─────────────────────────── */
+        .checkout-header-icons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .checkout-header-icons svg {
+            color: #111;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .checkout-header-icons svg:hover {
+            opacity: 0.6;
+        }
+
+        /* ── ORDER SUMMARY ITEM (matching reference) ──── */
+        .summary-item-delivery {
+            font-size: 0.6rem;
+            color: #888;
+            margin: 2px 0 0;
+        }
+
+        .summary-item-size {
+            font-size: 0.62rem;
+            color: #999;
+        }
+
+        /* ── CHECKOUT SUBMIT olive color ──────────────── */
+        .checkout-submit {
+            background: #6b6b4e;
+        }
+
+        .checkout-submit:hover {
+            background: #7d7d5c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header class="checkout-header">
+        <div></div>
+        <a href="index.html" class="checkout-logo">MOVIRTE</a>
+        <div class="checkout-header-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <a href="cart.html" style="text-decoration:none;color:inherit;">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- ═══════════ MAIN 2-COL LAYOUT ═══════════ -->
+    <main class="checkout-main">
+
+        <!-- ── LEFT: FORM COLUMN ────────────────── -->
+        <div class="checkout-form-col">
+
+            <!-- Express checkout -->
+            <div class="express-checkout">
+                <p class="express-checkout-label">Express checkout</p>
+                <div class="express-buttons">
+                    <button class="express-btn shop-pay" type="button">
+                        <svg width="60" height="24" viewBox="0 0 60 24" fill="none">
+                            <text x="2" y="17" fill="white" font-size="14" font-weight="800"
+                                font-family="-apple-system,sans-serif">shop</text>
+                        </svg>
+                    </button>
+                    <button class="express-btn paypal" type="button">
+                        <svg width="70" height="24" viewBox="0 0 70 24" fill="none">
+                            <text x="2" y="17" fill="#003087" font-size="14" font-weight="800"
+                                font-family="-apple-system,sans-serif">Pay</text>
+                            <text x="28" y="17" fill="#009cde" font-size="14" font-weight="800"
+                                font-family="-apple-system,sans-serif">Pal</text>
+                        </svg>
+                    </button>
+                    <button class="express-btn gpay" type="button">
+                        <svg width="50" height="24" viewBox="0 0 50 24" fill="none">
+                            <text x="2" y="17" fill="white" font-size="13" font-weight="700"
+                                font-family="-apple-system,sans-serif">G Pay</text>
+                        </svg>
+                    </button>
+                </div>
+                <p class="express-or">OR</p>
+            </div>
+
+            <!-- Contact -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2 class="form-section-title">Contact</h2>
+                    <a href="#">Sign in</a>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" placeholder=" " autocomplete="email">
+                    <label for="email">Email</label>
+                </div>
+                <label class="checkbox-row">
+                    <input type="checkbox">
+                    Email me with news and offers
+                </label>
+            </div>
+
+            <!-- Payment -->
+            <div class="form-section">
+                <h2 class="form-section-title">Payment</h2>
+                <p class="form-section-sub">All transactions are secure and encrypted.</p>
+
+                <div class="payment-options">
+                    <!-- Credit card (selected) -->
+                    <label class="payment-option selected" id="ccOption">
+                        <input type="radio" name="payment" value="cc" checked>
+                        <span class="payment-option-label">Credit card</span>
+                        <div class="payment-option-icons">
+                            <span class="card-badge visa">VISA</span>
+                            <span class="card-badge mc" style="font-size:0;">
+                                <svg width="20" height="14" viewBox="0 0 20 14">
+                                    <circle cx="7" cy="7" r="6" fill="#eb001b" opacity="0.9" />
+                                    <circle cx="13" cy="7" r="6" fill="#f79e1b" opacity="0.9" />
+                                    <path d="M10 2.2a6 6 0 0 1 0 9.6 6 6 0 0 1 0-9.6z" fill="#ff5f00" />
+                                </svg>
+                            </span>
+                            <span class="card-badge amex" style="font-size:0;">
+                                <svg width="20" height="14" viewBox="0 0 20 14">
+                                    <rect width="20" height="14" rx="2" fill="#2e77bc" />
+                                    <text x="10" y="10" fill="white" font-size="7" font-weight="700"
+                                        text-anchor="middle" font-family="sans-serif">AMEX</text>
+                                </svg>
+                            </span>
+                            <span class="card-badge more">+5</span>
+                        </div>
+                    </label>
+
+                    <!-- Card fields (visible when CC selected) -->
+                    <div class="payment-card-fields" id="ccFields">
+                        <div class="input-group">
+                            <input type="text" id="cardNumber" placeholder=" " autocomplete="cc-number">
+                            <label for="cardNumber">Card number</label>
+                            <span class="input-icon-right">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb"
+                                    stroke-width="1.5">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" />
+                                    <line x1="1" y1="10" x2="23" y2="10" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="input-row-2">
+                            <div class="input-group">
+                                <input type="text" id="cardExpiry" placeholder=" " autocomplete="cc-exp">
+                                <label for="cardExpiry">Expiration date (MM / YY)</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="cardCvc" placeholder=" " autocomplete="cc-csc">
+                                <label for="cardCvc">Security code</label>
+                                <span class="input-icon-right info-icon">?</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="cardName" placeholder=" " autocomplete="cc-name">
+                            <label for="cardName">Name on card</label>
+                        </div>
+                    </div>
+
+                    <!-- Shop Pay -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="shoppay">
+                        <span class="payment-option-label">Shop Pay · Pay in full or in installments</span>
+                        <div class="payment-option-icon-right">
+                            <span class="shop-text">shop</span>
+                        </div>
+                    </label>
+
+                    <!-- PayPal -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="paypal">
+                        <span class="payment-option-label">PayPal</span>
+                        <div class="payment-option-icon-right">
+                            <span class="paypal-text">Pay<span>Pal</span></span>
+                        </div>
+                    </label>
+
+                    <!-- Crypto -->
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="crypto">
+                        <span class="payment-option-label">Crypto: USDC</span>
+                        <div class="payment-option-icon-right">
+                            <span class="crypto-icon">$</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Billing address -->
+            <div class="form-section">
+                <h2 class="form-section-title">Billing address</h2>
+                <div class="input-group select-wrap">
+                    <select id="country" required>
+                        <option value="BM" selected>Bermuda</option>
+                        <option value="US">United States</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="CA">Canada</option>
+                        <option value="FR">France</option>
+                        <option value="DE">Germany</option>
+                        <option value="AU">Australia</option>
+                    </select>
+                    <label for="country">Country/Region</label>
+                </div>
+                <div class="input-row-2">
+                    <div class="input-group">
+                        <input type="text" id="firstName" placeholder=" " autocomplete="given-name">
+                        <label for="firstName">First name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="lastName" placeholder=" " autocomplete="family-name">
+                        <label for="lastName">Last name</label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="address" placeholder=" " autocomplete="address-line1">
+                    <label for="address">Address</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="apt" placeholder=" " autocomplete="address-line2">
+                    <label for="apt">Apartment, suite, etc. (optional)</label>
+                </div>
+                <div class="input-row-2">
+                    <div class="input-group">
+                        <input type="text" id="city" placeholder=" " autocomplete="address-level2">
+                        <label for="city">City</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="postalCode" placeholder=" " autocomplete="postal-code">
+                        <label for="postalCode">Postal code</label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="phone" placeholder=" " autocomplete="tel">
+                    <label for="phone">Phone</label>
+                    <span class="input-icon-right info-icon">?</span>
+                </div>
+                <label class="checkbox-row" style="margin-top: 14px;">
+                    <input type="checkbox">
+                    Text me with news and offers
+                </label>
+            </div>
+
+            <!-- Save info -->
+            <div class="save-info">
+                <p class="save-info-title">Save my information for a faster checkout</p>
+                <div class="save-info-phone">
+                    <input type="checkbox" id="saveInfo">
+                    <div class="phone-label">
+                        <small>Mobile phone (optional)</small>
+                        <span>+1</span>
+                    </div>
+                </div>
+                <p class="save-info-legal">
+                    By providing your phone number, you agree to create a Shop account subject to Shop's
+                    <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+                </p>
+            </div>
+
+            <!-- Submit -->
+            <button class="checkout-submit" type="button">Pay now</button>
+
+            <!-- Footer policies -->
+            <div class="checkout-policies">
+                <a href="#">Refund policy</a>
+                <a href="#">Shipping</a>
+                <a href="#">Privacy policy</a>
+                <a href="#">Terms of service</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+
+        <!-- ── RIGHT: ORDER SUMMARY ─────────────── -->
+        <div class="checkout-summary-col">
+            <div class="summary-sticky">
+
+                <!-- Items -->
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <div class="summary-item-img-wrap">
+                            <img src="products/hoodie/ACRONHOODIE.webp" alt="Gift Card">
+                            <span class="summary-item-qty">1</span>
+                        </div>
+                        <div class="summary-item-info">
+                            <p class="summary-item-name">Gift Card</p>
+                            <p class="summary-item-size">$10</p>
+                            <p class="summary-item-delivery">Estimated between Fri, Mar 13 - Fri, Mar 27</p>
+                        </div>
+                        <p class="summary-item-price">$16.33</p>
+                    </div>
+                </div>
+
+                <!-- Discount -->
+                <div class="summary-discount">
+                    <input type="text" placeholder="Discount code or gift card">
+                    <button type="button">Apply</button>
+                </div>
+
+                <!-- Total -->
+                <div class="summary-totals">
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span class="total-price">
+                            <small
+                                style="font-size:0.62rem;font-weight:400;color:#888;letter-spacing:0.06em;margin-right:6px;">USD</small>$16.33
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ── Payment option toggle ──────────────────────
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const ccFields = document.getElementById('ccFields');
+
+        paymentOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                paymentOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+
+                const radio = opt.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+
+                // Show/hide card fields
+                ccFields.style.display = radio && radio.value === 'cc' ? '' : 'none';
+            });
+        });
+    </script>
+
+</body>
+
+</html>
