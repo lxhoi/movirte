@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping FAQ — MOVIRTE</title>
+    <meta name="description"
+        content="Frequently asked questions about MOVIRTE shipping, returns, exchanges, sizing, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <style>
+        /* ── Page-level nav sidebar (same as new-in / best-sellers) ── */
+        #men-subnav-panel,
+        #women-subnav-panel {
+            z-index: 21;
+        }
+
+        body {
+            height: auto;
+        }
+
+        body.nav-settled .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #nav-overlay {
+            display: flex !important;
+            justify-content: flex-start;
+            align-items: stretch;
+            pointer-events: none;
+        }
+
+        #nav-overlay .nav-content {
+            position: fixed;
+            left: 0;
+            top: 50px;
+            width: calc(100vw / 6);
+            height: calc(100vh - 50px);
+            min-width: 0;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 20px 32px 32px;
+            color: #111;
+            pointer-events: auto;
+            background: transparent;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #nav-overlay .nav-content::before {
+            display: none;
+        }
+
+        #nav-overlay .nav-heading {
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-title {
+            transform: translate(0, 0) scale(0.38);
+            transform-origin: top left;
+            font-size: 3.4rem;
+        }
+
+        #nav-overlay .nav-subtitle {
+            display: none;
+        }
+
+        #nav-overlay .nav-list {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-col-left {
+            gap: 6px;
+        }
+
+        body.nav-collapsed #nav-overlay .nav-content {
+            transform: translateX(-110%);
+            pointer-events: none;
+        }
+
+        /* Content offset when sidebar visible */
+        .faq-content-wrap {
+            padding-left: calc(100vw / 6);
+            transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.nav-collapsed .faq-content-wrap {
+            padding-left: 0;
+        }
+
+        #product-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        .men-nav-title {
+            position: absolute;
+            left: 68px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.29rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #111;
+            text-decoration: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* Search float panel */
+        .search-float-panel {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            z-index: 13;
+            background: #d1cfc2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+
+        .search-float-panel.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .search-float-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-float-icon {
+            flex-shrink: 0;
+            color: #404040;
+        }
+
+        .search-float-input {
+            flex: 1;
+            min-width: 0;
+            background: none;
+            border: none;
+            font: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            color: #111;
+            outline: none;
+        }
+
+        .search-float-input::placeholder {
+            color: #737373;
+        }
+
+        .search-float-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: #404040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-float-close:hover {
+            color: #171717;
+        }
+
+        .nav-title-icons .nav-icon-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── FAQ STYLES ─────────────────────────────────── */
+        .faq-page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 44px 20px 36px;
+            color: #111;
+        }
+
+        .faq-container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 32px 60px;
+        }
+
+        /* Section headings */
+        .faq-section {
+            margin-bottom: 32px;
+        }
+
+        .faq-section-title {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #111;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            margin-bottom: 0;
+        }
+
+        /* Accordion items */
+        .faq-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0;
+            background: none;
+            border: none;
+            font: inherit;
+            font-size: 0.76rem;
+            font-weight: 500;
+            color: #111;
+            text-align: left;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .faq-question:hover {
+            color: #555;
+        }
+
+        .faq-toggle-icon {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .faq-toggle-icon::before,
+        .faq-toggle-icon::after {
+            content: '';
+            position: absolute;
+            background: #555;
+            transition: transform 0.25s ease;
+        }
+
+        .faq-toggle-icon::before {
+            width: 12px;
+            height: 1.2px;
+        }
+
+        .faq-toggle-icon::after {
+            width: 1.2px;
+            height: 12px;
+        }
+
+        /* When open, rotate the vertical bar to form a minus */
+        .faq-item.is-open .faq-toggle-icon::after {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
+            padding: 0 0;
+        }
+
+        .faq-item.is-open .faq-answer {
+            padding: 0 0 18px;
+        }
+
+        .faq-answer-inner {
+            font-size: 0.72rem;
+            line-height: 1.75;
+            color: #555;
+        }
+
+        .faq-answer-inner p {
+            margin-bottom: 10px;
+        }
+
+        .faq-answer-inner p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer-inner a {
+            color: #111;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .faq-answer-inner ul {
+            margin: 6px 0 10px 18px;
+            padding: 0;
+        }
+
+        .faq-answer-inner li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body class="nav-settled">
+
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <!-- MOBILE DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- MOBILE DRAWER NAV -->
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Same nav sidebar as index (settled state) -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="men.html" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="women.html" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <!-- Nav-list toggle -->
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Search float panel -->
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..."
+                autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <section id="product-section">
+        <div id="main-content">
+            <div class="faq-content-wrap">
+
+                <!-- ANNOUNCEMENT STRIP -->
+                <div class="announce-strip">
+                    <div class="announce-track-wrap">
+                        <div class="announce-track">
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                            <!-- duplicate for loop -->
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ TITLE -->
+                <h1 class="faq-page-title">Frequently Asked Questions</h1>
+
+                <!-- FAQ CONTENT -->
+                <div class="faq-container">
+
+                    <!-- ═══ SHIPPING ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Shipping</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How long does delivery take?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>UK Standard Delivery: 3–5 working days. Express Delivery: 1–2 working days.
+                                        International Standard: 5–12 working days depending on destination.
+                                        International Express: 2–5 working days.</p>
+                                    <p>Please note: orders placed after 2pm GMT on Friday will be dispatched the
+                                        following Monday.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How much does delivery cost?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>UK orders over £175 qualify for FREE standard shipping. UK orders under £175 are
+                                        charged £5.95 for standard delivery and £9.95 for express.</p>
+                                    <p>International orders over £300 qualify for FREE standard shipping. Orders to USA,
+                                        Canada &amp; Europe are shipped with duties and taxes prepaid.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you ship internationally?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes, we ship worldwide. All international orders over £300 receive free standard
+                                        shipping. Duties and taxes are prepaid for orders to the USA, Canada, and Europe
+                                        so you won't receive any surprise charges on delivery.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Can I track my order?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Absolutely. Once your order has been dispatched you will receive a confirmation
+                                        email with a tracking number and a link to track your parcel in real time.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>My order hasn't arrived — what should I do?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>If your order has not arrived within the estimated delivery window, please first
+                                        check your tracking link for the latest status. If your tracking shows
+                                        "delivered" but you haven't received it, check with neighbours or your local
+                                        delivery office.</p>
+                                    <p>If you still cannot locate your order, please contact our support team at <a
+                                            href="mailto:support@movirte.com">support@movirte.com</a> and we will
+                                        investigate immediately.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ RETURNS & EXCHANGES ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Returns &amp; Exchanges</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>What is your return policy?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We offer free returns and exchanges on all UK orders within 14 days of delivery.
+                                        Items must be unworn, unwashed, and in their original condition with all tags
+                                        attached.</p>
+                                    <p>Sale items and gift cards are final sale and cannot be returned or exchanged.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How do I return an item?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>To initiate a return, email us at <a
+                                            href="mailto:returns@movirte.com">returns@movirte.com</a> with your order
+                                        number and reason for return. We will send you a prepaid returns label within 24
+                                        hours.</p>
+                                    <p>Once we receive and inspect the item, your refund will be processed within 5–7
+                                        working days to the original payment method.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Can I exchange for a different size?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes, we offer free exchanges for UK orders. Simply email us at <a
+                                            href="mailto:returns@movirte.com">returns@movirte.com</a> with your order
+                                        number and the size you'd like to exchange to. Subject to availability.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you offer international returns?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>International returns are accepted but the customer is responsible for return
+                                        shipping costs. We recommend using a tracked service. Once received, your refund
+                                        will be processed within 5–7 working days.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ ORDERS ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Orders</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Can I cancel or change my order?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We aim to dispatch orders as quickly as possible. If you need to cancel or amend
+                                        your order, please email <a
+                                            href="mailto:support@movirte.com">support@movirte.com</a> within 1 hour of
+                                        placing it. After this window, we may not be able to make changes.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>What payment methods do you accept?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We accept the following payment methods:</p>
+                                    <ul>
+                                        <li>Visa, Mastercard, American Express</li>
+                                        <li>PayPal</li>
+                                        <li>Shop Pay (pay in full or in installments)</li>
+                                        <li>Google Pay &amp; Apple Pay</li>
+                                        <li>Crypto (USDC)</li>
+                                    </ul>
+                                    <p>All transactions are secure and encrypted.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Will I be charged customs duties?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>For orders to the USA, Canada, and Europe — duties and taxes are prepaid at
+                                        checkout so you won't face additional charges on delivery. For other
+                                        international destinations, local customs duties may apply and are the
+                                        responsibility of the customer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ SIZING ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Sizing</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How do your items fit?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>MOVIRTE pieces are designed with a contemporary, slightly relaxed fit. We
+                                        recommend checking the size guide on each product page for specific
+                                        measurements. If you're between sizes, we generally recommend sizing up for a
+                                        more relaxed feel or down for a slimmer fit.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you have a size guide?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes. Each product page includes a detailed size guide with measurements in both
+                                        centimetres and inches. You can find it by clicking the "Size Guide" link
+                                        beneath the size selector on any product page.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>I'm unsure about my size — can you help?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Of course! Our team is happy to help with sizing advice. Simply email us at <a
+                                            href="mailto:support@movirte.com">support@movirte.com</a> with the item
+                                        you're interested in, your height, weight, and usual size in other brands, and
+                                        we'll recommend the best fit for you.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ PRODUCT CARE ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Product Care</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How should I care for my MOVIRTE garments?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>To preserve the quality and longevity of your garments, we recommend:</p>
+                                    <ul>
+                                        <li>Machine wash cold (30°C) on a gentle cycle</li>
+                                        <li>Turn garments inside out before washing</li>
+                                        <li>Do not tumble dry — hang or lay flat to dry</li>
+                                        <li>Iron on low heat, inside out</li>
+                                        <li>Do not bleach or dry clean</li>
+                                    </ul>
+                                    <p>Specific care instructions are also included on the label inside each garment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Are your products sustainably made?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We are committed to responsible production. Our collections use high-quality
+                                        fabrics designed to last, reducing the need for frequent replacements. We work
+                                        with ethical manufacturers and are continuously improving our sustainability
+                                        practices across the supply chain.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ OTHER ═══ -->
+                    <div class="faq-section">
+                        <h2 class="faq-section-title">Other</h2>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you offer gift cards?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>Yes, we offer digital gift cards in various denominations. They are delivered by
+                                        email and never expire. Visit our <a href="gifting.html">Gifting</a> page to
+                                        purchase.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>How can I contact customer support?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>You can reach us at <a href="mailto:support@movirte.com">support@movirte.com</a>.
+                                        Our team is available Monday to Friday, 9am–6pm GMT. You can also use the chat
+                                        widget on our website for instant assistance.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you have physical stores?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>MOVIRTE is primarily an online brand. However, our pieces are stocked at select
+                                        retailers including Selfridges &amp; Co, Harvey Nichols, Printemps, and Galeries
+                                        Lafayette. Visit our Stockists page for more details.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button">
+                                <span>Do you offer wholesale or collaboration opportunities?</span>
+                                <span class="faq-toggle-icon"></span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">
+                                    <p>We are open to select wholesale partnerships and creative collaborations. For
+                                        enquiries, please email <a
+                                            href="mailto:wholesale@movirte.com">wholesale@movirte.com</a> with details
+                                        about your business or project.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.faq-container -->
+
+                <!-- FEATURES BAR -->
+                <div class="features-bar-index">
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↺</div>
+                        <p class="feature-index-title">FREE SHIPPING IN THE UK</p>
+                        <p class="feature-index-sub">On orders over £175</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↩</div>
+                        <p class="feature-index-title">FREE EXCHANGES &amp; RETURNS</p>
+                        <p class="feature-index-sub">For UK Orders</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">✦</div>
+                        <p class="feature-index-title">DUTIES &amp; TAXES PREPAID</p>
+                        <p class="feature-index-sub">All Orders to USA, Canada &amp; Europe shipped with taxes prepaid
+                        </p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">★</div>
+                        <p class="feature-index-title">EXCELLENT SERVICE</p>
+                        <p class="feature-index-sub">Rated Excellent</p>
+                    </div>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="shipping-faq.html">Shopping</a>
+                            <a href="returns-faq.html">Returns</a>
+                            <a href="store-locator.html">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="#">FAQ</a>
+                            <a href="#">Contact</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="E-Mail">
+                                <button>SUBSCRIBE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social">
+                            <a href="#">𝕏</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">TikTok</a>
+                        </div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+
+            </div><!-- /.faq-content-wrap -->
+        </div>
+    </section>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3>
+            <button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>£245</span>
+            </div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="shipping-faq.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- CHATBOT FLOAT -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script src="assets/js/nav-shared.js"></script>
+    <script>
+        // ── FAQ Accordion Toggle ──────────────────────────
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const answer = item.querySelector('.faq-answer');
+                const isOpen = item.classList.contains('is-open');
+
+                if (isOpen) {
+                    // Close
+                    answer.style.maxHeight = '0';
+                    item.classList.remove('is-open');
+                } else {
+                    // Open
+                    item.classList.add('is-open');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="assets/js/page-transition.js"></script>
+</body>
+
+</html>

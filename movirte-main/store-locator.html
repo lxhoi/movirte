@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Locator — MOVIRTE</title>
+    <meta name="description" content="Find MOVIRTE stockists and retail partners worldwide. Locate stores near you.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* ── Nav sidebar (reused) ── */
+        #men-subnav-panel,
+        #women-subnav-panel {
+            z-index: 21;
+        }
+
+        body {
+            height: auto;
+        }
+
+        body.nav-settled .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #nav-overlay {
+            display: flex !important;
+            justify-content: flex-start;
+            align-items: stretch;
+            pointer-events: none;
+        }
+
+        #nav-overlay .nav-content {
+            position: fixed;
+            left: 0;
+            top: 50px;
+            width: calc(100vw / 6);
+            height: calc(100vh - 50px);
+            min-width: 0;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 20px 32px 32px;
+            color: #111;
+            pointer-events: auto;
+            background: transparent;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #nav-overlay .nav-content::before {
+            display: none;
+        }
+
+        #nav-overlay .nav-heading {
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-title {
+            transform: translate(0, 0) scale(0.38);
+            transform-origin: top left;
+            font-size: 3.4rem;
+        }
+
+        #nav-overlay .nav-subtitle {
+            display: none;
+        }
+
+        #nav-overlay .nav-list {
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        #nav-overlay .nav-col-left {
+            gap: 6px;
+        }
+
+        body.nav-collapsed #nav-overlay .nav-content {
+            transform: translateX(-110%);
+            pointer-events: none;
+        }
+
+        .locator-content-wrap {
+            padding-left: calc(100vw / 6);
+            transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.nav-collapsed .locator-content-wrap {
+            padding-left: 0;
+        }
+
+        #product-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        .men-nav-title {
+            position: absolute;
+            left: 68px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.29rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            color: #111;
+            text-decoration: none;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .search-float-panel {
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
+            z-index: 13;
+            background: #d1cfc2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+        }
+
+        .search-float-panel.is-open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .search-float-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-float-icon {
+            flex-shrink: 0;
+            color: #404040;
+        }
+
+        .search-float-input {
+            flex: 1;
+            min-width: 0;
+            background: none;
+            border: none;
+            font: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            color: #111;
+            outline: none;
+        }
+
+        .search-float-input::placeholder {
+            color: #737373;
+        }
+
+        .search-float-close {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: #404040;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-float-close:hover {
+            color: #171717;
+        }
+
+        .nav-title-icons .nav-icon-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── STORE LOCATOR ─────────────────────────────── */
+        .locator-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 40px 20px 32px;
+            color: #111;
+        }
+
+        .locator-layout {
+            display: flex;
+            gap: 0;
+            min-height: 480px;
+            max-height: 560px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* Left panel: search + store list */
+        .locator-sidebar {
+            width: 280px;
+            min-width: 260px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+            background: #f7f7f5;
+        }
+
+        .locator-search {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            background: #fff;
+        }
+
+        .locator-search-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+
+        .locator-search input {
+            flex: 1;
+            border: none;
+            background: none;
+            font: inherit;
+            font-size: 0.72rem;
+            color: #111;
+            outline: none;
+            padding: 6px 4px;
+        }
+
+        .locator-search input::placeholder {
+            color: #aaa;
+        }
+
+        .locator-search-btn {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: #6b6b4e;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .locator-search-btn:hover {
+            background: #7d7d5c;
+        }
+
+        .locator-search-btn svg {
+            color: #fff;
+        }
+
+        .locator-stores {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .store-card {
+            padding: 16px 16px 14px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .store-card:hover,
+        .store-card.active {
+            background: #edecea;
+        }
+
+        .store-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .store-pin {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            color: #6b6b4e;
+            margin-top: 2px;
+        }
+
+        .store-card-body {
+            flex: 1;
+        }
+
+        .store-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .store-address {
+            font-size: 0.65rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+
+        .store-contact {
+            font-size: 0.62rem;
+            color: #888;
+        }
+
+        .store-contact a {
+            color: #6b6b4e;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .locator-powered {
+            padding: 10px 16px;
+            font-size: 0.55rem;
+            color: #bbb;
+            text-align: center;
+        }
+
+        .locator-powered a {
+            color: #999;
+        }
+
+        /* Right: map */
+        .locator-map {
+            flex: 1;
+            min-height: 480px;
+        }
+
+        #storeMap {
+            width: 100%;
+            height: 100%;
+            min-height: 480px;
+        }
+
+        /* Dark map tiles override */
+        .leaflet-tile-pane {
+            filter: saturate(0.3) brightness(0.85) contrast(1.1);
+        }
+
+        .leaflet-control-zoom a {
+            background: #fff !important;
+            color: #333 !important;
+            border: 1px solid #ccc !important;
+        }
+
+        /* Custom marker */
+        .custom-marker {
+            background: none;
+            border: none;
+        }
+
+        .marker-pin {
+            width: 24px;
+            height: 24px;
+        }
+
+        .marker-pin svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Popup */
+        .leaflet-popup-content-wrapper {
+            border-radius: 4px !important;
+            padding: 0 !important;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .leaflet-popup-content {
+            margin: 12px 16px !important;
+            font-size: 0.7rem !important;
+            line-height: 1.5 !important;
+        }
+
+        .leaflet-popup-content strong {
+            font-size: 0.68rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .locator-layout {
+                flex-direction: column;
+                max-height: none;
+            }
+
+            .locator-sidebar {
+                width: 100%;
+                min-width: 0;
+                max-height: 260px;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            }
+
+            .locator-map {
+                min-height: 360px;
+            }
+        }
+    </style>
+</head>
+
+<body class="nav-settled">
+
+    <!-- MOBILE TOP HEADER -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn"
+            aria-label="Open menu"><span></span><span></span><span></span></button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a><a href="women.html">Women</a><a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a><a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a><a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Nav sidebar -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="men.html" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="women.html" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner"><span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner"><span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span><span class="tbar tbar-2"></span><span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search"><svg width="21" height="21"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg></button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Search float panel -->
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..."
+                autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search"><svg
+                    width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                </svg></button>
+        </div>
+    </div>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <section id="product-section">
+        <div id="main-content">
+            <div class="locator-content-wrap">
+
+                <!-- ANNOUNCEMENT STRIP -->
+                <div class="announce-strip">
+                    <div class="announce-track-wrap">
+                        <div class="announce-track">
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span><span
+                                class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span><span
+                                class="announce-sep">·</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TITLE -->
+                <h1 class="locator-title">Store Locator</h1>
+
+                <!-- LOCATOR LAYOUT -->
+                <div class="locator-layout">
+                    <!-- Sidebar: search + store list -->
+                    <div class="locator-sidebar">
+                        <div class="locator-search">
+                            <div class="locator-search-icon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="7" />
+                                    <path d="m20 20-3.5-3.5" />
+                                </svg>
+                            </div>
+                            <input type="text" id="storeSearchInput" placeholder="Type a postcode or address...">
+                            <button class="locator-search-btn" id="storeSearchBtn" aria-label="Search stores">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <circle cx="11" cy="11" r="7" />
+                                    <path d="m20 20-3.5-3.5" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="locator-stores" id="storeList">
+                            <!-- populated by JS -->
+                        </div>
+                        <div class="locator-powered">Powered by <a href="#">Stockist</a></div>
+                    </div>
+
+                    <!-- Map -->
+                    <div class="locator-map">
+                        <div id="storeMap"></div>
+                    </div>
+                </div>
+
+                <!-- FEATURES BAR -->
+                <div class="features-bar-index">
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↺</div>
+                        <p class="feature-index-title">FREE SHIPPING IN THE UK</p>
+                        <p class="feature-index-sub">On orders over £175</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">↩</div>
+                        <p class="feature-index-title">FREE EXCHANGES &amp; RETURNS</p>
+                        <p class="feature-index-sub">For UK Orders</p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">✦</div>
+                        <p class="feature-index-title">DUTIES &amp; TAXES PREPAID</p>
+                        <p class="feature-index-sub">All Orders to USA, Canada &amp; Europe shipped with taxes prepaid
+                        </p>
+                    </div>
+                    <div class="feature-index">
+                        <div class="feature-index-icon">★</div>
+                        <p class="feature-index-title">EXCELLENT SERVICE</p>
+                        <p class="feature-index-sub">Rated Excellent</p>
+                    </div>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="shipping-faq.html">Shopping</a>
+                            <a href="returns-faq.html">Returns</a>
+                            <a href="store-locator.html">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="#">FAQ</a>
+                            <a href="#">Contact</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form"><input type="email"
+                                    placeholder="E-Mail"><button>SUBSCRIBE</button></div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social"><a href="#">𝕏</a><a href="#">Instagram</a><a href="#">YouTube</a><a
+                                href="#">TikTok</a></div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3><button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty"><button class="qty-btn">−</button><span>1</span><button
+                            class="qty-btn">+</button></div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal"><span>Subtotal</span><span>£245</span></div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- CHATBOT FLOAT -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div><button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">Hi there 👋 Welcome to MOVIRTE. How can I help you today?</div>
+            <div class="chat-bubble bot">I can help with sizing, orders, returns, and more.</div>
+        </div>
+        <div class="chat-panel-input"><input type="text" placeholder="Type a message..." id="chatInput"><button
+                class="chat-send" id="chatSend" aria-label="Send">↑</button></div>
+    </div>
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script src="assets/js/nav-shared.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // ── Store Data ────────────────────────────────────
+        const stores = [
+            {
+                name: 'SELFRIDGES & CO',
+                address: '400 Oxford Street',
+                city: 'London, W1A 1AB',
+                country: 'United Kingdom',
+                phone: '+44 20 7318 3000',
+                website: 'selfridges.com',
+                url: 'https://www.selfridges.com',
+                lat: 51.5142, lng: -0.1529
+            },
+            {
+                name: 'HARVEY NICHOLS',
+                address: '109-125 Knightsbridge',
+                city: 'London, SW1X 7RJ',
+                country: 'United Kingdom',
+                phone: '+44 20 7235 5000',
+                website: 'harveynichols.com',
+                url: 'https://www.harveynichols.com',
+                lat: 51.5016, lng: -0.1691
+            },
+            {
+                name: 'PRINTEMPS',
+                address: '64 Boulevard Haussmann',
+                city: 'Paris, 75009',
+                country: 'France',
+                phone: '+33 1 42 82 50 00',
+                website: 'printemps.com',
+                url: 'https://www.printemps.com',
+                lat: 48.8738, lng: 2.3280
+            },
+            {
+                name: 'GALERIES LAFAYETTE',
+                address: '40 Boulevard Haussmann',
+                city: 'Paris, 75009',
+                country: 'France',
+                phone: '+33 1 42 82 36 40',
+                website: 'galerieslafayette.com',
+                url: 'https://www.galerieslafayette.com',
+                lat: 48.8720, lng: 2.3319
+            },
+            {
+                name: 'RUBAIYAT',
+                address: '2403 King Abdulaziz Service Rd, Al Zahra',
+                city: 'Jeddah, 23424',
+                country: 'Saudi Arabia',
+                phone: '+966 12 283 0008',
+                website: 'rubaiyatfashion.com',
+                url: 'https://www.rubaiyatfashion.com',
+                lat: 21.5433, lng: 39.1728
+            },
+            {
+                name: 'SIX CONCEPT STORE',
+                address: 'Dbayeh',
+                city: 'Lebanon',
+                country: 'Lebanon',
+                phone: '+961 76 666 601',
+                website: null,
+                url: null,
+                lat: 33.9167, lng: 35.5500
+            },
+            {
+                name: 'RUBAIYAT',
+                address: 'Al Olaya',
+                city: 'Riyadh, 12244',
+                country: 'Saudi Arabia',
+                phone: null,
+                website: 'rubaiyatfashion.com',
+                url: 'https://www.rubaiyatfashion.com',
+                lat: 24.6936, lng: 46.6853
+            },
+            {
+                name: 'AND',
+                address: 'str. Vincent Van Gogh 1',
+                city: 'Sofia, 1000',
+                country: 'Bulgaria',
+                website: null,
+                url: null,
+                lat: 42.6975, lng: 23.3241
+            },
+            {
+                name: 'MOVIRTE FLAGSHIP',
+                address: '52 Conduit Street',
+                city: 'London, W1S 2YX',
+                country: 'United Kingdom',
+                phone: '+44 20 7499 0001',
+                website: 'movirte.com',
+                url: 'https://www.movirte.com',
+                lat: 51.5125, lng: -0.1410
+            },
+            {
+                name: 'HANS BOODT',
+                address: 'Keizersgracht 440',
+                city: 'Amsterdam, 1016 GD',
+                country: 'Netherlands',
+                phone: '+31 20 624 1111',
+                website: null,
+                url: null,
+                lat: 52.3676, lng: 4.8836
+            }
+        ];
+
+        // ── Render store cards ────────────────────────────
+        const storeListEl = document.getElementById('storeList');
+
+        function renderStores(filteredStores) {
+            storeListEl.innerHTML = '';
+            filteredStores.forEach((store, i) => {
+                const card = document.createElement('div');
+                card.className = 'store-card';
+                card.setAttribute('data-index', i);
+                let contactHTML = '';
+                if (store.phone) contactHTML += store.phone + '<br>';
+                if (store.website) contactHTML += `<a href="${store.url}" target="_blank">${store.website}</a>`;
+                card.innerHTML = `
+                    <div class="store-card-header">
+                        <div class="store-pin">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="store-card-body">
+                            <p class="store-name">${store.name}</p>
+                            <p class="store-address">${store.address}<br>${store.city}<br>${store.country}</p>
+                            ${contactHTML ? `<p class="store-contact">${contactHTML}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    map.flyTo([store.lat, store.lng], 13, { duration: 0.8 });
+                    markers[i].openPopup();
+                    document.querySelectorAll('.store-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                });
+                storeListEl.appendChild(card);
+            });
+        }
+
+        renderStores(stores);
+
+        // ── Initialize Leaflet Map ────────────────────────
+        const map = L.map('storeMap', {
+            center: [30, 20],
+            zoom: 3,
+            scrollWheelZoom: true,
+            zoomControl: true
+        });
+
+        // Dark-toned tiles (CartoDB Positron for a clean look, filtered dark via CSS)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Custom olive pin icon
+        const pinIcon = L.divIcon({
+            className: 'custom-marker',
+            html: `<div class="marker-pin"><svg viewBox="0 0 24 24" fill="#6b6b4e" stroke="#fff" stroke-width="1"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3" fill="#fff"/></svg></div>`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 24],
+            popupAnchor: [0, -24]
+        });
+
+        // Place markers
+        const markers = stores.map((store, i) => {
+            const marker = L.marker([store.lat, store.lng], { icon: pinIcon }).addTo(map);
+            let popupHTML = `<strong>${store.name}</strong><br>${store.address}<br>${store.city}`;
+            if (store.phone) popupHTML += `<br>${store.phone}`;
+            marker.bindPopup(popupHTML);
+            marker.on('click', () => {
+                document.querySelectorAll('.store-card').forEach(c => c.classList.remove('active'));
+                const card = document.querySelector(`.store-card[data-index="${i}"]`);
+                if (card) {
+                    card.classList.add('active');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+            return marker;
+        });
+
+        // ── Search functionality ──────────────────────────
+        const searchInput = document.getElementById('storeSearchInput');
+        const searchBtn = document.getElementById('storeSearchBtn');
+
+        function filterStores() {
+            const q = searchInput.value.trim().toLowerCase();
+            if (!q) {
+                renderStores(stores);
+                map.setView([30, 20], 3);
+                return;
+            }
+            const filtered = stores.filter(s =>
+                s.name.toLowerCase().includes(q) ||
+                s.address.toLowerCase().includes(q) ||
+                s.city.toLowerCase().includes(q) ||
+                s.country.toLowerCase().includes(q)
+            );
+            renderStores(filtered);
+            if (filtered.length === 1) {
+                map.flyTo([filtered[0].lat, filtered[0].lng], 13, { duration: 0.8 });
+            } else if (filtered.length > 1) {
+                const group = L.featureGroup(filtered.map(s => L.marker([s.lat, s.lng])));
+                map.fitBounds(group.getBounds().pad(0.3));
+            }
+        }
+
+        searchBtn.addEventListener('click', filterStores);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') filterStores();
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="assets/js/page-transition.js"></script>
+</body>
+
+</html>
