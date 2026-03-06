@@ -24,17 +24,16 @@
         var menSubnavLinks = document.getElementById('menSubnavLinks');
 
         var MEN_ITEMS = [
-            { label: 'New In', href: 'new-in.html' },
-            { label: 'Sweatshirts', href: 'men/sweats.html' },
-            { label: 'T-shirts', href: 'men/t-shirts.html' },
-            { label: 'Shirts', href: 'men/shirts.html' },
-            { label: 'Outerwear', href: 'men/outerwear.html' },
-            { label: 'Denim', href: 'men/denim.html' },
-            { label: 'Trousers & Bottoms', href: 'men/trousers.html' },
-            { label: 'Shorts', href: 'men/shorts.html' },
-            { label: 'Hats & Caps', href: 'men/hats-caps.html' },
-            { label: 'Accessories', href: 'men/accessories.html' },
-            { label: 'Sale', href: 'men/sale.html' },
+            { label: 'New In', href: '/new-in.html' },
+            { label: 'Sweatshirts', href: '/men/sweats.html' },
+            { label: 'T-shirts', href: '/men/t-shirts.html' },
+            { label: 'Shirts', href: '/men/shirts.html' },
+            { label: 'Outerwear', href: '/men/outerwear.html' },
+            { label: 'Denim', href: '/men/denim.html' },
+            { label: 'Trousers & Bottoms', href: '/men/trousers.html' },
+            { label: 'Shorts', href: '/men/shorts.html' },
+            { label: 'Hats & Caps', href: '/men/hats-caps.html' },
+            { label: 'Accessories', href: '/men/accessories.html' },
         ];
 
         function buildMenSubnav() {
@@ -72,17 +71,16 @@
         var womenSubnavLinks = document.getElementById('womenSubnavLinks');
 
         var WOMEN_ITEMS = [
-            { label: 'New In', href: 'women/new-in-w.html' },
-            { label: 'Sweatshirts', href: 'women/sweats.html' },
-            { label: 'T-shirts', href: 'women/t-shirts.html' },
-            { label: 'Shirts', href: 'women/shirts.html' },
-            { label: 'Outerwear', href: 'women/outerwear.html' },
-            { label: 'Denim', href: 'women/denim.html' },
-            { label: 'Trousers & Bottoms', href: 'women/trousers.html' },
-            { label: 'Shorts', href: 'women/shorts.html' },
-            { label: 'Hats & Caps', href: 'women/hats-caps.html' },
-            { label: 'Accessories', href: 'women/accessories.html' },
-            { label: 'Sale', href: 'women/sale.html' },
+            { label: 'New In', href: '/women/new-in-w.html' },
+            { label: 'Sweatshirts', href: '/women/sweats.html' },
+            { label: 'T-shirts', href: '/women/t-shirts.html' },
+            { label: 'Shirts', href: '/women/shirts.html' },
+            { label: 'Outerwear', href: '/women/outerwear.html' },
+            { label: 'Denim', href: '/women/denim.html' },
+            { label: 'Trousers & Bottoms', href: '/women/trousers.html' },
+            { label: 'Shorts', href: '/women/shorts.html' },
+            { label: 'Hats & Caps', href: '/women/hats-caps.html' },
+            { label: 'Accessories', href: '/women/accessories.html' },
         ];
 
         function buildWomenSubnav() {
