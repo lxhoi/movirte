@@ -1,0 +1,181 @@
+/* ── Brand page: editorial banner + alternating image/text sections + product grid ── */
+
+.brand-page-wrap {
+    padding-left: calc(100vw / 6);
+    transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0;
+}
+
+body.nav-collapsed .brand-page-wrap {
+    padding-left: 0;
+}
+
+/* Editorial banner on brand: centered title + tagline */
+.brand-page-wrap .editorial-banner-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+}
+
+.brand-page-wrap .editorial-banner-heading {
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.brand-page-wrap .editorial-banner-tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Alternating two-column blocks: image + text */
+.brand-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+}
+
+@media (max-width: 900px) {
+    .brand-block {
+        grid-template-columns: 1fr;
+    }
+    .brand-block__text { order: 2; }
+    .brand-block__image { order: 1; min-height: 40vh; }
+}
+
+.brand-block__image {
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-block__image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.brand-block__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 40px;
+}
+
+.brand-block--dark .brand-block__text {
+    background: rgba(59, 31, 16, 1);
+    color: #f0efe9;
+}
+
+.brand-block--dark .brand-block__text h2,
+.brand-block--dark .brand-block__text p {
+    color: #f0efe9;
+}
+
+.brand-block--dark .brand-block__text p {
+    color: #e8e7e1;
+}
+
+.brand-block--light .brand-block__text {
+    background: #f8f7f2;
+    color: #111;
+}
+
+.brand-block--light .brand-block__text h2 {
+    color: #111;
+}
+
+.brand-block--light .brand-block__text p {
+    color: #404040;
+}
+
+.brand-block__text h2 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+}
+
+.brand-block__text p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 0 0 12px;
+}
+
+.brand-block__text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Reverse layout: text left, image right */
+.brand-block.brand-block--reverse .brand-block__image {
+    order: 2;
+}
+
+.brand-block.brand-block--reverse .brand-block__text {
+    order: 1;
+}
+
+@media (max-width: 900px) {
+    .brand-block.brand-block--reverse .brand-block__image { order: 1; }
+    .brand-block.brand-block--reverse .brand-block__text { order: 2; }
+}
+
+/* Product grid section on brand page */
+.brand-products-wrap {
+    padding: 48px 24px 32px;
+    background: #eeede9;
+}
+
+.brand-products-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111;
+    text-align: center;
+    margin: 0 0 28px;
+}
+
+.brand-page-wrap .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.brand-page-wrap .shop-button-container {
+    text-align: center;
+    padding: 24px 0 48px;
+}
+
+.brand-page-wrap .shop-button {
+    display: inline-block;
+    padding: 14px 32px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111;
+    background: transparent;
+    border: 1px solid #111;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.brand-page-wrap .shop-button:hover {
+    background: #111;
+    color: #fff;
+}
+
+.brand-features {
+    padding: 0 24px 32px;
+}

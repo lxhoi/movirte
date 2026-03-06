@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — MOVIRTE</title>
+    <meta name="description"
+        content="MOVIRTE Privacy Policy. How we collect, use and protect your personal information.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <link rel="stylesheet" href="assets/css/privacy-policy.css">
+    <style>
+        body { height: auto; }
+
+        body.nav-settled .nav-chevron {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #nav-overlay {
+            display: flex !important;
+            justify-content: flex-start;
+            align-items: stretch;
+            pointer-events: none;
+        }
+
+        #nav-overlay .nav-content {
+            position: fixed;
+            left: 0;
+            top: 50px;
+            width: calc(100vw / 6);
+            height: calc(100vh - 50px);
+            min-width: 0;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0 20px 32px 32px;
+            color: #111;
+            pointer-events: auto;
+            background: transparent;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #nav-overlay .nav-content::before { display: none; }
+        #nav-overlay .nav-list { margin-top: auto; flex-shrink: 0; }
+        #nav-overlay .nav-col-left { gap: 6px; }
+
+        body.nav-collapsed #nav-overlay .nav-content {
+            transform: translateX(-110%);
+            pointer-events: none;
+        }
+
+        #privacy-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+
+<body class="nav-settled nav-collapsed">
+
+    <!-- MOBILE TOP HEADER -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Side nav panel (same as new-in) -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="men.html" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="women.html" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title">MOVIRTE</a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..." autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2l14 14M16 2L2 16"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY SECTION -->
+    <section id="privacy-section" data-lenis-prevent>
+        <div id="main-content">
+            <div class="privacy-page-wrap">
+                <!-- ANNOUNCEMENT STRIP -->
+                <div class="announce-strip">
+                    <div class="announce-track-wrap">
+                        <div class="announce-track">
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="privacy-hero">
+                    <h1>PRIVACY POLICY</h1>
+                </div>
+
+                <div class="privacy-content">
+                    <h2>Information we collect</h2>
+
+                    <h3>Information you provide to us</h3>
+                    <p>When you use our website, create an account, place an order, sign up to our newsletter, or contact us, we may collect:</p>
+                    <ul>
+                        <li>Name, email address, phone number, and billing and delivery addresses</li>
+                        <li>Payment information (processed securely by our payment providers)</li>
+                        <li>Order history and preferences</li>
+                        <li>Communications you send to us (e.g. customer service enquiries)</li>
+                    </ul>
+
+                    <h3>Information we collect automatically</h3>
+                    <p>When you visit our site, we may automatically collect certain technical data, including your IP address, browser type, device information, and how you use our website (e.g. pages viewed, time spent). We do this via cookies and similar technologies as described below.</p>
+
+                    <h2>How we use your information</h2>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Process and fulfil your orders and manage your account</li>
+                        <li>Send you order confirmations, shipping updates, and customer service replies</li>
+                        <li>Send you our newsletter and marketing communications (where you have agreed)</li>
+                        <li>Improve our website, products, and services</li>
+                        <li>Comply with legal obligations and protect our rights</li>
+                    </ul>
+                    <p><strong>Legal basis for processing:</strong> We process your data where necessary to perform our contract with you (e.g. fulfilling orders), where you have given consent (e.g. marketing), or where we have a legitimate interest (e.g. improving our site), and where required by law.</p>
+
+                    <h2>Cookies</h2>
+                    <h3>Cookies and other tracking technologies</h3>
+                    <p>We use cookies and similar technologies to remember your preferences, understand how you use our site, and to show you relevant content. Cookies are small text files stored on your device. You can control cookies through your browser settings. For more detail, see our <a href="#">Cookie Policy</a> (if applicable) or contact us.</p>
+
+                    <h2>Who we share your information with</h2>
+                    <p>We may share your information with:</p>
+                    <ul>
+                        <li><strong>Service providers</strong> who help us run our business (e.g. payment processors, delivery carriers, email and hosting providers)</li>
+                        <li><strong>Legal and regulatory bodies</strong> when required by law</li>
+                    </ul>
+                    <p>We do not sell your personal data. We require third parties to use your data only for the purposes we specify and to protect it in line with applicable data protection law.</p>
+
+                    <h2>Third-party websites and links</h2>
+                    <p>Our website may contain links to third-party sites (e.g. social media, payment or delivery partners). We are not responsible for the privacy practices of those sites. We encourage you to read their privacy policies before providing any personal information.</p>
+
+                    <h2>Retention</h2>
+                    <p>We keep your information only for as long as necessary for the purposes set out in this policy, including to satisfy legal, accounting, or reporting requirements. For example, we typically retain order and account data for a period after your last order or account activity, and marketing preferences until you unsubscribe or ask us to stop.</p>
+
+                    <h2>Your rights</h2>
+                    <p>Depending on where you live, you may have the right to:</p>
+                    <ul>
+                        <li>Access the personal data we hold about you</li>
+                        <li>Correct inaccurate data</li>
+                        <li>Request deletion of your data</li>
+                        <li>Object to or restrict certain processing</li>
+                        <li>Data portability</li>
+                        <li>Withdraw consent where we rely on it</li>
+                        <li>Lodge a complaint with a supervisory authority</li>
+                    </ul>
+                    <p>To exercise these rights, please <a href="contact.html">contact us</a>. We will respond in accordance with applicable law.</p>
+
+                    <h2>Changes to this privacy policy</h2>
+                    <p>We may update this Privacy Policy from time to time. The current version will always be published on this page with an updated date. We encourage you to review it periodically. Continued use of our site after changes constitutes acceptance of the updated policy.</p>
+
+                    <h2>Contact</h2>
+                    <p>For questions about this Privacy Policy or your personal data, please contact us at <a href="contact.html">Contact</a> or <a href="mailto:support@movirte.com">support@movirte.com</a>.</p>
+
+                    <p class="privacy-updated">Last updated: March 2026</p>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="brand.html">Brand</a>
+                            <a href="#">Shopping</a>
+                            <a href="#">Returns</a>
+                            <a href="#">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="faq.html">FAQ</a>
+                            <a href="contact.html">Contact</a>
+                            <a href="terms-of-service.html">Terms of Service</a>
+                            <a href="privacy-policy.html">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="E-Mail">
+                                <button>SUBSCRIBE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social">
+                            <a href="#">𝕏</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">TikTok</a>
+                        </div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3>YOUR BAG</h3>
+            <button class="cart-drawer-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-drawer-body">
+            <div class="cart-item">
+                <img src="products/hoodie/ACRONHOODIE.webp" alt="Acronym Hoodie" class="cart-item-img">
+                <div class="cart-item-info">
+                    <p class="cart-item-name">Acronym Embroidered Hoodie</p>
+                    <p class="cart-item-variant">Brown / M</p>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <p class="cart-item-price">£245</p>
+            </div>
+        </div>
+        <div class="cart-drawer-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span>£245</span>
+            </div>
+            <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+            <a href="checkout.html" class="cart-checkout-btn">CHECKOUT</a>
+            <a href="new-in.html" class="cart-continue">Continue Shopping</a>
+        </div>
+    </div>
+
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-panel-avatar">M</div>
+            <div>
+                <p class="chat-panel-name">MOVIRTE</p>
+                <p class="chat-panel-status">&#9679; Online — here to help</p>
+            </div>
+            <button class="chat-panel-close" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-panel-body">
+            <div class="chat-bubble bot">
+                Hi there 👋 Welcome to MOVIRTE. How can I help you today?
+            </div>
+            <div class="chat-bubble bot">
+                I can help with sizing, orders, returns, and more.
+            </div>
+        </div>
+        <div class="chat-panel-input">
+            <input type="text" placeholder="Type a message..." id="chatInput">
+            <button class="chat-send" id="chatSend" aria-label="Send">↑</button>
+        </div>
+    </div>
+
+    <button class="chat-fab" id="chatFab" aria-label="Open chat">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13 2C7.477 2 3 6.134 3 11.2c0 2.9 1.44 5.486 3.72 7.21L6 22l4.2-2.1C10.77 20.28 11.87 20.4 13 20.4c5.523 0 10-4.134 10-9.2S18.523 2 13 2Z"
+                fill="white" />
+            <circle cx="9" cy="11" r="1.5" fill="#333" />
+            <circle cx="13" cy="11" r="1.5" fill="#333" />
+            <circle cx="17" cy="11" r="1.5" fill="#333" />
+        </svg>
+    </button>
+
+    <script src="assets/js/nav-shared.js"></script>
+</body>
+</html>

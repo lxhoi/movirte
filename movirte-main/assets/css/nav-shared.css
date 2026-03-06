@@ -69,8 +69,6 @@ body.nav-collapsed #nav-overlay .nav-content {
 /* MOVIRTE wordmark in nav-title-bg */
 .men-nav-title {
     position: absolute;
-    left: 68px;
-    top: 50%;
     transform: translateY(-50%);
     font-family: 'Playfair Display', serif;
     font-size: 1.29rem;

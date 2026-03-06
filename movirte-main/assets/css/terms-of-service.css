@@ -1,0 +1,84 @@
+/* ── Terms of Service page: title + legal content ─────────────────────── */
+
+.terms-page-wrap {
+    padding-left: calc(100vw / 6);
+    transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0;
+    min-height: 60vh;
+}
+
+body.nav-collapsed .terms-page-wrap {
+    padding-left: 0;
+}
+
+.terms-hero {
+    padding: 48px 32px 40px;
+    text-align: center;
+    background: #eeede9;
+}
+
+.terms-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #111;
+    margin: 0;
+}
+
+.terms-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 48px;
+}
+
+.terms-content h2 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #111;
+    margin: 28px 0 12px;
+}
+
+.terms-content h2:first-child {
+    margin-top: 0;
+}
+
+.terms-content p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #404040;
+    margin: 0 0 12px;
+}
+
+.terms-content p:last-child {
+    margin-bottom: 0;
+}
+
+.terms-content ul {
+    margin: 8px 0 16px;
+    padding-left: 20px;
+}
+
+.terms-content li {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #404040;
+    margin-bottom: 6px;
+}
+
+.terms-content a {
+    color: #111;
+    text-decoration: underline;
+}
+
+.terms-content a:hover {
+    color: #404040;
+}
+
+.terms-updated {
+    font-size: 0.8rem;
+    color: #737373;
+    margin-top: 32px;
+}
