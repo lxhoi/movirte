@@ -619,6 +619,24 @@ body.nav-collapsed .product-grid-wrap::before {
     font-weight: 400;
 }
 
+/* Logo image — 0.7× size */
+.nav-logo-img {
+    display: block;
+    height: 0.7em;
+    width: auto;
+}
+
+/* Inside the nav overlay: starts white, transitions to black with nav items */
+.nav-content .nav-logo-img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.5s ease;
+}
+
+/* When nav text turns dark, logo also turns dark (remove white filter) */
+.nav-content.dark-text .nav-logo-img {
+    filter: brightness(0) invert(0);
+}
+
 /* Subtitle: follows title, then fades as it becomes too small to read */
 .nav-subtitle {
     font-size: 1.1rem;
