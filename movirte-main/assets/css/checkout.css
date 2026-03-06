@@ -65,6 +65,12 @@ a:hover {
     transform: translateX(-50%);
 }
 
+.checkout-logo .nav-logo-img {
+    display: block;
+    height: 1em;
+    width: auto;
+}
+
 .checkout-secure {
     display: flex;
     align-items: center;
