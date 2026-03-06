@@ -116,6 +116,9 @@
     }
 
     document.addEventListener('click', function (e) {
+        // Ignore clicks coming from wishlist heart button so it doesn't trigger navigation
+        if (e.target.closest('.product-wishlist')) return;
+
         const anchor = e.target.closest('a[href]');
         if (!anchor) return;
 

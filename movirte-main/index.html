@@ -238,8 +238,12 @@
                     <!-- Row 1 - 4 items only -->
                     <a class="product-link" href="product.html">
                         <div class="product-item">
-                            <button class="product-wishlist" aria-label="Add to wishlist">♥</button>
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base"
                                     src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Trucker Cap">
@@ -253,8 +257,12 @@
                     </a>
                     <a class="product-link" href="product.html">
                         <div class="product-item">
-                            <button class="product-wishlist" aria-label="Add to wishlist">♥</button>
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
                                     alt="Acron Graphic Tee">
                                 <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
@@ -266,8 +274,12 @@
                     </a>
                     <a class="product-link" href="product.html">
                         <div class="product-item">
-                            <button class="product-wishlist" aria-label="Add to wishlist">♥</button>
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Black">
                                 <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
@@ -279,8 +291,12 @@
                     </a>
                     <a class="product-link" href="product.html">
                         <div class="product-item">
-                            <button class="product-wishlist" aria-label="Add to wishlist">♥</button>
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/noir%20heritage%20pants/8904.webp"
                                     alt="Noir Heritage Pant">
                                 <img class="product-img human" src="products/noir%20heritage%20pants/8904.webp"
@@ -596,7 +612,18 @@
             font-weight: 300;
         }
 
-        .product-item:hover .product-wishlist {
+        .product-wishlist svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .product-wishlist svg path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+        }
+
+        .product-image:hover .product-wishlist {
             opacity: 1;
         }
 
@@ -611,9 +638,97 @@
             color: white;
         }
 
+        .product-wishlist.active svg path {
+            fill: currentColor;
+        }
+
         /* Ensure product-image is positioned for absolute positioning of heart */
         .product-image {
             position: relative;
+        }
+
+        /* Wishlist toast */
+        .wishlist-toast {
+            position: fixed;
+            left: 24px;
+            bottom: 24px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 260px;
+            max-width: 360px;
+            transform: translateY(16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 40;
+        }
+
+        .wishlist-toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .wishlist-toast-thumb {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #f5f5f3;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wishlist-toast-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wishlist-toast-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wishlist-toast-label {
+            margin: 0 0 2px;
+            font-size: 0.62rem;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: rgba(17, 17, 17, 0.55);
+        }
+
+        .wishlist-toast-title {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.84rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #111;
+        }
+
+        .wishlist-toast-cta {
+            flex-shrink: 0;
+            padding: 9px 18px;
+            border-radius: 7px;
+            background: #65664f;
+            color: #fff;
+            font-size: 0.74rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .wishlist-toast-cta:hover {
+            background: #5b5c47;
         }
 
 
@@ -1106,6 +1221,18 @@
         </svg>
     </button>
 
+    <!-- Wishlist toast -->
+    <div class="wishlist-toast" id="wishlistToast" aria-live="polite">
+        <div class="wishlist-toast-thumb">
+            <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp" alt="">
+        </div>
+        <div class="wishlist-toast-body">
+            <p class="wishlist-toast-label">Added to wishlist</p>
+            <p class="wishlist-toast-title">THE WHITE YACHT T-SHIRT</p>
+        </div>
+        <a href="wishlist.html" class="wishlist-toast-cta">View</a>
+    </div>
+
     <script>
         const chatFab = document.getElementById('chatFab');
         const chatPanel = document.getElementById('chatPanel');
@@ -1238,16 +1365,57 @@
             });
         });
 
-        // Wishlist button functionality
+        // Wishlist button functionality + toast
         const wishlistButtons = document.querySelectorAll('.product-wishlist');
+        const wishlistToast = document.getElementById('wishlistToast');
+        const toastTitle = wishlistToast && wishlistToast.querySelector('.wishlist-toast-title');
+        const toastThumb = wishlistToast && wishlistToast.querySelector('.wishlist-toast-thumb img');
+        const toastCta = wishlistToast && wishlistToast.querySelector('.wishlist-toast-cta');
+        let toastTimer = null;
+
+        function showWishlistToast(btn) {
+            if (!wishlistToast) return;
+            const item = btn.closest('.product-item');
+            if (!item) return;
+
+            const nameEl = item.querySelector('.product-name');
+            const imgEl = item.querySelector('.product-img.base, .product-img');
+
+            const titleText = nameEl ? nameEl.textContent.trim() : 'Added to wishlist';
+            if (toastTitle) toastTitle.textContent = titleText.toUpperCase();
+            if (imgEl && toastThumb) {
+                toastThumb.src = imgEl.src;
+                toastThumb.alt = titleText;
+            }
+            // CTA points to wishlist page (to be created later); no change needed here.
+
+            wishlistToast.classList.add('visible');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                wishlistToast.classList.remove('visible');
+            }, 3000);
+        }
+
         wishlistButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                btn.classList.toggle('active');
-                // You can add to wishlist logic here
-                const isActive = btn.classList.contains('active');
-                console.log('Wishlist toggled:', isActive);
+                const isActive = !btn.classList.contains('active');
+                btn.classList.toggle('active', isActive);
+                if (isActive) {
+                    showWishlistToast(btn);
+                }
+            });
+        });
+
+        // Keep product link navigation for clicks outside the heart
+        const productLinks = document.querySelectorAll('.product-link');
+        productLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (e.target.closest('.product-wishlist')) {
+                    // Click originated on the heart → no navigation
+                    e.preventDefault();
+                }
             });
         });
     </script>
