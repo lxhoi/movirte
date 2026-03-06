@@ -1042,6 +1042,15 @@ body.nav-settled .nav-chevron {
     color: #111;
 }
 
+.nav-title-icons .nav-profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    text-decoration: none;
+    color: inherit;
+}
+
 .nav-title-icons svg {
     display: block;
     cursor: pointer;

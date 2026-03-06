@@ -4,6 +4,37 @@
 */
 (function () {
     function init() {
+        // ── Sign-in entry point (profile icon in nav-title-bg) ───────────────
+        function ensureSignInEntryPoint() {
+            var icons = document.querySelector('#nav-title-bg .nav-title-icons');
+            if (!icons) return;
+
+            // Already wired up
+            if (icons.querySelector('.nav-profile-link')) return;
+
+            // Expect the profile icon to be the first plain <svg> in the icons row
+            var kids = Array.prototype.slice.call(icons.children);
+            var profileSvg = null;
+            for (var i = 0; i < kids.length; i++) {
+                var el = kids[i];
+                if (!el || !el.tagName) continue;
+                if (el.tagName.toLowerCase() !== 'svg') continue;
+                if (el.id === 'cartBtn') continue;
+                profileSvg = el;
+                break;
+            }
+            if (!profileSvg) return;
+
+            var a = document.createElement('a');
+            a.href = 'sign-in.html';
+            a.className = 'nav-icon-btn nav-profile-link';
+            a.setAttribute('aria-label', 'Sign in');
+            a.appendChild(profileSvg);
+            icons.insertBefore(a, icons.firstChild);
+        }
+
+        ensureSignInEntryPoint();
+
         // ── Mobile drawer ────────────────────────────────────────────────────
         var burgerBtn = document.getElementById('burgerBtn');
         var drawerCloseBtn = document.getElementById('drawerClose');

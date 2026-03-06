@@ -9,6 +9,24 @@ const navListToggle = document.getElementById('nav-list-toggle');
 const navTitleBg = document.getElementById('nav-title-bg');
 let navItemsAreHidden = false;
 
+// Make profile icon in nav-title-bg open the Sign In page (index uses script.js, not nav-shared.js)
+(() => {
+    const icons = document.querySelector('#nav-title-bg .nav-title-icons');
+    if (!icons) return;
+    if (icons.querySelector('.nav-profile-link')) return;
+
+    const kids = Array.from(icons.children);
+    const profileSvg = kids.find((el) => el && el.tagName === 'SVG' && el.id !== 'cartBtn');
+    if (!profileSvg) return;
+
+    const a = document.createElement('a');
+    a.href = 'sign-in.html';
+    a.className = 'nav-profile-link';
+    a.setAttribute('aria-label', 'Sign in');
+    a.appendChild(profileSvg);
+    icons.insertBefore(a, icons.firstChild);
+})();
+
 if (navListToggle) {
     navListToggle.addEventListener('click', () => {
         navItemsAreHidden = !navItemsAreHidden;
