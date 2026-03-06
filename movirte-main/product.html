@@ -652,6 +652,16 @@
 
         })();
 
+        // Entry point 2: Add to wishlist button navigates to Wishlist page
+        (function () {
+            var btn = document.querySelector('.btn-wishlist');
+            if (!btn) return;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'wishlist.html';
+            });
+        })();
+
         // ── Image preview lightbox ──
         (function () {
             var overlay = document.getElementById('img-preview-overlay');

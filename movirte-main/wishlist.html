@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="brand-assets/movirte-favicon-small.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist — MOVIRTE</title>
+    <meta name="description" content="View items saved to your MOVIRTE wishlist.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/product.css">
+    <link rel="stylesheet" href="assets/css/listing.css">
+    <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <style>
+        /* Reuse new-in layout: sidebar nav + top strip */
+        #men-subnav-panel,
+        #women-subnav-panel {
+            z-index: 21;
+        }
+
+        body {
+            height: auto;
+        }
+
+        #product-section {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            height: auto;
+            overflow-y: visible;
+            padding-top: 50px;
+        }
+
+        .wishlist-wrap {
+            padding-left: calc(100vw / 6);
+            transition: padding-left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.nav-collapsed .wishlist-wrap {
+            padding-left: 0;
+        }
+
+        .wishlist-shell {
+            max-width: 1200px;
+            margin: 0 auto 56px;
+            padding: 32px 40px 48px;
+            box-sizing: border-box;
+        }
+
+        .wishlist-tabs {
+            display: inline-flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            margin-bottom: 18px;
+            gap: 24px;
+        }
+
+        .wishlist-tab {
+            padding: 8px 0 10px;
+            font-size: 0.8rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: rgba(17, 17, 17, 0.55);
+        }
+
+        .wishlist-tab.active {
+            color: #111;
+            border-bottom: 1px solid #111;
+        }
+
+        .wishlist-banner {
+            margin: 12px 0 26px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #f4f2e8;
+            font-size: 0.78rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .wishlist-banner strong {
+            font-weight: 600;
+        }
+
+        .wishlist-banner-btn {
+            border: 1px solid #65664f;
+            background: #65664f;
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .wishlist-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 18px;
+        }
+
+        .wishlist-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .wishlist-meta {
+            font-size: 0.72rem;
+            color: rgba(17, 17, 17, 0.6);
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .wishlist-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wishlist-card-img {
+            position: relative;
+            padding: 18px 18px 0;
+        }
+
+        .wishlist-card-img img {
+            width: 100%;
+            display: block;
+        }
+
+        .wishlist-card-body {
+            padding: 14px 18px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .wishlist-card-name {
+            font-size: 0.74rem;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            margin: 0 0 4px;
+        }
+
+        .wishlist-card-meta {
+            font-size: 0.66rem;
+            color: rgba(17, 17, 17, 0.6);
+        }
+
+        .wishlist-card-price {
+            font-size: 0.74rem;
+            margin-top: 6px;
+        }
+
+        .wishlist-card-actions {
+            margin-top: 10px;
+        }
+
+        .wishlist-add-btn {
+            width: 100%;
+            border-radius: 6px;
+            border: none;
+            padding: 10px 12px;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: #65664f;
+            color: #fff;
+        }
+
+        .wishlist-add-btn:hover {
+            background: #5b5c47;
+        }
+
+        @media (max-width: 1024px) {
+            .wishlist-wrap {
+                padding-left: 0;
+            }
+
+            .wishlist-shell {
+                padding: 24px 20px 36px;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .wishlist-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body class="nav-settled">
+
+    <!-- MOBILE TOP HEADER -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="index.html" class="mobile-logo">MOVIRTE</a>
+        <a href="bag.html" class="mobile-bag">Bag (0)</a>
+    </header>
+
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <nav class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+        <a href="index.html" class="drawer-logo">MOVIRTE</a>
+        <div class="drawer-nav">
+            <a href="men.html">Men</a>
+            <a href="women.html">Women</a>
+            <a href="new-in.html">New In</a>
+            <a href="best-sellers.html">Best Sellers</a>
+            <a href="sale.html">Sale</a>
+            <a href="collections.html">Collections &amp; Capsules</a>
+            <a href="gifting.html">Gifting</a>
+        </div>
+    </nav>
+
+    <!-- Sidebar nav (same as new-in) -->
+    <div id="nav-overlay">
+        <div class="nav-content">
+            <div class="nav-list">
+                <div class="nav-col-left">
+                    <span class="nav-item-row" id="menNavRow">
+                        <a href="javascript:void(0)" id="menNavBtn">Men</a>
+                        <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <span class="nav-item-row" id="womenNavRow">
+                        <a href="javascript:void(0)" id="womenNavBtn">Women</a>
+                        <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
+                    <a href="new-in.html">New In</a>
+                    <a href="best-sellers.html">Best Sellers</a>
+                    <a href="sale.html">Sale</a>
+                    <a href="collections.html">Collections &amp; Capsules</a>
+                    <a href="wishlist.html" class="active">Wishlist</a>
+                    <a href="gifting.html">Gifting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="men-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Men</span>
+            <div class="men-subnav-links" id="menSubnavLinks"></div>
+        </div>
+    </div>
+
+    <div id="women-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Women</span>
+            <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <!-- Nav-list toggle -->
+    <button id="nav-list-toggle" class="visible" aria-label="Toggle navigation menu">
+        <span class="tbar tbar-1"></span>
+        <span class="tbar tbar-2"></span>
+        <span class="tbar tbar-3"></span>
+    </button>
+
+    <!-- Nav-title background strip -->
+    <div id="nav-title-bg" class="visible">
+        <a href="index.html" class="men-nav-title"><img src="brand-assets/homepage-logo.svg" alt="MOVIRTE"
+                class="nav-logo-img"></a>
+        <div class="nav-title-icons">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+            <button type="button" class="nav-icon-btn" id="searchBtn" aria-label="Search">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </button>
+            <svg id="cartBtn" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" style="cursor:pointer">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Search float panel -->
+    <div class="search-float-panel" id="searchFloatPanel" aria-hidden="true">
+        <div class="search-float-inner">
+            <svg class="search-float-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="search" class="search-float-input" id="searchFloatInput" placeholder="SEARCH FOR..."
+                autocomplete="off" aria-label="Search">
+            <button type="button" class="search-float-close" id="searchFloatClose" aria-label="Close search">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round">
+                    <path d="M2 2l14 14M16 2L2 16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <section id="product-section">
+        <div id="main-content">
+            <div class="wishlist-wrap">
+
+                <!-- Announcement strip (same as new-in) -->
+                <div class="announce-strip">
+                    <div class="announce-track-wrap">
+                        <div class="announce-track">
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE TOTE BAG WITH ORDERS OVER £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">FREE EXCHANGES &amp; RETURNS FOR UK</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">UK Free shipping on orders over £175</span>
+                            <span class="announce-sep">·</span>
+                            <span class="announce-item">INTERNATIONAL FREE SHIPPING OVER £300</span>
+                            <span class="announce-sep">·</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wishlist-shell">
+                    <div class="wishlist-tabs" role="tablist" aria-label="Wishlist sections">
+                        <button class="wishlist-tab active" role="tab" aria-selected="true">Wishlist</button>
+                        <button class="wishlist-tab" role="tab" aria-selected="false">Saved for later</button>
+                    </div>
+
+                    <div class="wishlist-banner">
+                        <span><strong>Don't lose your lists.</strong> Login to save your favourites and access them
+                            whenever, wherever.</span>
+                        <button class="wishlist-banner-btn" type="button"
+                            onclick="window.location.href='sign-in.html'">Log in to save</button>
+                    </div>
+
+                    <div class="wishlist-heading">
+                        <h1 class="wishlist-title">My Wishlist ♥</h1>
+                        <p class="wishlist-meta">4 items</p>
+                    </div>
+
+                    <div class="wishlist-grid">
+                        <article class="wishlist-card">
+                            <div class="wishlist-card-img">
+                                <img src="products/black%20acorn/ACRONHOODIE.webp" alt="Black Yacht Club T-Shirt">
+                            </div>
+                            <div class="wishlist-card-body">
+                                <h2 class="wishlist-card-name">BLACK YACHT CLUB T-SHIRT</h2>
+                                <p class="wishlist-card-meta">£79.00 | M</p>
+                                <p class="wishlist-card-price">£79.00</p>
+                                <div class="wishlist-card-actions">
+                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="wishlist-card">
+                            <div class="wishlist-card-img">
+                                <img src="products/black%20acorn/acrontee.jpg" alt="The White Yacht T-Shirt">
+                            </div>
+                            <div class="wishlist-card-body">
+                                <h2 class="wishlist-card-name">THE WHITE YACHT T-SHIRT</h2>
+                                <p class="wishlist-card-meta">£65.00 | M</p>
+                                <p class="wishlist-card-price">£65.00</p>
+                                <div class="wishlist-card-actions">
+                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="wishlist-card">
+                            <div class="wishlist-card-img">
+                                <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
+                                    alt="Black Yacht Club Shirt">
+                            </div>
+                            <div class="wishlist-card-body">
+                                <h2 class="wishlist-card-name">BLACK YACHT CLUB SHIRT</h2>
+                                <p class="wishlist-card-meta">£110.00 | L</p>
+                                <p class="wishlist-card-price">£110.00</p>
+                                <div class="wishlist-card-actions">
+                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="wishlist-card">
+                            <div class="wishlist-card-img">
+                                <img src="products/noir%20heritage%20pants/8904.webp" alt="Black Yacht Club Short">
+                            </div>
+                            <div class="wishlist-card-body">
+                                <h2 class="wishlist-card-name">BLACK YACHT CLUB SHORT</h2>
+                                <p class="wishlist-card-meta">£95.00 | M</p>
+                                <p class="wishlist-card-price">£95.00</p>
+                                <div class="wishlist-card-actions">
+                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Features & footer reused from product page -->
+                <div class="features-bar">
+                    <div class="feature">
+                        <div class="feature-icon">↺</div>
+                        <p class="feature-title">Free shipping in the UK</p>
+                        <p class="feature-sub">On orders over £175</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">↩</div>
+                        <p class="feature-title">Free exchanges &amp; returns</p>
+                        <p class="feature-sub">For UK orders</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✦</div>
+                        <p class="feature-title">Duties &amp; taxes prepaid</p>
+                        <p class="feature-sub">All orders to USA, Canada &amp; Europe are shipped with taxes
+                            prepaid.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">★</div>
+                        <p class="feature-title">Excellent service</p>
+                        <p class="feature-sub">Rated Excellent</p>
+                    </div>
+                </div>
+
+                <footer class="pdp-footer">
+                    <div class="footer-grid">
+                        <div class="footer-col about">
+                            <h4>ABOUT THE BRAND</h4>
+                            <p>MOVIRTE is a British luxury contemporary fashion brand with a message in pieces that you
+                                love to wear. Fine things done their own path, on our road to style, transparency.</p>
+                            <p>Heavy embroidery, tonal stitches, unique fabrics and perfected fits are consistent
+                                throughout its collections.</p>
+                            <p class="footer-location">London, United Kingdom</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>DISCOVER</h4>
+                            <a href="brand.html">Brand</a>
+                            <a href="shipping-faq.html">Shopping</a>
+                            <a href="returns-faq.html">Returns</a>
+                            <a href="store-locator.html">Stockists</a>
+                            <a href="#">Join Movirte Club</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>SUPPORT</h4>
+                            <a href="faq.html">FAQ</a>
+                            <a href="contact.html">Contact</a>
+                            <a href="terms-of-service.html">Terms of Service</a>
+                            <a href="privacy-policy.html">Privacy Policy</a>
+                        </div>
+                        <div class="footer-col newsletter">
+                            <h4>NEWSLETTER</h4>
+                            <p>Subscribe for 15% off your first order and to receive exclusive deals and news. By
+                                subscribing, you agree to the Privacy policy.</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="E-Mail">
+                                <button>SUBSCRIBE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="footer-social">
+                            <a href="#">𝕏</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">TikTok</a>
+                        </div>
+                        <p>© MOVIRTE 2026</p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/nav-shared.js"></script>
+    <script src="assets/js/page-transition.js"></script>
+</body>
+
+</html>
+
