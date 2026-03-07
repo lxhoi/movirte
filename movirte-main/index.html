@@ -237,7 +237,7 @@
                 <div class="product-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <!-- Row 1 - 4 items only -->
                     <a class="product-link" href="product.html">
-                        <div class="product-item">
+                        <div class="product-item" data-product-id="specialist-trucker-cap">
                             <div class="product-image">
                                 <button class="product-wishlist" aria-label="Add to wishlist">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -256,7 +256,7 @@
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
-                        <div class="product-item">
+                        <div class="product-item" data-product-id="acron-graphic-tee">
                             <div class="product-image">
                                 <button class="product-wishlist" aria-label="Add to wishlist">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -273,7 +273,7 @@
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
-                        <div class="product-item">
+                        <div class="product-item" data-product-id="acron-hoodie-black">
                             <div class="product-image">
                                 <button class="product-wishlist" aria-label="Add to wishlist">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -290,7 +290,7 @@
                         </div>
                     </a>
                     <a class="product-link" href="product.html">
-                        <div class="product-item">
+                        <div class="product-item" data-product-id="noir-heritage-pant">
                             <div class="product-image">
                                 <button class="product-wishlist" aria-label="Add to wishlist">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1365,29 +1365,82 @@
             });
         });
 
-        // Wishlist button functionality + toast
+        // Wishlist behavior: persistent + deduplicated + hydrated on load
+        const WISHLIST_STORAGE_KEY = 'movirte:wishlist:v1';
         const wishlistButtons = document.querySelectorAll('.product-wishlist');
         const wishlistToast = document.getElementById('wishlistToast');
+        const toastLabel = wishlistToast && wishlistToast.querySelector('.wishlist-toast-label');
         const toastTitle = wishlistToast && wishlistToast.querySelector('.wishlist-toast-title');
         const toastThumb = wishlistToast && wishlistToast.querySelector('.wishlist-toast-thumb img');
         const toastCta = wishlistToast && wishlistToast.querySelector('.wishlist-toast-cta');
         let toastTimer = null;
 
-        function showWishlistToast(btn) {
-            if (!wishlistToast) return;
-            const item = btn.closest('.product-item');
-            if (!item) return;
+        function readWishlist() {
+            try {
+                const raw = localStorage.getItem(WISHLIST_STORAGE_KEY);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (err) {
+                return [];
+            }
+        }
 
+        function writeWishlist(items) {
+            try {
+                localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+                window.dispatchEvent(new CustomEvent('wishlist:changed', { detail: { count: items.length } }));
+            } catch (err) {
+                // No-op: if storage is unavailable, keep in-memory UI behavior.
+            }
+        }
+
+        function setHeartState(btn, isActive) {
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            btn.setAttribute('aria-label', isActive ? 'Remove from wishlist' : 'Add to wishlist');
+        }
+
+        function getProductFromButton(btn) {
+            const item = btn.closest('.product-item');
+            const link = btn.closest('.product-link');
+            if (!item) return null;
+
+            const id = item.dataset.productId || '';
             const nameEl = item.querySelector('.product-name');
+            const priceEl = item.querySelector('.product-price');
             const imgEl = item.querySelector('.product-img.base, .product-img');
 
-            const titleText = nameEl ? nameEl.textContent.trim() : 'Added to wishlist';
-            if (toastTitle) toastTitle.textContent = titleText.toUpperCase();
-            if (imgEl && toastThumb) {
-                toastThumb.src = imgEl.src;
-                toastThumb.alt = titleText;
+            const name = nameEl ? nameEl.textContent.trim() : '';
+            const price = priceEl ? priceEl.textContent.trim() : '';
+            const image = imgEl ? imgEl.getAttribute('src') : '';
+            const url = link ? link.getAttribute('href') : '';
+            const fallbackId = name ? name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') : '';
+            const productId = id || fallbackId;
+
+            if (!productId) return null;
+            return {
+                id: productId,
+                name,
+                price,
+                image,
+                url,
+                addedAt: new Date().toISOString()
+            };
+        }
+
+        function showWishlistToast(product, mode) {
+            if (!wishlistToast || !product) return;
+
+            if (toastLabel) {
+                toastLabel.textContent = mode === 'add' ? 'Added to wishlist' : 'Removed from wishlist';
             }
-            // CTA points to wishlist page (to be created later); no change needed here.
+            if (toastTitle) toastTitle.textContent = (product.name || 'Wishlist item').toUpperCase();
+            if (toastThumb && product.image) {
+                toastThumb.src = product.image;
+                toastThumb.alt = product.name || 'Wishlist item';
+            }
+            if (toastCta) toastCta.href = 'wishlist.html';
 
             wishlistToast.classList.add('visible');
             if (toastTimer) clearTimeout(toastTimer);
@@ -1396,15 +1449,41 @@
             }, 3000);
         }
 
+        function hydrateWishlistButtons() {
+            const wishlist = readWishlist();
+            const wishIds = new Set(wishlist.map(item => item && item.id).filter(Boolean));
+            wishlistButtons.forEach(btn => {
+                const product = getProductFromButton(btn);
+                setHeartState(btn, !!(product && wishIds.has(product.id)));
+            });
+        }
+
+        hydrateWishlistButtons();
+
         wishlistButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const isActive = !btn.classList.contains('active');
-                btn.classList.toggle('active', isActive);
-                if (isActive) {
-                    showWishlistToast(btn);
+
+                const product = getProductFromButton(btn);
+                if (!product) return;
+
+                const wishlist = readWishlist();
+                const existingIdx = wishlist.findIndex(item => item && item.id === product.id);
+                const exists = existingIdx !== -1;
+
+                if (exists) {
+                    wishlist.splice(existingIdx, 1);
+                    setHeartState(btn, false);
+                    writeWishlist(wishlist);
+                    showWishlistToast(product, 'remove');
+                    return;
                 }
+
+                wishlist.push(product);
+                setHeartState(btn, true);
+                writeWishlist(wishlist);
+                showWishlistToast(product, 'add');
             });
         });
 

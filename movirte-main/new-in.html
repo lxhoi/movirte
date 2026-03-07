@@ -630,6 +630,143 @@
             display: block;
         }
 
+        /* Product Wishlist Icon */
+        .product-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            color: #111;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.2s ease, background 0.2s ease;
+            padding: 0;
+            font-weight: 300;
+        }
+
+        .product-wishlist svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .product-wishlist svg path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+        }
+
+        .product-image:hover .product-wishlist {
+            opacity: 1;
+        }
+
+        .product-wishlist:hover {
+            background: rgba(17, 17, 17, 0.85);
+            color: white;
+        }
+
+        .product-wishlist.active {
+            opacity: 1;
+            background: #111;
+            color: white;
+        }
+
+        .product-wishlist.active svg path {
+            fill: currentColor;
+        }
+
+        /* Wishlist toast */
+        .wishlist-toast {
+            position: fixed;
+            left: 24px;
+            bottom: 24px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 260px;
+            max-width: 360px;
+            transform: translateY(16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 40;
+        }
+
+        .wishlist-toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .wishlist-toast-thumb {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #f5f5f3;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wishlist-toast-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wishlist-toast-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wishlist-toast-label {
+            margin: 0 0 2px;
+            font-size: 0.62rem;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: rgba(17, 17, 17, 0.55);
+        }
+
+        .wishlist-toast-title {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.84rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #111;
+        }
+
+        .wishlist-toast-cta {
+            flex-shrink: 0;
+            padding: 9px 18px;
+            border-radius: 7px;
+            background: #65664f;
+            color: #fff;
+            font-size: 0.74rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .wishlist-toast-cta:hover {
+            background: #5b5c47;
+        }
+
         /* PAGINATION STYLES */
         .pagination {
             display: flex;
@@ -1002,6 +1139,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/black%20acorn/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Onyx">
                                 <img class="product-img human" src="products/black%20acorn/ACRONHOODIE.webp"
@@ -1015,6 +1157,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/noir%20heritage%20pants/8904.webp"
                                     alt="Noir Heritage Pant">
                                 <img class="product-img human" src="products/noir%20heritage%20pants/8904.webp"
@@ -1027,6 +1174,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Hoodie — Cocoa">
                                 <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
@@ -1040,6 +1192,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base"
                                     src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Trucker Cap">
@@ -1054,6 +1211,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
                                     alt="Acron Graphic Tee">
                                 <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
@@ -1068,6 +1230,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS2.webp"
                                     alt="Noir Heritage Pant — Washed">
                                 <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS2.webp"
@@ -1080,6 +1247,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS3.webp"
                                     alt="Noir Cargo Pant">
                                 <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS3.webp"
@@ -1093,6 +1265,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base"
                                     src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Slate">
@@ -1107,6 +1284,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/noir%20heritage%20pants/NHPANTS4.webp"
                                     alt="Noir Relaxed Pant">
                                 <img class="product-img human" src="products/noir%20heritage%20pants/NHPANTS4.webp"
@@ -1120,6 +1302,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/black%20acorn/acrontee.jpg"
                                     alt="Acron Tee — Embroid">
                                 <img class="product-img human" src="products/black%20acorn/acrontee.jpg"
@@ -1134,6 +1321,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base" src="products/hoodie/ACRONHOODIE.webp"
                                     alt="Acron Heavyweight Hoodie">
                                 <img class="product-img human" src="products/hoodie/ACRONHOODIE.webp"
@@ -1147,6 +1339,11 @@
                     <a class="product-link" href="product.html">
                         <div class="product-item">
                             <div class="product-image">
+                                <button class="product-wishlist" aria-label="Add to wishlist">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    </svg>
+                                </button>
                                 <img class="product-img base"
                                     src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
                                     alt="Specialist Cap — Olive">
@@ -1330,6 +1527,18 @@
             <circle cx="17" cy="11" r="1.5" fill="#333" />
         </svg>
     </button>
+
+    <!-- Wishlist toast -->
+    <div class="wishlist-toast" id="wishlistToast" aria-live="polite">
+        <div class="wishlist-toast-thumb">
+            <img src="products/black%20acorn/ACRONHOODIE.webp" alt="">
+        </div>
+        <div class="wishlist-toast-body">
+            <p class="wishlist-toast-label">Added to wishlist</p>
+            <p class="wishlist-toast-title">ACRON HOODIE</p>
+        </div>
+        <a href="wishlist.html" class="wishlist-toast-cta">View</a>
+    </div>
 
     <script src="assets/js/nav-shared.js"></script>
     <script>
@@ -1542,6 +1751,139 @@
                 }
             });
         }
+
+        // Wishlist behavior: persistent + deduplicated + hydrated on load
+        const WISHLIST_STORAGE_KEY = 'movirte:wishlist:v1';
+        const wishlistButtons = document.querySelectorAll('.product-wishlist');
+        const wishlistToast = document.getElementById('wishlistToast');
+        const toastLabel = wishlistToast && wishlistToast.querySelector('.wishlist-toast-label');
+        const toastTitle = wishlistToast && wishlistToast.querySelector('.wishlist-toast-title');
+        const toastThumb = wishlistToast && wishlistToast.querySelector('.wishlist-toast-thumb img');
+        const toastCta = wishlistToast && wishlistToast.querySelector('.wishlist-toast-cta');
+        let toastTimer = null;
+
+        function readWishlist() {
+            try {
+                const raw = localStorage.getItem(WISHLIST_STORAGE_KEY);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (err) {
+                return [];
+            }
+        }
+
+        function writeWishlist(items) {
+            try {
+                localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
+                window.dispatchEvent(new CustomEvent('wishlist:changed', { detail: { count: items.length } }));
+            } catch (err) {
+                // No-op: if storage is unavailable, keep in-memory UI behavior.
+            }
+        }
+
+        function setHeartState(btn, isActive) {
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            btn.setAttribute('aria-label', isActive ? 'Remove from wishlist' : 'Add to wishlist');
+        }
+
+        function getProductFromButton(btn) {
+            const item = btn.closest('.product-item');
+            const link = btn.closest('.product-link');
+            if (!item) return null;
+
+            const id = item.dataset.productId || '';
+            const nameEl = item.querySelector('.product-name');
+            const priceEl = item.querySelector('.product-price');
+            const imgEl = item.querySelector('.product-img.base, .product-img');
+
+            const name = nameEl ? nameEl.textContent.trim() : '';
+            const price = priceEl ? priceEl.textContent.trim() : '';
+            const image = imgEl ? imgEl.getAttribute('src') : '';
+            const url = link ? link.getAttribute('href') : '';
+            const fallbackId = name ? name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') : '';
+            const productId = id || fallbackId;
+
+            if (!productId) return null;
+            return {
+                id: productId,
+                name,
+                price,
+                image,
+                url,
+                addedAt: new Date().toISOString()
+            };
+        }
+
+        function showWishlistToast(product, mode) {
+            if (!wishlistToast || !product) return;
+
+            if (toastLabel) {
+                toastLabel.textContent = mode === 'add' ? 'Added to wishlist' : 'Removed from wishlist';
+            }
+            if (toastTitle) toastTitle.textContent = (product.name || 'Wishlist item').toUpperCase();
+            if (toastThumb && product.image) {
+                toastThumb.src = product.image;
+                toastThumb.alt = product.name || 'Wishlist item';
+            }
+            if (toastCta) toastCta.href = 'wishlist.html';
+
+            wishlistToast.classList.add('visible');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                wishlistToast.classList.remove('visible');
+            }, 3000);
+        }
+
+        function hydrateWishlistButtons() {
+            const wishlist = readWishlist();
+            const wishIds = new Set(wishlist.map(item => item && item.id).filter(Boolean));
+            wishlistButtons.forEach(btn => {
+                const product = getProductFromButton(btn);
+                setHeartState(btn, !!(product && wishIds.has(product.id)));
+            });
+        }
+
+        hydrateWishlistButtons();
+
+        wishlistButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const product = getProductFromButton(btn);
+                if (!product) return;
+
+                const wishlist = readWishlist();
+                const existingIdx = wishlist.findIndex(item => item && item.id === product.id);
+                const exists = existingIdx !== -1;
+
+                if (exists) {
+                    wishlist.splice(existingIdx, 1);
+                    setHeartState(btn, false);
+                    writeWishlist(wishlist);
+                    showWishlistToast(product, 'remove');
+                    return;
+                }
+
+                wishlist.push(product);
+                setHeartState(btn, true);
+                writeWishlist(wishlist);
+                showWishlistToast(product, 'add');
+            });
+        });
+
+        // Keep product link navigation for clicks outside the heart
+        const productLinks = document.querySelectorAll('.product-link');
+        productLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (e.target.closest('.product-wishlist')) {
+                    // Click originated on the heart -> no navigation
+                    e.preventDefault();
+                }
+            });
+        });
 
         // Initialize pagination on page load
         updatePagination();
