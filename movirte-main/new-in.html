@@ -776,8 +776,7 @@
         <span class="tbar tbar-3"></span>
     </button>
 
-    <!-- Nav-title background strip — always visible on this page -->
-    <div id="nav-title-bg" class="visible">
+    <div id="nav-title-bg">
         <a href="index.html" class="men-nav-title"><img src="brand-assets/homepage-logo.svg" alt="MOVIRTE" class="nav-logo-img"></a>
         <div class="nav-title-icons">
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -1538,6 +1537,24 @@
 
         // Initialize pagination on page load
         updatePagination();
+
+        // ── Scroll-driven nav-title-bg animation (match index.html timing) ──
+        // Show nav-title-bg at 0.80 scroll fraction, similar to index page
+        window.addEventListener('scroll', function() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollFraction = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+            const navTitleBg = document.getElementById('nav-title-bg');
+            
+            if (scrollFraction > 0.80) {
+                if (navTitleBg && !navTitleBg.classList.contains('visible')) {
+                    navTitleBg.classList.add('visible');
+                }
+            } else {
+                if (navTitleBg && navTitleBg.classList.contains('visible')) {
+                    navTitleBg.classList.remove('visible');
+                }
+            }
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="assets/js/page-transition.js"></script>
