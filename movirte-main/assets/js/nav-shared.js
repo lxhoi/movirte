@@ -4,6 +4,26 @@
 */
 (function () {
     function init() {
+        // Normalize all homepage-logo anchors so they always route to root index.
+        function normalizeHomeLogoLinks() {
+            var selectors = [
+                'a.mobile-logo',
+                'a.drawer-logo',
+                'a.men-nav-title',
+                'a#nav-center-logo',
+                '.nav-title a',
+                'a.checkout-logo',
+                'a.cart-header-logo'
+            ];
+            document.querySelectorAll(selectors.join(',')).forEach(function (el) {
+                if (el && el.tagName && el.tagName.toLowerCase() === 'a') {
+                    el.setAttribute('href', '/index.html');
+                }
+            });
+        }
+
+        normalizeHomeLogoLinks();
+
         // ── Sign-in entry point (profile icon in nav-title-bg) ───────────────
         function ensureSignInEntryPoint() {
             var icons = document.querySelector('#nav-title-bg .nav-title-icons');

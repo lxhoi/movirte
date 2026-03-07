@@ -109,6 +109,13 @@
         } catch { return false; }
     }
 
+    function isHomeLogoClick(target) {
+        if (!target || !target.closest) return false;
+        return !!target.closest(
+            'a.mobile-logo, a.drawer-logo, a.men-nav-title, a#nav-center-logo, a.checkout-logo, a.cart-header-logo, .nav-title a'
+        );
+    }
+
     // Returns true when the current page is index.html (or the site root)
     function isIndexPage() {
         const p = window.location.pathname;
@@ -118,6 +125,13 @@
     document.addEventListener('click', function (e) {
         // Ignore clicks coming from wishlist heart button so it doesn't trigger navigation
         if (e.target.closest('.product-wishlist')) return;
+
+        // Always route homepage logo clicks to the root index page.
+        if (isHomeLogoClick(e.target)) {
+            e.preventDefault();
+            window.location.href = '/index.html';
+            return;
+        }
 
         const anchor = e.target.closest('a[href]');
         if (!anchor) return;
