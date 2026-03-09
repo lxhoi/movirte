@@ -4,6 +4,25 @@
 */
 (function () {
     function init() {
+        function enforceMobileTabletNavMode() {
+            var isMobileTablet = window.matchMedia('(max-width: 1024px)').matches;
+            var idsToHide = ['nav-overlay', 'men-subnav-panel', 'women-subnav-panel', 'nav-list-toggle', 'nav-title-bg'];
+
+            idsToHide.forEach(function (id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                if (isMobileTablet) {
+                    el.style.setProperty('display', 'none', 'important');
+                    el.style.setProperty('pointer-events', 'none', 'important');
+                } else {
+                    el.style.removeProperty('display');
+                    el.style.removeProperty('pointer-events');
+                }
+            });
+        }
+
+        enforceMobileTabletNavMode();
+
         // Normalize all homepage-logo anchors so they always route to root index.
         function normalizeHomeLogoLinks() {
             var selectors = [
@@ -162,6 +181,7 @@
         if (womenChevron) womenChevron.addEventListener('click', toggleWomenPanel);
 
         window.addEventListener('resize', function () {
+            enforceMobileTabletNavMode();
             if (menSubnavPanel && menSubnavPanel.classList.contains('open')) alignMenPanel();
             if (womenSubnavPanel && womenSubnavPanel.classList.contains('open')) alignWomenPanel();
         });

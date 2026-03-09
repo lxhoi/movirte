@@ -1131,11 +1131,13 @@ body.nav-settled .nav-chevron {
     background: rgba(0, 0, 0, 0.35);
     z-index: 400;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s;
 }
 
 .drawer-overlay.open {
     opacity: 1;
+    pointer-events: auto;
 }
 
 /* Slide-in drawer */
@@ -1204,6 +1206,23 @@ body.nav-settled .nav-chevron {
    TABLET  ≤ 1024px
 ══════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
+    body {
+        height: auto;
+    }
+
+    .scroll-container,
+    canvas#hero-canvas {
+        display: none !important;
+    }
+
+    #product-section {
+        position: static;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        height: auto;
+        overflow-y: visible;
+    }
 
     /* Show mobile header */
     .mobile-header {

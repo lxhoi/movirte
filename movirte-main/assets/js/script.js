@@ -59,6 +59,7 @@ const currentFrame = index => {
 
 const images = [];
 const imageObj = { frame: 0 };
+const isDesktopScrollExperience = window.matchMedia('(min-width: 1025px)').matches;
 
 const preloadImages = () => {
     for (let i = 0; i < frameCount; i++) {
@@ -103,18 +104,6 @@ const animate = () => {
 
     requestAnimationFrame(animate);
 };
-
-// ── Lenis smooth scroll + GSAP ScrollTrigger integration ──────────────────────
-gsap.registerPlugin(ScrollTrigger);
-
-const lenis = new Lenis();
-
-// Keep ScrollTrigger in sync with Lenis
-lenis.on('scroll', ScrollTrigger.update);
-
-// Feed Lenis into GSAP's ticker for consistent timing
-gsap.ticker.add((time) => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
 
 // ── Scroll-driven logic (canvas + nav animations) ──────────────────────────────
 function onScroll({ scroll }) {
@@ -257,16 +246,32 @@ function onScroll({ scroll }) {
     }
 }
 
-lenis.on('scroll', onScroll);
+if (isDesktopScrollExperience) {
+    // ── Lenis smooth scroll + GSAP ScrollTrigger integration ──────────────────
+    gsap.registerPlugin(ScrollTrigger);
 
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    updateImage(currentFrameIndex);
-});
+    const lenis = new Lenis();
 
-// Start the animation loop
-preloadImages();
-animate();
+    // Keep ScrollTrigger in sync with Lenis
+    lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', onScroll);
 
+    // Feed Lenis into GSAP's ticker for consistent timing
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        updateImage(currentFrameIndex);
+    });
+
+    // Start the animation loop
+    preloadImages();
+    animate();
+} else {
+    // Mobile/tablet: use native scrolling and show content immediately.
+    const productSection = document.getElementById('product-section');
+    if (productSection) productSection.classList.add('visible');
+}
 
