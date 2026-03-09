@@ -26,6 +26,11 @@
             height: auto;
         }
 
+        /* Prevent overlap between sidebar toggle and top logo on wishlist page */
+        #nav-title-bg .men-nav-title {
+            margin-left: 20px;
+        }
+
         #product-section {
             position: static;
             opacity: 1;
@@ -78,7 +83,7 @@
         .wishlist-banner {
             margin: 12px 0 26px;
             padding: 14px 16px;
-            border-radius: 12px;
+            border-radius: 0;
             background: #f4f2e8;
             font-size: 0.78rem;
             display: flex;
@@ -92,8 +97,8 @@
         }
 
         .wishlist-banner-btn {
-            border: 1px solid #65664f;
-            background: #65664f;
+            border: 1px solid #6B3A2A;
+            background: #6B3A2A;
             color: #fff;
             border-radius: 999px;
             padding: 8px 18px;
@@ -139,11 +144,45 @@
 
         .wishlist-card-img {
             position: relative;
-            padding: 18px 18px 0;
+            aspect-ratio: 1 / 1;
+            padding: 18px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .wishlist-card-img a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wishlist-remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: #111;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wishlist-remove-btn:hover {
+            background: #111;
+            color: #fff;
         }
 
         .wishlist-card-img img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
             display: block;
         }
 
@@ -177,6 +216,8 @@
 
         .wishlist-add-btn {
             width: 100%;
+            display: block;
+            box-sizing: border-box;
             border-radius: 6px;
             border: none;
             padding: 10px 12px;
@@ -184,12 +225,53 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             cursor: pointer;
-            background: #65664f;
+            background: #6B3A2A;
             color: #fff;
+            text-decoration: none;
+            text-align: center;
         }
 
         .wishlist-add-btn:hover {
-            background: #5b5c47;
+            background: #5a2f23;
+        }
+
+        .wishlist-empty {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            background: #f8f8f6;
+        }
+
+        .wishlist-empty p {
+            margin: 0 0 18px;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(17, 17, 17, 0.65);
+        }
+
+        .wishlist-empty a {
+            display: inline-block;
+            border-radius: 6px;
+            padding: 11px 16px;
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Wishlist page: use squared corners for all button-like controls */
+        button,
+        .wishlist-add-btn,
+        .wishlist-empty a,
+        .newsletter-form button,
+        .search-float-close,
+        .nav-icon-btn,
+        #nav-list-toggle {
+            border-radius: 0 !important;
         }
 
         @media (max-width: 1024px) {
@@ -212,6 +294,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/responsive-global.css">
 </head>
 
 <body class="nav-settled">
@@ -302,7 +385,7 @@
         <a href="index.html" class="men-nav-title"><img src="brand-assets/homepage-logo.svg" alt="MOVIRTE"
                 class="nav-logo-img"></a>
         <div class="nav-title-icons">
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg width="2" height="2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
             </svg>
@@ -384,66 +467,16 @@
 
                     <div class="wishlist-heading">
                         <h1 class="wishlist-title">My Wishlist ♥</h1>
-                        <p class="wishlist-meta">4 items</p>
+                        <p class="wishlist-meta" id="wishlistMeta">0 items</p>
                     </div>
 
-                    <div class="wishlist-grid">
-                        <article class="wishlist-card">
-                            <div class="wishlist-card-img">
-                                <img src="products/black%20acorn/ACRONHOODIE.webp" alt="Black Yacht Club T-Shirt">
-                            </div>
-                            <div class="wishlist-card-body">
-                                <h2 class="wishlist-card-name">BLACK YACHT CLUB T-SHIRT</h2>
-                                <p class="wishlist-card-meta">£79.00 | M</p>
-                                <p class="wishlist-card-price">£79.00</p>
-                                <div class="wishlist-card-actions">
-                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
-                                </div>
-                            </div>
-                        </article>
+                    <div class="wishlist-grid" id="wishlistGrid">
+                        <!-- Dynamic cards render here -->
+                    </div>
 
-                        <article class="wishlist-card">
-                            <div class="wishlist-card-img">
-                                <img src="products/black%20acorn/acrontee.jpg" alt="The White Yacht T-Shirt">
-                            </div>
-                            <div class="wishlist-card-body">
-                                <h2 class="wishlist-card-name">THE WHITE YACHT T-SHIRT</h2>
-                                <p class="wishlist-card-meta">£65.00 | M</p>
-                                <p class="wishlist-card-price">£65.00</p>
-                                <div class="wishlist-card-actions">
-                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="wishlist-card">
-                            <div class="wishlist-card-img">
-                                <img src="products/trucker%20cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp"
-                                    alt="Black Yacht Club Shirt">
-                            </div>
-                            <div class="wishlist-card-body">
-                                <h2 class="wishlist-card-name">BLACK YACHT CLUB SHIRT</h2>
-                                <p class="wishlist-card-meta">£110.00 | L</p>
-                                <p class="wishlist-card-price">£110.00</p>
-                                <div class="wishlist-card-actions">
-                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="wishlist-card">
-                            <div class="wishlist-card-img">
-                                <img src="products/noir%20heritage%20pants/8904.webp" alt="Black Yacht Club Short">
-                            </div>
-                            <div class="wishlist-card-body">
-                                <h2 class="wishlist-card-name">BLACK YACHT CLUB SHORT</h2>
-                                <p class="wishlist-card-meta">£95.00 | M</p>
-                                <p class="wishlist-card-price">£95.00</p>
-                                <div class="wishlist-card-actions">
-                                    <button class="wishlist-add-btn" type="button">Add to cart</button>
-                                </div>
-                            </div>
-                        </article>
+                    <div class="wishlist-empty" id="wishlistEmpty" hidden>
+                        <p>Your wishlist is empty</p>
+                        <a href="new-in.html">Continue shopping</a>
                     </div>
                 </div>
 
@@ -522,8 +555,88 @@
     </section>
 
     <script src="assets/js/nav-shared.js"></script>
+    <script>
+        (function () {
+            var KEY = 'movirte:wishlist:v1';
+            var grid = document.getElementById('wishlistGrid');
+            var empty = document.getElementById('wishlistEmpty');
+            var meta = document.getElementById('wishlistMeta');
+
+            function readWishlist() {
+                try {
+                    var raw = localStorage.getItem(KEY);
+                    if (!raw) return [];
+                    var parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function writeWishlist(items) {
+                localStorage.setItem(KEY, JSON.stringify(items));
+                window.dispatchEvent(new CustomEvent('wishlist:changed', { detail: { count: items.length } }));
+            }
+
+            function escapeHtml(text) {
+                return String(text || '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function render() {
+                var items = readWishlist();
+                if (meta) meta.textContent = items.length + (items.length === 1 ? ' item' : ' items');
+                if (!grid) return;
+
+                if (!items.length) {
+                    grid.innerHTML = '';
+                    if (empty) empty.hidden = false;
+                    return;
+                }
+
+                if (empty) empty.hidden = true;
+                grid.innerHTML = items.map(function (item) {
+                    var name = escapeHtml(item.name || 'Wishlist item');
+                    var price = escapeHtml(item.price || '—');
+                    var img = escapeHtml(item.image || 'products/black%20acorn/ACRONHOODIE.webp');
+                    var url = escapeHtml(item.url || 'product.html');
+                    var id = escapeHtml(item.id || '');
+                    return '' +
+                        '<article class="wishlist-card" data-id="' + id + '">' +
+                            '<div class="wishlist-card-img">' +
+                                '<button type="button" class="wishlist-remove-btn" data-remove="' + id + '" aria-label="Remove from wishlist">×</button>' +
+                                '<a href="' + url + '"><img src="' + img + '" alt="' + name + '"></a>' +
+                            '</div>' +
+                            '<div class="wishlist-card-body">' +
+                                '<h2 class="wishlist-card-name">' + name.toUpperCase() + '</h2>' +
+                                '<p class="wishlist-card-meta">' + price + ' | XS</p>' +
+                                '<p class="wishlist-card-price">' + price + '</p>' +
+                                '<div class="wishlist-card-actions">' +
+                                    '<a class="wishlist-add-btn" href="' + url + '">Add to cart +</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</article>';
+                }).join('');
+            }
+
+            document.addEventListener('click', function (e) {
+                var remove = e.target.closest('[data-remove]');
+                if (!remove) return;
+                var id = remove.getAttribute('data-remove');
+                var items = readWishlist().filter(function (it) { return it && it.id !== id; });
+                writeWishlist(items);
+                render();
+            });
+
+            render();
+        })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="assets/js/page-transition.js"></script>
 </body>
 
 </html>
-

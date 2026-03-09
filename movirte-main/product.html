@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/css/product.css">
     <link rel="stylesheet" href="assets/css/listing.css">
     <link rel="stylesheet" href="assets/css/nav-shared.css">
+    <link rel="stylesheet" href="assets/css/wishlist-grid.css">
     <style>
         /* Product page: same nav/sidebar setup as new-in.html */
         body {
@@ -220,6 +221,7 @@
             text-transform: uppercase;
         }
     </style>
+    <link rel="stylesheet" href="assets/css/responsive-global.css">
 </head>
 
 <body class="nav-settled">
@@ -583,6 +585,17 @@
         </svg>
     </button>
 
+    <div class="wishlist-toast" id="wishlistToast" aria-live="polite">
+        <div class="wishlist-toast-thumb">
+            <img src="products/black%20acorn/ACRONHOODIE.webp" alt="Wishlist item">
+        </div>
+        <div class="wishlist-toast-body">
+            <p class="wishlist-toast-label">Added to wishlist</p>
+            <p class="wishlist-toast-title">WISHLIST ITEM</p>
+        </div>
+        <a href="wishlist.html" class="wishlist-toast-cta">View</a>
+    </div>
+
     <script src="assets/js/nav-shared.js"></script>
     <script>
         // ── PDP-specific: URL params, thumbs, size, accordion, color swatch ──
@@ -659,13 +672,80 @@
 
         })();
 
-        // Entry point 2: Add to wishlist button navigates to Wishlist page
+        // Entry point 2: Add to wishlist button (add item + show toast, no redirect)
         (function () {
+            var KEY = 'movirte:wishlist:v1';
             var btn = document.querySelector('.btn-wishlist');
+            var toast = document.getElementById('wishlistToast');
+            var toastLabel = toast && toast.querySelector('.wishlist-toast-label');
+            var toastTitle = toast && toast.querySelector('.wishlist-toast-title');
+            var toastThumb = toast && toast.querySelector('.wishlist-toast-thumb img');
+            var toastCta = toast && toast.querySelector('.wishlist-toast-cta');
+            var toastTimer = null;
             if (!btn) return;
+
+            function readWishlist() {
+                try {
+                    var raw = localStorage.getItem(KEY);
+                    if (!raw) return [];
+                    var parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function writeWishlist(items) {
+                localStorage.setItem(KEY, JSON.stringify(items));
+                window.dispatchEvent(new CustomEvent('wishlist:changed', { detail: { count: items.length } }));
+            }
+
+            function slugify(text) {
+                return (text || '')
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w-]/g, '');
+            }
+
+            function showToast(item) {
+                if (!toast || !item) return;
+                if (toastLabel) toastLabel.textContent = 'Added to wishlist';
+                if (toastTitle) toastTitle.textContent = String(item.name || 'Wishlist item').toUpperCase();
+                if (toastThumb && item.image) toastThumb.src = item.image;
+                if (toastThumb) toastThumb.alt = item.name || 'Wishlist item';
+                if (toastCta) toastCta.href = 'wishlist.html';
+                toast.classList.add('visible');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toast.classList.remove('visible');
+                }, 2200);
+            }
+
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
-                window.location.href = 'wishlist.html';
+                var titleEl = document.getElementById('pdpTitle');
+                var priceEl = document.getElementById('pdpPrice');
+                var imgEl = document.getElementById('pdpMainImg');
+
+                var name = titleEl ? titleEl.textContent.trim() : 'Product';
+                var id = slugify(name) || 'product';
+                var item = {
+                    id: id,
+                    name: name,
+                    price: priceEl ? priceEl.textContent.trim() : '',
+                    image: imgEl ? imgEl.getAttribute('src') : '',
+                    url: window.location.pathname + window.location.search,
+                    addedAt: new Date().toISOString()
+                };
+
+                var list = readWishlist();
+                var exists = list.some(function (x) { return x && x.id === id; });
+                if (!exists) {
+                    list.push(item);
+                    writeWishlist(list);
+                }
+                showToast(item);
             });
         })();
 

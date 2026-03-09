@@ -122,7 +122,7 @@
     flex-shrink: 0;
     padding: 9px 18px;
     border-radius: 7px;
-    background: #65664f;
+    background: #6B3A2A;
     color: #fff;
     font-size: 0.74rem;
     font-weight: 600;
@@ -130,5 +130,5 @@
 }
 
 .wishlist-toast-cta:hover {
-    background: #5b5c47;
+    background: #6B3A2A;
 }
