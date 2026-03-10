@@ -35,8 +35,8 @@
         <a href="index.html" class="drawer-logo"><img src="brand-assets/homepage-logo.svg" alt="MOVIRTE"
                 class="nav-logo-img"></a>
         <div class="drawer-nav">
-            <a href="javascript:void(0)">Men</a>
-            <a href="javascript:void(0)">Women</a>
+            <a href="new-in.html">Men</a>
+            <a href="women.html">Women</a>
             <a href="new-in.html">New In</a>
             <a href="best-sellers.html">Best Sellers</a>
             <a href="sale.html">Sale</a>
@@ -59,7 +59,7 @@
             <div class="nav-list">
                 <div class="nav-col-left">
                     <span class="nav-item-row" id="menNavRow">
-                        <a href="javascript:void(0)" id="menNavBtn">Men</a>
+                        <a href="new-in.html" id="menNavBtn">Men</a>
                         <button type="button" class="nav-chevron" id="menChevron" aria-label="Open Men submenu"
                             aria-expanded="false">
                             <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
@@ -69,7 +69,7 @@
                         </button>
                     </span>
                     <span class="nav-item-row" id="womenNavRow">
-                        <a href="javascript:void(0)" id="womenNavBtn">Women</a>
+                        <a href="women/new-in-w.html" id="womenNavBtn">Women</a>
                         <button type="button" class="nav-chevron" id="womenChevron" aria-label="Open Women submenu"
                             aria-expanded="false">
                             <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
@@ -82,7 +82,16 @@
                     <a href="best-sellers.html">Best Sellers</a>
                     <a href="sale.html">Sale</a>
                     <a href="collections.html">Collections &amp; Capsules</a>
-                    <a href="gifting.html">Gifting</a>
+                    <span class="nav-item-row" id="giftingNavRow">
+                        <a href="javascript:void(0)" id="giftingNavBtn">Gifting</a>
+                        <button type="button" class="nav-chevron" id="giftingChevron" aria-label="Open Gifting submenu"
+                            aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
                 </div>
             </div>
         </div>
@@ -104,6 +113,14 @@
         <div class="men-subnav-inner">
             <span class="men-subnav-category">Women</span>
             <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+
+    <!-- LEVEL-2 GIFTING SUB-NAV PANEL (same behavior as Men/Women) -->
+    <div id="gifting-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Gifting</span>
+            <div class="men-subnav-links" id="giftingSubnavLinks"></div>
         </div>
     </div>
 
@@ -425,6 +442,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/nav-shared.js"></script>
     <style>
         /* Search float panel — slides in from bottom edge of nav-title-bg */
         .search-float-panel {
@@ -1504,6 +1522,20 @@
         });
     </script>
     <script src="assets/js/page-transition.js"></script>
+</body>
+
+</html>
+const productLinks = document.querySelectorAll('.product-link');
+productLinks.forEach(link => {
+link.addEventListener('click', (e) => {
+if (e.target.closest('.product-wishlist')) {
+// Click originated on the heart → no navigation
+e.preventDefault();
+}
+});
+});
+</script>
+<script src="assets/js/page-transition.js"></script>
 </body>
 
 </html>

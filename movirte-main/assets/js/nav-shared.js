@@ -49,12 +49,12 @@
             var linkMap = {
                 'Men': 'javascript:void(0)',
                 'Women': 'javascript:void(0)',
+                'Gifting': 'javascript:void(0)',
                 'New In': '/new-in.html',
                 'Best Sellers': '/best-sellers.html',
                 'Sale': '/sale.html',
                 'Collections & Capsules': '/collections.html',
-                'Collections &amp; Capsules': '/collections.html',
-                'Gifting': '/gifting.html'
+                'Collections &amp; Capsules': '/collections.html'
             };
 
             // Target both the mobile drawer nav and the desktop sidebar
@@ -155,7 +155,7 @@
             menSubnavPanel.style.paddingTop = Math.max(0, topOffset) + 'px';
         }
 
-        function openMenPanel() { if (!menSubnavPanel) return; closeWomenPanel(); menSubnavPanel.classList.add('open'); alignMenPanel(); if (menChevron) { menChevron.classList.add('open'); menChevron.setAttribute('aria-expanded', 'true'); } }
+        function openMenPanel() { if (!menSubnavPanel) return; closeWomenPanel(); closeGiftingPanel(); menSubnavPanel.classList.add('open'); alignMenPanel(); if (menChevron) { menChevron.classList.add('open'); menChevron.setAttribute('aria-expanded', 'true'); } }
         function closeMenPanel() { if (!menSubnavPanel) return; menSubnavPanel.classList.remove('open'); if (menChevron) { menChevron.classList.remove('open'); menChevron.setAttribute('aria-expanded', 'false'); } }
 
         function toggleMenPanel(e) { e.preventDefault(); e.stopPropagation(); menSubnavPanel.classList.contains('open') ? closeMenPanel() : openMenPanel(); }
@@ -201,7 +201,7 @@
             womenSubnavPanel.style.paddingTop = Math.max(0, topOffset) + 'px';
         }
 
-        function openWomenPanel() { if (!womenSubnavPanel) return; closeMenPanel(); womenSubnavPanel.classList.add('open'); alignWomenPanel(); if (womenChevron) { womenChevron.classList.add('open'); womenChevron.setAttribute('aria-expanded', 'true'); } }
+        function openWomenPanel() { if (!womenSubnavPanel) return; closeMenPanel(); closeGiftingPanel(); womenSubnavPanel.classList.add('open'); alignWomenPanel(); if (womenChevron) { womenChevron.classList.add('open'); womenChevron.setAttribute('aria-expanded', 'true'); } }
         function closeWomenPanel() { if (!womenSubnavPanel) return; womenSubnavPanel.classList.remove('open'); if (womenChevron) { womenChevron.classList.remove('open'); womenChevron.setAttribute('aria-expanded', 'false'); } }
 
         function toggleWomenPanel(e) { e.preventDefault(); e.stopPropagation(); womenSubnavPanel.classList.contains('open') ? closeWomenPanel() : openWomenPanel(); }
@@ -209,10 +209,51 @@
         if (womenNavBtn) womenNavBtn.addEventListener('click', toggleWomenPanel);
         if (womenChevron) womenChevron.addEventListener('click', toggleWomenPanel);
 
+        // ── Level-2 Gifting sub-nav panel ──────────────────────────────────
+        var giftingChevron = document.getElementById('giftingChevron');
+        var giftingNavBtn = document.getElementById('giftingNavBtn');
+        var giftingSubnavPanel = document.getElementById('gifting-subnav-panel');
+        var giftingSubnavLinks = document.getElementById('giftingSubnavLinks');
+
+        var GIFTING_ITEMS = [
+            { label: 'Gift for Him', href: '/gifting.html#him' },
+            { label: 'Gift for Her', href: '/gifting.html#her' },
+            { label: 'Life Style', href: '/gifting.html#lifestyle' },
+            { label: 'Gift Cards', href: '/gifting.html#gift-cards' },
+        ];
+
+        function buildGiftingSubnav() {
+            if (!giftingSubnavLinks) return;
+            giftingSubnavLinks.innerHTML = '';
+            GIFTING_ITEMS.forEach(function (item) {
+                var a = document.createElement('a');
+                a.href = item.href; a.textContent = item.label; a.className = 'men-subnav-link';
+                a.addEventListener('click', closeGiftingPanel);
+                giftingSubnavLinks.appendChild(a);
+            });
+        }
+
+        function alignGiftingPanel() {
+            var lbl = giftingNavBtn || document.querySelector('#giftingNavRow a');
+            var cat = giftingSubnavPanel && giftingSubnavPanel.querySelector('.men-subnav-category');
+            if (!lbl || !giftingSubnavPanel || !cat) return;
+            var topOffset = lbl.getBoundingClientRect().top - 50 - cat.offsetHeight - 14 - 145;
+            giftingSubnavPanel.style.paddingTop = Math.max(0, topOffset) + 'px';
+        }
+
+        function openGiftingPanel() { if (!giftingSubnavPanel) return; closeMenPanel(); closeWomenPanel(); giftingSubnavPanel.classList.add('open'); alignGiftingPanel(); if (giftingChevron) { giftingChevron.classList.add('open'); giftingChevron.setAttribute('aria-expanded', 'true'); } }
+        function closeGiftingPanel() { if (!giftingSubnavPanel) return; giftingSubnavPanel.classList.remove('open'); if (giftingChevron) { giftingChevron.classList.remove('open'); giftingChevron.setAttribute('aria-expanded', 'false'); } }
+
+        function toggleGiftingPanel(e) { e.preventDefault(); e.stopPropagation(); giftingSubnavPanel.classList.contains('open') ? closeGiftingPanel() : openGiftingPanel(); }
+
+        if (giftingNavBtn) giftingNavBtn.addEventListener('click', toggleGiftingPanel);
+        if (giftingChevron) giftingChevron.addEventListener('click', toggleGiftingPanel);
+
         window.addEventListener('resize', function () {
             enforceMobileTabletNavMode();
             if (menSubnavPanel && menSubnavPanel.classList.contains('open')) alignMenPanel();
             if (womenSubnavPanel && womenSubnavPanel.classList.contains('open')) alignWomenPanel();
+            if (giftingSubnavPanel && giftingSubnavPanel.classList.contains('open')) alignGiftingPanel();
         });
 
         document.addEventListener('click', function (e) {
@@ -228,10 +269,17 @@
                     || (womenChevron && womenChevron.contains(e.target));
                 if (!insideW) closeWomenPanel();
             }
+            if (giftingSubnavPanel && giftingSubnavPanel.classList.contains('open')) {
+                var insideG = giftingSubnavPanel.contains(e.target)
+                    || (giftingNavBtn && giftingNavBtn.contains(e.target))
+                    || (giftingChevron && giftingChevron.contains(e.target));
+                if (!insideG) closeGiftingPanel();
+            }
         });
 
         buildMenSubnav();
         buildWomenSubnav();
+        buildGiftingSubnav();
 
         // ── Nav-list toggle (collapse sidebar) ───────────────────────────────
         var navToggle = document.getElementById('nav-list-toggle');

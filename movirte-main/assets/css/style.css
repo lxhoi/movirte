@@ -831,7 +831,8 @@ body.nav-settled .nav-chevron {
    Height = 100vh - 50px  (50px = topbar strip height).
    ────────────────────────────────────────────────────────────────── */
 #men-subnav-panel,
-#women-subnav-panel {
+#women-subnav-panel,
+#gifting-subnav-panel {
     position: fixed;
     top: 50px;
     /* flush below the topbar strip       */
@@ -861,7 +862,8 @@ body.nav-settled .nav-chevron {
 }
 
 #men-subnav-panel.open,
-#women-subnav-panel.open {
+#women-subnav-panel.open,
+#gifting-subnav-panel.open {
     opacity: 1;
     pointer-events: auto;
     transform: translateX(0);

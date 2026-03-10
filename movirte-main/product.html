@@ -249,7 +249,7 @@
             <a href="best-sellers.html">Best Sellers</a>
             <a href="sale.html">Sale</a>
             <a href="collections.html">Collections &amp; Capsules</a>
-            <a href="gifting.html">Gifting</a>
+            <a href="javascript:void(0)">Gifting</a>
         </div>
     </nav>
 
@@ -278,7 +278,14 @@
                     <a href="best-sellers.html">Best Sellers</a>
                     <a href="sale.html">Sale</a>
                     <a href="collections.html">Collections &amp; Capsules</a>
-                    <a href="gifting.html">Gifting</a>
+                    <span class="nav-item-row" id="giftingNavRow">
+                        <a href="javascript:void(0)" id="giftingNavBtn">Gifting</a>
+                        <button type="button" class="nav-chevron" id="giftingChevron" aria-label="Open Gifting submenu" aria-expanded="false">
+                            <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </span>
                 </div>
             </div>
         </div>
@@ -295,6 +302,12 @@
         <div class="men-subnav-inner">
             <span class="men-subnav-category">Women</span>
             <div class="men-subnav-links" id="womenSubnavLinks"></div>
+        </div>
+    </div>
+    <div id="gifting-subnav-panel">
+        <div class="men-subnav-inner">
+            <span class="men-subnav-category">Gifting</span>
+            <div class="men-subnav-links" id="giftingSubnavLinks"></div>
         </div>
     </div>
 
