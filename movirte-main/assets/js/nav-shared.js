@@ -47,8 +47,8 @@
         // pages, regardless of <base> tag or current directory context.
         function normalizeNavLinks() {
             var linkMap = {
-                'Men': '/men/new-in.html',
-                'Women': '/women/new-in-w.html',
+                'Men': 'javascript:void(0)',
+                'Women': 'javascript:void(0)',
                 'New In': '/new-in.html',
                 'Best Sellers': '/best-sellers.html',
                 'Sale': '/sale.html',
