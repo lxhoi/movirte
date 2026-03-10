@@ -156,10 +156,10 @@
         e.preventDefault();
         // Skip leave animation when navigating away from the index page
         if (isIndexPage()) {
-            window.location.href = new URL(href, window.location.href).href;
+            window.location.href = new URL(href, document.baseURI || window.location.href).href;
             return;
         }
-        playLeave(new URL(href, window.location.href).href);
+        playLeave(new URL(href, document.baseURI || window.location.href).href);
     }, true);
 
     /* ─── 6. Fire enter animation when DOM is ready ─────────────── */
