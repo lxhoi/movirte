@@ -216,10 +216,10 @@
         var giftingSubnavLinks = document.getElementById('giftingSubnavLinks');
 
         var GIFTING_ITEMS = [
-            { label: 'Gift for Him', href: '/gifting.html#him' },
-            { label: 'Gift for Her', href: '/gifting.html#her' },
-            { label: 'Life Style', href: '/gifting.html#lifestyle' },
-            { label: 'Gift Cards', href: '/gifting.html#gift-cards' },
+            { label: 'Gift for Him', href: '/gifting/gift-for-him.html' },
+            { label: 'Gift for Her', href: '/gifting/gift-for-her.html' },
+            { label: 'Life Style', href: '/gifting/lifestyle.html' },
+            { label: 'Gift Cards', href: '/gifting/gift-cards.html' },
         ];
 
         function buildGiftingSubnav() {
