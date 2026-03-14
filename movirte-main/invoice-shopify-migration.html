@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Giá — MOVIRTE Shopify Migration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ── RESET & BASE ─────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0efe9;
+            color: #1a1a1a;
+            font-size: 13px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── INVOICE CONTAINER ────────────────────────── */
+        .invoice {
+            max-width: 860px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .invoice {
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* ── HEADER ───────────────────────────────────── */
+        .invoice-header {
+            background: #111;
+            color: #d4d0c8;
+            padding: 48px 56px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .invoice-brand {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .invoice-brand h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .invoice-brand p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(212, 208, 200, 0.6);
+        }
+
+        .invoice-title-block {
+            text-align: right;
+        }
+
+        .invoice-title-block h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .invoice-meta {
+            font-size: 0.72rem;
+            color: rgba(212, 208, 200, 0.7);
+            line-height: 1.8;
+        }
+
+        .invoice-meta strong {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* ── PARTIES ──────────────────────────────────── */
+        .invoice-parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 36px 56px 28px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .party-label {
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .party-name {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .party-detail {
+            font-size: 0.78rem;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .party-detail.editable {
+            color: #b45309;
+            font-style: italic;
+        }
+
+        /* ── PROJECT SUMMARY ──────────────────────────── */
+        .project-summary {
+            padding: 28px 56px;
+            background: #faf9f6;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .project-summary h3 {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .project-summary p {
+            font-size: 0.82rem;
+            color: #444;
+            line-height: 1.7;
+            max-width: 640px;
+        }
+
+        /* ── LINE ITEMS TABLE ─────────────────────────── */
+        .items-section {
+            padding: 0 56px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .items-table thead th {
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #999;
+            padding: 24px 0 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .items-table thead th:last-child {
+            text-align: right;
+        }
+
+        .items-table tbody td {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            vertical-align: top;
+        }
+
+        .items-table tbody tr:last-child td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .item-phase {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #b45309;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .item-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .item-desc {
+            font-size: 0.72rem;
+            color: #888;
+            margin-top: 3px;
+            line-height: 1.5;
+        }
+
+        .items-table tbody td:last-child {
+            text-align: right;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #111;
+            white-space: nowrap;
+        }
+
+        /* ── TOTALS ───────────────────────────────────── */
+        .totals-section {
+            padding: 24px 56px 36px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .totals-block {
+            width: 300px;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 8px 0;
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        .totals-row.subtotal {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding-bottom: 12px;
+            margin-bottom: 4px;
+        }
+
+        .totals-row.grand-total {
+            border-top: 2px solid #111;
+            padding-top: 14px;
+            margin-top: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .totals-row .amount {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .totals-row.grand-total .amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        /* ── PAYMENT TERMS ────────────────────────────── */
+        .payment-section {
+            padding: 28px 56px;
+            background: #faf9f6;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .payment-col h4 {
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .payment-col p,
+        .payment-col li {
+            font-size: 0.78rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .milestone {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        .milestone .pct {
+            font-weight: 600;
+            color: #111;
+        }
+
+        /* ── FOOTER ───────────────────────────────────── */
+        .invoice-footer {
+            padding: 24px 56px;
+            text-align: center;
+            font-size: 0.68rem;
+            color: #bbb;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .invoice-footer strong {
+            color: #999;
+        }
+
+        /* ── PRINT BUTTON ─────────────────────────────── */
+        .print-bar {
+            max-width: 860px;
+            margin: 0 auto 20px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .print-btn {
+            padding: 10px 24px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid #111;
+            background: #111;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .print-btn:hover {
+            background: transparent;
+            color: #111;
+        }
+
+        /* ── EDITABLE HINT ────────────────────────────── */
+        [contenteditable="true"] {
+            outline: none;
+            border-bottom: 1px dashed rgba(180, 83, 9, 0.3);
+            padding-bottom: 1px;
+        }
+
+        [contenteditable="true"]:focus {
+            border-bottom-color: #b45309;
+            background: rgba(180, 83, 9, 0.04);
+        }
+
+        @media print {
+            [contenteditable="true"] {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NÚT IN -->
+    <div class="print-bar no-print" style="padding-top: 40px;">
+        <button class="print-btn" onclick="window.print()">🖨 In / Lưu PDF</button>
+    </div>
+
+    <div class="invoice">
+
+        <!-- ═══════ HEADER ═══════ -->
+        <div class="invoice-header">
+            <div class="invoice-brand">
+                <h1>MOVIRTE</h1>
+                <p>London, United Kingdom</p>
+            </div>
+            <div class="invoice-title-block">
+                <h2>Báo Giá</h2>
+                <div class="invoice-meta">
+                    <strong>Mã báo giá:</strong> <span contenteditable="true">MOV-2026-001</span><br>
+                    <strong>Ngày lập:</strong> 13/03/2026<br>
+                    <strong>Hiệu lực đến:</strong> <span contenteditable="true">18/03/2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ BÊN BÁO GIÁ / KHÁCH HÀNG ═══════ -->
+        <div class="invoice-parties">
+            <div>
+                <p class="party-label">Bên cung cấp dịch vụ</p>
+                <p class="party-name" contenteditable="true">Lê Xuân Hội</p>
+                <p class="party-detail editable" contenteditable="true">
+                    49 Bùi Thị Xuân, Phường Bến Thành, Quận 1, TP.HCM<br>
+                    Việt Nam<br>
+                    lxhoi.2k@gmail.com<br>
+                    0812914786
+                </p>
+            </div>
+            <div>
+                <p class="party-label">Khách hàng</p>
+                <p class="party-name" contenteditable="true">MOVIRTE</p>
+                <p class="party-detail editable" contenteditable="true">
+                    London<br>
+                    United Kingdom
+                </p>
+            </div>
+        </div>
+
+        <!-- ═══════ TÓM TẮT DỰ ÁN ═══════ -->
+        <div class="project-summary">
+            <h3>Dự Án</h3>
+            <p>Chuyển đổi toàn bộ website thương mại điện tử <strong>MOVIRTE</strong> từ HTML/CSS/JS tĩnh sang nền tảng
+                <strong>Next.js</strong> với tích hợp backend <strong>Shopify</strong>. Bao gồm kết nối Shopify
+                Storefront API, xây dựng lại 41 trang giao diện, tích hợp giỏ hàng/thanh toán, và triển khai trên
+                Vercel.
+            </p>
+        </div>
+
+        <!-- ═══════ BẢNG BÁO GIÁ CHI TIẾT ═══════ -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th style="width:72%">Hạng mục công việc</th>
+                        <th style="width:28%">Thành tiền (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Giai đoạn 1 -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 1</span>
+                            <span class="item-name">Khởi tạo dự án & Cấu hình Shopify</span>
+                            <span class="item-desc">Thiết lập cửa hàng Shopify, cấu hình Storefront API, khởi tạo dự án
+                                Next.js, cài đặt dependencies, cấu hình môi trường, chuyển hình ảnh/tài nguyên
+                                tĩnh</span>
+                        </td>
+                        <td contenteditable="true">1.500.000</td>
+                    </tr>
+                    <!-- Giai đoạn 2 -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 2</span>
+                            <span class="item-name">Layout tổng thể & Hệ thống điều hướng</span>
+                            <span class="item-desc">Layout gốc, thanh thông báo, thanh trên cùng (logo, tìm kiếm, giỏ
+                                hàng), sidebar điều hướng với 3 submenu (Nam/Nữ/Quà tặng), menu mobile, footer, ô tìm
+                                kiếm, mini cart, chat widget — dùng chung cho toàn bộ 41 trang</span>
+                        </td>
+                        <td contenteditable="true">3.000.000</td>
+                    </tr>
+                    <!-- Giai đoạn 3 -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 3</span>
+                            <span class="item-name">Tích hợp dữ liệu Shopify</span>
+                            <span class="item-desc">Xây dựng Storefront API client, truy vấn GraphQL (sản phẩm, bộ sưu
+                                tập, biến thể), cart mutations, quản lý state giỏ hàng & danh sách yêu thích</span>
+                        </td>
+                        <td contenteditable="true">2.000.000</td>
+                    </tr>
+                    <!-- Giai đoạn 4A -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 4A</span>
+                            <span class="item-name">Trang chủ — Hiệu ứng Hero & Nội dung</span>
+                            <span class="item-desc">Hiệu ứng canvas GSAP khi cuộn trang, Lenis smooth scroll, slideshow
+                                banner, lưới sản phẩm từ Shopify, phần nhà phân phối, thanh tính năng</span>
+                        </td>
+                        <td contenteditable="true">3.000.000</td>
+                    </tr>
+                    <!-- Giai đoạn 4B -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 4B</span>
+                            <span class="item-name">Trang danh sách sản phẩm (23 trang)</span>
+                            <span class="item-desc">Thẻ sản phẩm, lưới sản phẩm 3 chế độ xem, bộ lọc (drawer), sắp xếp,
+                                phân trang. Gồm: New In, Best Sellers, Sale, 9 danh mục Nam, 10 danh mục Nữ, 4 trang Quà
+                                tặng</span>
+                        </td>
+                        <td contenteditable="true">3.500.000</td>
+                    </tr>
+                    <!-- Giai đoạn 4C -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 4C</span>
+                            <span class="item-name">Trang chi tiết sản phẩm</span>
+                            <span class="item-desc">Route động từ Shopify, bộ sưu tập ảnh với lightbox, chọn size/màu từ
+                                variant, accordion, thêm vào giỏ hàng, yêu thích, sản phẩm liên quan</span>
+                        </td>
+                        <td contenteditable="true">2.000.000</td>
+                    </tr>
+                    <!-- Giai đoạn 4D -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 4D</span>
+                            <span class="item-name">Giỏ hàng & Tích hợp thanh toán</span>
+                            <span class="item-desc">Trang giỏ hàng với dữ liệu từ Shopify, tăng/giảm số lượng, xoá sản
+                                phẩm, ghi chú đơn hàng, chuyển hướng sang Shopify Checkout</span>
+                        </td>
+                        <td contenteditable="true">2.000.000</td>
+                    </tr>
+                    <!-- Giai đoạn 4E+4F -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 4E–F</span>
+                            <span class="item-name">Yêu thích, Tài khoản & Trang thông tin (10 trang)</span>
+                            <span class="item-desc">Trang yêu thích + thông báo toast, đăng nhập, giới thiệu thương
+                                hiệu, liên hệ, câu hỏi thường gặp, cửa hàng, vận chuyển, đổi trả, chính sách bảo mật,
+                                điều khoản dịch vụ</span>
+                        </td>
+                        <td contenteditable="true">1.500.000</td>
+                    </tr>
+                    <!-- Giai đoạn 5 -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 5</span>
+                            <span class="item-name">Giao diện, Responsive & Hoàn thiện</span>
+                            <span class="item-desc">Chuyển đổi & gộp CSS, responsive cho mobile/tablet/desktop, kiểm tra
+                                hiệu ứng GSAP trên React, tối ưu ảnh Next.js Image, meta tags, loading/error
+                                states</span>
+                        </td>
+                        <td contenteditable="true">2.500.000</td>
+                    </tr>
+                    <!-- Giai đoạn 6 -->
+                    <tr>
+                        <td>
+                            <span class="item-phase">Giai đoạn 6</span>
+                            <span class="item-name">Kiểm thử & Triển khai</span>
+                            <span class="item-desc">Kiểm thử luồng giỏ hàng end-to-end, kiểm thử đa trình duyệt, triển
+                                khai Vercel, cấu hình tên miền, đánh giá hiệu suất Lighthouse</span>
+                        </td>
+                        <td contenteditable="true">1.000.000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ═══════ TỔNG CỘNG ═══════ -->
+        <div class="totals-section">
+            <div class="totals-block">
+                <div class="totals-row subtotal">
+                    <span>Tạm tính</span>
+                    <span class="amount" contenteditable="true">22.000.000 ₫</span>
+                </div>
+                <div class="totals-row">
+                    <span>Thuế VAT (<span contenteditable="true">0</span>%)</span>
+                    <span class="amount" contenteditable="true">0 ₫</span>
+                </div>
+                <div class="totals-row">
+                    <span>Giảm giá</span>
+                    <span class="amount" contenteditable="true">0 ₫</span>
+                </div>
+                <div class="totals-row grand-total">
+                    <span>Tổng cộng</span>
+                    <span class="amount" contenteditable="true">22.000.000 ₫</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ THANH TOÁN ═══════ -->
+        <div class="payment-section">
+            <div class="payment-grid">
+                <div class="payment-col">
+                    <h4>Lịch thanh toán</h4>
+                    <div class="milestone">
+                        <span>Đặt cọc (khi ký hợp đồng)</span>
+                        <span class="pct" contenteditable="true">30% — 6.600.000 ₫</span>
+                    </div>
+                    <div class="milestone">
+                        <span>Giữa dự án (hoàn thành GĐ 4)</span>
+                        <span class="pct" contenteditable="true">40% — 8.800.000 ₫</span>
+                    </div>
+                    <div class="milestone">
+                        <span>Bàn giao & triển khai</span>
+                        <span class="pct" contenteditable="true">30% — 6.600.000 ₫</span>
+                    </div>
+                </div>
+                <div class="payment-col">
+                    <h4>Thông tin thanh toán</h4>
+                    <p contenteditable="true" style="color: #b45309; font-style: italic;">
+                        Ngân hàng: Vietinbank<br>
+                        Chủ tài khoản: Lê Xuân Hội<br>
+                        Số tài khoản: 100871736393<br>
+                        Chi nhánh: Chi nhánh 7<br>
+                        <br>
+                        MoMo: 0812914786
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ GHI CHÚ ═══════ -->
+        <div class="project-summary" style="border-top: 1px solid rgba(0,0,0,0.06);">
+            <h3>Ghi chú & Điều khoản</h3>
+            <ul style="font-size: 0.78rem; color: #666; line-height: 2; list-style: none; padding: 0;">
+                <li>• Thời gian thực hiện dự kiến: <strong>5–6 tuần</strong> kể từ ngày bắt đầu</li>
+                <li>• Chi phí đăng ký Shopify do khách hàng thanh toán trực tiếp cho Shopify</li>
+                <li>• Chi phí hosting Vercel riêng biệt (gói miễn phí đủ cho hầu hết nhu cầu)</li>
+                <li>• Bao gồm 2 lần chỉnh sửa cho mỗi giai đoạn bàn giao</li>
+                <li>• Chỉnh sửa bổ sung hoặc thay đổi phạm vi sẽ được tính phí theo thoả thuận</li>
+                <li>• Báo giá có hiệu lực trong vòng <span contenteditable="true">30</span> ngày kể từ ngày lập</li>
+                <li>• Đơn vị tiền tệ: Việt Nam Đồng (VNĐ)</li>
+            </ul>
+        </div>
+
+        <!-- ═══════ CHÂN TRANG ═══════ -->
+        <div class="invoice-footer">
+            <p><strong>Cảm ơn Quý khách đã tin tưởng hợp tác.</strong><br>
+                Mọi thắc mắc vui lòng liên hệ: <span contenteditable="true">lxhoi.2k@gmail.com</span></p>
+        </div>
+
+    </div>
+
+    <div class="no-print" style="text-align: center; padding: 20px 0 40px; font-size: 0.72rem; color: #999;">
+        💡 <em>Nhấn vào bất kỳ chữ <span style="color: #b45309;">màu cam/nghiêng</span> nào để chỉnh sửa trực tiếp. Sau
+            đó nhấn nút In để lưu PDF.</em>
+    </div>
+
+</body>
+
+</html>
