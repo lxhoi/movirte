@@ -1,0 +1,151 @@
+.header {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 50px;
+    padding: 0 16px;
+    background: var(--movirte-bg);
+    border-bottom: 1px solid var(--movirte-border);
+  }
+}
+
+.burger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--movirte-ink);
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bagBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--movirte-ink);
+}
+
+/* ── Overlay ─────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Drawer ──────────────────────────── */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 120;
+  width: 300px;
+  max-width: 85vw;
+  background: var(--movirte-bg);
+  padding: 24px;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--movirte-ink);
+}
+
+.drawerLogo {
+  display: inline-flex;
+  margin-bottom: 32px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  color: var(--movirte-ink);
+  cursor: pointer;
+  text-align: left;
+  border-bottom: 1px solid var(--movirte-border);
+}
+
+.navChevron {
+  transition: transform 0.3s ease;
+}
+
+.navChevronOpen {
+  transform: rotate(180deg);
+}
+
+.subItems {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 8px 16px;
+}
+
+.subLink {
+  padding: 6px 0;
+  font-size: 0.78rem;
+  color: var(--movirte-muted);
+  transition: color 0.2s;
+}
+
+.subLink:hover {
+  color: var(--movirte-ink);
+}

@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
+import { CartProvider } from "@/contexts/CartContext";
+import { WishlistProvider } from "@/contexts/WishlistContext";
+import LenisProvider from "@/components/LenisProvider/LenisProvider";
+import LayoutShell from "@/components/LayoutShell/LayoutShell";
+import Footer from "@/components/Footer/Footer";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -10,6 +15,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://movirte.com"),
   title: {
     default: "MOVIRTE — British Luxury Fashion",
     template: "%s — MOVIRTE",
@@ -22,11 +28,25 @@ export const metadata: Metadata = {
     "British style",
     "London fashion",
     "quiet luxury",
+    "contemporary fashion",
+    "handcrafted",
   ],
   openGraph: {
     type: "website",
     locale: "en_GB",
     siteName: "MOVIRTE",
+    title: "MOVIRTE — British Luxury Fashion",
+    description: "Discover quiet luxury fashion from London. Hoodies, tees, trousers, and accessories crafted with meticulous attention to detail.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MOVIRTE — British Luxury Fashion",
+    description: "Discover quiet luxury fashion from London.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
 };
 
@@ -37,7 +57,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={playfairDisplay.variable}>
-      <body>{children}</body>
+      <body>
+        <CartProvider>
+          <WishlistProvider>
+            <LenisProvider>
+              <LayoutShell>{children}</LayoutShell>
+              <Footer />
+            </LenisProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,145 @@
+.card {
+  position: relative;
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Image ────────────────────────────── */
+.imageWrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #e8e6df;
+}
+
+.img {
+  object-fit: cover;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+.imgBase { opacity: 1; }
+.imgHover { opacity: 0; }
+
+.imageWrap:hover .imgBase { opacity: 0; }
+.imageWrap:hover .imgHover { opacity: 1; }
+.imageWrap:hover .img { transform: scale(1.04); }
+
+/* ── Wishlist ─────────────────────────── */
+.wishBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.imageWrap:hover .wishBtn,
+.wishlisted {
+  opacity: 1;
+}
+
+.wishBtn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--movirte-ink);
+  stroke-width: 1.5;
+  transition: fill 0.2s;
+}
+
+.wishlisted svg {
+  fill: var(--movirte-ink);
+}
+
+/* ── Sale badge ───────────────────────── */
+.saleBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  background: #c0392b;
+  color: #fff;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+}
+
+/* ── Info ──────────────────────────────── */
+.info {
+  padding: 10px 0 0;
+}
+
+.vendor {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--movirte-muted);
+  margin-bottom: 2px;
+}
+
+.name {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--movirte-ink);
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price {
+  font-size: 0.72rem;
+  color: var(--movirte-ink);
+}
+
+.salePrice {
+  font-size: 0.72rem;
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.comparePrice {
+  font-size: 0.68rem;
+  color: var(--movirte-muted);
+  text-decoration: line-through;
+}
+
+/* ── List layout ──────────────────────── */
+.listCard .link {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.listCard .imageWrap {
+  width: 180px;
+  min-width: 180px;
+  aspect-ratio: 3 / 4;
+}
+
+.listCard .info {
+  padding: 8px 0;
+}
+
+.listCard .name {
+  font-size: 0.85rem;
+}

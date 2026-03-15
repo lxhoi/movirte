@@ -1,0 +1,188 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 28px;
+  color: var(--movirte-ink);
+}
+
+.count {
+  font-size: 1rem;
+  color: var(--movirte-muted);
+  font-weight: 400;
+}
+
+/* ── Empty state ──────────────────────── */
+.empty {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.emptyIcon {
+  font-size: 2.4rem;
+  opacity: 0.2;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-size: 0.95rem;
+  color: var(--movirte-ink);
+  margin-bottom: 8px;
+}
+
+.emptySub {
+  font-size: 0.75rem;
+  color: var(--movirte-muted);
+  margin-bottom: 24px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.shopLink {
+  display: inline-block;
+  padding: 12px 32px;
+  border: 1px solid var(--movirte-ink);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--movirte-ink);
+  transition: background 0.2s, color 0.2s;
+}
+
+.shopLink:hover {
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+/* ── Grid ─────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* ── Card ─────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #e8e6df;
+  margin-bottom: 10px;
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.imageWrap:hover .img {
+  transform: scale(1.04);
+}
+
+.removeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  color: var(--movirte-muted);
+}
+
+.imageWrap:hover .removeBtn {
+  opacity: 1;
+}
+
+.removeBtn:hover {
+  color: #c0392b;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--movirte-ink);
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.price {
+  font-size: 0.72rem;
+  color: var(--movirte-ink);
+  margin-bottom: 2px;
+}
+
+.addedDate {
+  font-size: 0.6rem;
+  color: var(--movirte-muted);
+  margin-bottom: 10px;
+}
+
+.addToCartBtn {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: 1px solid var(--movirte-ink);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--movirte-ink);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.addToCartBtn:hover:not(:disabled) {
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+.addToCartBtn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}

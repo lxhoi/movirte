@@ -350,3 +350,49 @@ export const GET_CART = `
     }
   }
 `;
+
+export const UPDATE_CART_NOTE = `
+  mutation UpdateCartNote($cartId: ID!, $note: String!) {
+    cartNoteUpdate(cartId: $cartId, note: $note) {
+      cart {
+        id
+        checkoutUrl
+        totalQuantity
+        note
+        cost {
+          totalAmount { amount currencyCode }
+          subtotalAmount { amount currencyCode }
+        }
+        lines(first: 100) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price { amount currencyCode }
+                  compareAtPrice { amount currencyCode }
+                  image {
+                    url
+                    altText
+                  }
+                  product {
+                    title
+                    handle
+                  }
+                  selectedOptions { name value }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;

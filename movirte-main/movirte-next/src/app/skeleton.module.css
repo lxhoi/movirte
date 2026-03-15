@@ -1,0 +1,112 @@
+/* Shared skeleton shimmer animation */
+.skeleton {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.skeletonText {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+  height: 12px;
+  margin-bottom: 8px;
+}
+
+.skeletonTextSm {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+  height: 10px;
+  width: 60%;
+  margin-bottom: 6px;
+}
+
+.skeletonHeading {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+  height: 28px;
+  width: 40%;
+  margin-bottom: 20px;
+}
+
+.skeletonImage {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.skeletonBtn {
+  background: linear-gradient(90deg, #e8e6df 25%, #f0ede6 37%, #e8e6df 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 2px;
+  height: 44px;
+  width: 100%;
+}
+
+/* Product grid skeleton */
+.gridSkeleton {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cardSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* PDP skeleton */
+.pdpSkeleton {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pdpInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+/* Page skeleton */
+.pageSkeleton {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+@media (max-width: 768px) {
+  .gridSkeleton {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  .pdpSkeleton {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 16px;
+  }
+}

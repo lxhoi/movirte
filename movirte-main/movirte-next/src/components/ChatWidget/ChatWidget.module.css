@@ -1,0 +1,173 @@
+/* ── Chat FAB ──────────────────────────── */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 150;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--movirte-ink);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* ── Chat Panel ────────────────────────── */
+.panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  z-index: 160;
+  width: 340px;
+  max-width: calc(100vw - 48px);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.panelOpen {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.status {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+/* ── Body ─────────────────────────────── */
+.body {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.bot {
+  align-self: flex-start;
+  background: #f2f1ed;
+  color: var(--movirte-ink);
+  border-bottom-left-radius: 4px;
+}
+
+.user {
+  align-self: flex-end;
+  background: var(--movirte-ink);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+/* ── Input ────────────────────────────── */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.inputBar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font: inherit;
+  font-size: 0.78rem;
+  background: transparent;
+  color: var(--movirte-ink);
+}
+
+.inputBar input::placeholder {
+  color: #aaa;
+}
+
+.send {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--movirte-ink);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.send:hover {
+  opacity: 0.8;
+}

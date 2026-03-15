@@ -1,0 +1,148 @@
+.footer {
+  background: var(--movirte-ink);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 56px 48px 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.col h4 {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.col a {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+}
+
+.col a:hover {
+  color: #fff;
+}
+
+.about p {
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.location {
+  margin-top: 8px;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Newsletter */
+.newsletter p {
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.form input {
+  flex: 1;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  outline: none;
+}
+
+.form input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.form button {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.form button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Bottom bar */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bottom p {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.social {
+  display: flex;
+  gap: 20px;
+}
+
+.social a {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s;
+}
+
+.social a:hover {
+  color: #fff;
+}
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 1024px) {
+  .footer {
+    padding: 40px 24px 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}

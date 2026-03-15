@@ -1,0 +1,99 @@
+/* ── Contact ──────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--movirte-ink);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--movirte-border);
+  background: none;
+  font-size: 0.75rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--movirte-ink);
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--movirte-border);
+  background: none;
+  font-size: 0.75rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: var(--movirte-ink);
+  border: none;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submitBtn:hover { opacity: 0.85; }
+
+.success {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.successIcon {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.successText {
+  font-size: 0.75rem;
+  color: var(--movirte-muted);
+}
+
+.contactInfo {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--movirte-muted);
+  line-height: 1.8;
+}
+
+.contactInfo a {
+  color: var(--movirte-ink);
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

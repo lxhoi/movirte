@@ -1,0 +1,88 @@
+/* ── Toolbar ──────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--movirte-border);
+  margin-bottom: 20px;
+}
+
+.count {
+  font-size: 0.7rem;
+  color: var(--movirte-muted);
+  letter-spacing: 0.06em;
+}
+
+.toggles {
+  display: flex;
+  gap: 6px;
+}
+
+.toggleBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--movirte-border);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.toggleBtn svg {
+  fill: var(--movirte-muted);
+  transition: fill 0.2s;
+}
+
+.toggleBtn:hover {
+  border-color: var(--movirte-ink);
+}
+
+.toggleBtn:hover svg {
+  fill: var(--movirte-ink);
+}
+
+.active {
+  border-color: var(--movirte-ink);
+  background: var(--movirte-ink);
+}
+
+.active svg {
+  fill: #fff;
+}
+
+/* ── Grid ─────────────────────────────── */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.gridList {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .grid3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid2,
+  .grid3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}

@@ -1,0 +1,21 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 500vh; /* Creates scroll room for 511 frames */
+}
+
+.canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    display: none;
+  }
+}

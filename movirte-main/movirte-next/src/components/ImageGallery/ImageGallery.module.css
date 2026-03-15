@@ -1,0 +1,149 @@
+.gallery {
+  display: flex;
+  gap: 12px;
+}
+
+/* ── Thumbnails ───────────────────────── */
+.thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.thumb {
+  position: relative;
+  width: 72px;
+  height: 90px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: #e8e6df;
+  transition: border-color 0.2s;
+  overflow: hidden;
+}
+
+.thumb:hover { border-color: var(--movirte-muted); }
+
+.thumbActive { border-color: var(--movirte-ink); }
+
+.thumbImg { object-fit: cover; }
+
+/* ── Main image ───────────────────────── */
+.main {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: #e8e6df;
+}
+
+.mainImg {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.main:hover .mainImg { transform: scale(1.03); }
+
+.zoomHint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.main:hover .zoomHint { opacity: 0.6; }
+
+/* ── Lightbox ─────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lbClose {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.lbArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.4rem;
+  cursor: pointer;
+  z-index: 3;
+  padding: 12px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.lbArrow:hover { opacity: 1; }
+
+.lbImageWrap {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  max-width: 800px;
+}
+
+.lbImage {
+  object-fit: contain;
+}
+
+.lbDots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.lbDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lbDotActive { background: #fff; }
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 768px) {
+  .gallery {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  .thumbs {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .thumb {
+    width: 56px;
+    height: 70px;
+    flex-shrink: 0;
+  }
+}

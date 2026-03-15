@@ -1,0 +1,134 @@
+/* ── Brand page ───────────────────────── */
+
+.hero {
+  position: relative;
+  height: 50vh;
+  min-height: 320px;
+  overflow: hidden;
+  background: #111;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  z-index: 1;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.heroSub {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+/* ── Story blocks ─────────────────────── */
+.block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.blockReverse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.blockReverse > *:first-child { order: 2; }
+.blockReverse > *:last-child { order: 1; }
+
+.blockImage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.textDark {
+  background: #111;
+  color: #f5f4ef;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.textLight {
+  background: #f5f4ef;
+  color: #111;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.blockH2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.blockH2mt {
+  margin-top: 24px;
+}
+
+.blockP {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+
+/* ── Shop CTA ─────────────────────────── */
+.shopCta {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.shopLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--movirte-muted);
+  margin-bottom: 16px;
+}
+
+.shopBtn {
+  display: inline-block;
+  padding: 12px 32px;
+  border: 1px solid var(--movirte-ink);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--movirte-ink);
+  transition: background 0.2s, color 0.2s;
+}
+
+.shopBtn:hover {
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 768px) {
+  .block,
+  .blockReverse {
+    grid-template-columns: 1fr;
+  }
+  .blockReverse > *:first-child { order: 1; }
+  .blockReverse > *:last-child { order: 2; }
+  .textDark,
+  .textLight {
+    padding: 32px 24px;
+  }
+}

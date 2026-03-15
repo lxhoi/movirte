@@ -1,0 +1,31 @@
+/* ── Store Locator ────────────────────── */
+.card {
+  padding: 20px;
+  border: 1px solid var(--movirte-border);
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--movirte-ink);
+}
+
+.cardName {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--movirte-ink);
+}
+
+.cardAddress {
+  font-size: 0.7rem;
+  color: var(--movirte-muted);
+  margin-bottom: 2px;
+}
+
+.cardType {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--movirte-muted);
+  text-transform: uppercase;
+}

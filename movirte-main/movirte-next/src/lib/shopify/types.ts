@@ -158,3 +158,10 @@ export interface CartLinesRemoveResponse {
 export interface GetCartResponse {
   cart: Cart | null;
 }
+
+export interface CartNoteUpdateResponse {
+  cartNoteUpdate: {
+    cart: Cart;
+    userErrors: { field: string; message: string }[];
+  };
+}

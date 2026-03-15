@@ -1,0 +1,98 @@
+/* ── Sign In ──────────────────────────── */
+.form {
+  max-width: 380px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--movirte-ink);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--movirte-border);
+  background: none;
+  font-size: 0.75rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--movirte-ink);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: var(--movirte-ink);
+  border: none;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submitBtn:hover {
+  opacity: 0.85;
+}
+
+.forgotLink {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--movirte-muted);
+}
+
+.forgotLink a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 0.65rem;
+  color: var(--movirte-muted);
+}
+
+.dividerLine {
+  flex: 1;
+  border: none;
+  border-top: 1px solid var(--movirte-border);
+}
+
+.guestBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: none;
+  border: 1px solid var(--movirte-ink);
+  color: var(--movirte-ink);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.guestBtn:hover {
+  background: var(--movirte-ink);
+  color: #fff;
+}

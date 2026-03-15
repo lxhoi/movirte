@@ -1,0 +1,45 @@
+.strip {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  border-bottom: 1px solid var(--movirte-border);
+  padding: 10px 0;
+}
+
+.track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+.item {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--movirte-ink);
+}
+
+.sep {
+  display: inline-block;
+  margin: 0 18px;
+  color: var(--movirte-muted);
+  font-size: 0.7rem;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .strip {
+    border-bottom: none;
+    padding: 8px 0;
+  }
+}

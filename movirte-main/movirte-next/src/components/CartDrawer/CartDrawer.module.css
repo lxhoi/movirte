@@ -1,0 +1,150 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 210;
+  width: 380px;
+  max-width: 90vw;
+  background: var(--movirte-bg);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--movirte-border);
+}
+
+.header h3 {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+.close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--movirte-ink);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  color: var(--movirte-muted);
+  font-size: 0.82rem;
+}
+
+.continueBtn {
+  background: none;
+  border: 1px solid var(--movirte-ink);
+  padding: 10px 20px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.continueBtn:hover {
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+.footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--movirte-border);
+}
+
+.subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.shippingNote {
+  font-size: 0.68rem;
+  color: var(--movirte-muted);
+  margin-bottom: 16px;
+}
+
+.checkoutBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--movirte-ink);
+  color: #fff;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.checkoutBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.checkoutBtn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.continueLink {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--movirte-muted);
+  cursor: pointer;
+  padding: 6px 0;
+  text-decoration: underline;
+}
+
+.continueLink:hover {
+  color: var(--movirte-ink);
+}

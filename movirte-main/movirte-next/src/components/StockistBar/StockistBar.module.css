@@ -1,0 +1,74 @@
+.bar {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid var(--movirte-border);
+  border-bottom: 1px solid var(--movirte-border);
+}
+
+.title {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--movirte-muted);
+  margin-bottom: 28px;
+}
+
+.logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--movirte-ink);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.logo:hover {
+  opacity: 0.7;
+}
+
+.logo sup {
+  font-size: 0.55em;
+  vertical-align: super;
+  margin-left: 1px;
+}
+
+.logo em {
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.selfridges {
+  letter-spacing: 0.12em;
+}
+
+.harvey {
+  letter-spacing: 0.08em;
+}
+
+.printemps {
+  letter-spacing: 0.1em;
+}
+
+.galeries {
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .logos {
+    gap: 24px;
+  }
+  .logo {
+    font-size: 0.85rem;
+  }
+}

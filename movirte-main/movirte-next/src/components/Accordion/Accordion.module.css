@@ -1,0 +1,64 @@
+.accordion {
+  border-top: 1px solid var(--movirte-border);
+  margin-top: 24px;
+}
+
+.item {
+  border-bottom: 1px solid var(--movirte-border);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.triggerText {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--movirte-ink);
+}
+
+.icon {
+  font-size: 1rem;
+  color: var(--movirte-muted);
+  transition: transform 0.2s;
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.open .content {
+  max-height: 500px;
+}
+
+.inner {
+  padding: 0 0 20px;
+  font-size: 0.75rem;
+  line-height: 1.65;
+  color: var(--movirte-ink);
+}
+
+.inner p {
+  margin-bottom: 8px;
+}
+
+.inner ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.inner li {
+  margin-bottom: 4px;
+}

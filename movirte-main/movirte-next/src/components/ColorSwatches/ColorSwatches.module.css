@@ -1,0 +1,44 @@
+.wrapper { margin-bottom: 20px; }
+
+.label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--movirte-ink);
+}
+
+.selected {
+  font-weight: 400;
+  color: var(--movirte-muted);
+  text-transform: capitalize;
+}
+
+.swatches {
+  display: flex;
+  gap: 10px;
+}
+
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 2px;
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.swatch:hover { border-color: var(--movirte-muted); }
+
+.active { border-color: var(--movirte-ink); }
+
+.inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
