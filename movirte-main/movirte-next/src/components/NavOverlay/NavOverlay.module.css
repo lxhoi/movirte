@@ -1,0 +1,307 @@
+/* ── Nav Overlay — homepage scroll-driven navigation ─── */
+
+/* Fixed fullscreen container */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Centered glassmorphism card */
+.content {
+  width: min(460px, 80vw);
+  max-height: 80vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 48px;
+  box-sizing: border-box;
+  color: white;
+  transition: color 0.5s ease;
+}
+
+.contentDark {
+  color: #111;
+}
+
+/* Glassmorphism border/background — fades out by 20% scroll */
+.content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* ── Heading (logo + subtitle) ────────────────────── */
+.heading {
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: 3.4rem;
+  line-height: 0.9;
+  font-weight: 400;
+  margin: 0;
+  display: block;
+  transform: translate(0px, 0px) scale(1);
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.titleFlown {
+  /* --fly-x and --fly-y set by JS */
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px)) scale(0.38);
+}
+
+/* Logo image in overlay — white by default, becomes dark */
+.logoImg {
+  display: block;
+  height: 0.7em;
+  width: auto;
+  filter: brightness(0) invert(1);
+  transition: filter 0.5s ease;
+}
+
+.contentDark .logoImg {
+  filter: brightness(0) invert(0);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  margin-top: auto;
+  margin-bottom: 2rem;
+  display: block;
+  transform: translate(0px, 0px);
+  transition:
+    transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.7s ease;
+  will-change: transform;
+}
+
+.subtitleFlown {
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
+  opacity: 0;
+}
+
+/* ── Nav links list ───────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.navLink,
+.navRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  transform: translate(0px, 0px);
+  transition:
+    transform 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+    letter-spacing 0.3s ease,
+    color 0.25s ease;
+  will-change: transform;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 2px;
+  margin: 0;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1;
+  pointer-events: auto;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.navLink:hover {
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.itemFlown {
+  /* --fly-x and --fly-y set by JS */
+  transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
+}
+
+/* ── Chevron ──────────────────────────────────────── */
+.chevron {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  transform: rotate(0deg);
+}
+
+.chevronVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Items hidden state (after toggle click) ──────── */
+.itemsHidden .navLink,
+.itemsHidden .navRow {
+  opacity: 0;
+  pointer-events: none;
+  transition-delay: 0s !important;
+}
+
+.itemsHidden .content::before {
+  opacity: 0;
+}
+
+/* ── Nav Title Background strip (50px, beige) ─────── */
+.titleBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50px;
+  background: var(--movirte-bg);
+  z-index: 14;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.titleBgVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.titleIcons {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--movirte-ink);
+}
+
+.titleIcons svg {
+  display: block;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  color: var(--movirte-ink);
+  stroke: var(--movirte-ink);
+}
+
+.titleIcons svg:hover {
+  opacity: 1;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Toggle button ────────────────────────────────── */
+.toggleBtn {
+  position: fixed;
+  top: 0;
+  left: 10px;
+  z-index: 20;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 8px;
+  width: 40px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.toggleBtnVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tbar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--movirte-ink);
+  border-radius: 1px;
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+/* X state */
+.toggleX .tbar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.toggleX .tbar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.toggleX .tbar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Responsive — hide on mobile/tablet ───────────── */
+@media (max-width: 1024px) {
+  .overlay,
+  .titleBg,
+  .toggleBtn {
+    display: none;
+  }
+}

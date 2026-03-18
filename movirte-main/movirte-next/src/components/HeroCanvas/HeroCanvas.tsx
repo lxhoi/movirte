@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import styles from "./HeroCanvas.module.css";
 
 const FRAME_COUNT = 511;
@@ -8,22 +8,15 @@ const EASE = 0.1;
 
 /**
  * Build the URL for a given frame index.
- * Frames live in /scrolling%20fx/ with filenames like:
- *   Screen Recording 2026-02-18 at 6.28.17 PM_00001.jpg
+ * Frames live in /scroll-frames/ in the public folder.
  */
 function frameSrc(index: number): string {
-  const dir = "scrolling fx";
-  const filename = `Screen Recording 2026-02-18 at 6.28.17 PM_${(index + 1)
-    .toString()
-    .padStart(5, "0")}.jpg`;
-  return `${encodeURIComponent(dir)}/${encodeURIComponent(filename)}`;
+  const padded = (index + 1).toString().padStart(5, "0");
+  return `/scroll-frames/frame_${padded}.jpg`;
 }
 
 /** Draw an image with "object-fit: cover" on the canvas */
-function drawCover(
-  ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement
-) {
+function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement) {
   const c = ctx.canvas;
   const hRatio = c.width / img.width;
   const vRatio = c.height / img.height;
@@ -34,6 +27,7 @@ function drawCover(
 }
 
 interface HeroCanvasProps {
+  /** Called with scroll fraction (0–1) so parent can show/hide content sections */
   onScrollProgress?: (fraction: number) => void;
 }
 
@@ -43,13 +37,23 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
   const rafRef = useRef<number>(0);
+  const onScrollProgressRef = useRef(onScrollProgress);
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  /* Preload all frames */
+  // Keep the callback ref fresh
+  useEffect(() => {
+    onScrollProgressRef.current = onScrollProgress;
+  }, [onScrollProgress]);
+
+  // Detect desktop
   useEffect(() => {
     if (typeof window === "undefined") return;
+    setIsDesktop(window.matchMedia("(min-width: 1025px)").matches);
+  }, []);
 
-    const isDesktop = window.matchMedia("(min-width: 1025px)").matches;
-    if (!isDesktop) return; // No canvas animation on mobile
+  /* Preload frames & start animation loop */
+  useEffect(() => {
+    if (!isDesktop) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -60,6 +64,7 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    // Preload all frames
     const imgs: HTMLImageElement[] = [];
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
@@ -75,7 +80,7 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
     }
     imagesRef.current = imgs;
 
-    // Animation loop
+    // Animation loop with lerp
     const animate = () => {
       currentFrameRef.current +=
         (targetFrameRef.current - currentFrameRef.current) * EASE;
@@ -101,34 +106,27 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
     };
     window.addEventListener("resize", onResize);
 
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-
-  /* Scroll handler — called by Lenis via parent */
-  const handleScroll = useCallback(
-    (scrollY: number) => {
-      const maxScroll =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const fraction = maxScroll > 0 ? scrollY / maxScroll : 0;
+    // Listen for scroll events from LenisProvider
+    const onLenisScroll = (e: Event) => {
+      const { scroll } = (e as CustomEvent).detail;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const fraction = maxScroll > 0 ? scroll / maxScroll : 0;
       targetFrameRef.current = Math.min(
         FRAME_COUNT - 1,
         Math.floor(fraction * FRAME_COUNT)
       );
-      onScrollProgress?.(fraction);
-    },
-    [onScrollProgress]
-  );
+      onScrollProgressRef.current?.(fraction);
+    };
+    window.addEventListener("lenis-scroll", onLenisScroll);
 
-  // Expose handleScroll via a data-attribute callback pattern
-  // The LenisProvider will read this ref
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    (canvas as unknown as Record<string, unknown>).__onScroll = handleScroll;
-  }, [handleScroll]);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("lenis-scroll", onLenisScroll);
+    };
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
 
   return (
     <div className={styles.container}>

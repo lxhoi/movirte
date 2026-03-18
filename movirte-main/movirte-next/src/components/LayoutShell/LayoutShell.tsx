@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import TopBar from "@/components/TopBar/TopBar";
 import Navbar from "@/components/Navbar/Navbar";
 import SubnavPanel from "@/components/SubnavPanel/SubnavPanel";
@@ -17,6 +18,9 @@ const SUBNAV_DATA: Record<string, { label: string; items: typeof MEN_ITEMS }> = 
 };
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isHomepage = pathname === "/";
+
   const [navCollapsed, setNavCollapsed] = useState(false);
   const [activeSubnav, setActiveSubnav] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -33,37 +37,45 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
   return (
     <>
-      {/* Desktop */}
-      <TopBar
-        onSearchOpen={() => setSearchOpen(true)}
-        onCartOpen={() => setCartOpen(true)}
-      />
-      <Navbar
-        collapsed={navCollapsed}
-        onToggle={handleNavToggle}
-        activeSubnav={activeSubnav}
-        onSubnavToggle={handleSubnavToggle}
-      />
-      {Object.entries(SUBNAV_DATA).map(([key, { label, items }]) => (
-        <SubnavPanel
-          key={key}
-          label={label}
-          items={items}
-          open={activeSubnav === key}
-          onClose={() => setActiveSubnav(null)}
-        />
-      ))}
+      {/* Desktop nav — only on inner pages (homepage has its own NavOverlay) */}
+      {!isHomepage && (
+        <>
+          <TopBar
+            onSearchOpen={() => setSearchOpen(true)}
+            onCartOpen={() => setCartOpen(true)}
+          />
+          <Navbar
+            collapsed={navCollapsed}
+            onToggle={handleNavToggle}
+            activeSubnav={activeSubnav}
+            onSubnavToggle={handleSubnavToggle}
+          />
+          {Object.entries(SUBNAV_DATA).map(([key, { label, items }]) => (
+            <SubnavPanel
+              key={key}
+              label={label}
+              items={items}
+              open={activeSubnav === key}
+              onClose={() => setActiveSubnav(null)}
+            />
+          ))}
+        </>
+      )}
 
-      {/* Mobile */}
+      {/* Mobile — always present */}
       <MobileHeader onCartOpen={() => setCartOpen(true)} />
 
-      {/* Overlays */}
-      <SearchPanel open={searchOpen} onClose={() => setSearchOpen(false)} />
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      {/* Overlays — only on inner pages (homepage manages its own) */}
+      {!isHomepage && (
+        <>
+          <SearchPanel open={searchOpen} onClose={() => setSearchOpen(false)} />
+          <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+        </>
+      )}
       <ChatWidget />
 
-      {/* Page content */}
-      <main style={{ paddingTop: 50 }}>{children}</main>
+      {/* Page content — no top padding on homepage */}
+      <main style={{ paddingTop: isHomepage ? 0 : 50 }}>{children}</main>
     </>
   );
 }

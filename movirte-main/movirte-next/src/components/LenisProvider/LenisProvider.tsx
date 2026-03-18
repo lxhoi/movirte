@@ -4,9 +4,9 @@ import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 /**
- * LenisProvider — initialises Lenis smooth scroll globally and feeds it
- * into gsap.ticker if GSAP is loaded. Also dispatches a custom event that
- * the HeroCanvas can listen to for scroll progress.
+ * LenisProvider — initialises Lenis smooth scroll globally.
+ * Dispatches `lenis-scroll` CustomEvent so HeroCanvas and other
+ * components can react to scroll position.
  */
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
@@ -15,24 +15,16 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     if (typeof window === "undefined") return;
 
     const isDesktop = window.matchMedia("(min-width: 1025px)").matches;
-    if (!isDesktop) return; // No smooth scroll on mobile
+    if (!isDesktop) return;
 
     const lenis = new Lenis();
     lenisRef.current = lenis;
 
-    // Feed scroll data to HeroCanvas via custom event
+    // Dispatch scroll events for any listener
     lenis.on("scroll", ({ scroll }: { scroll: number }) => {
       window.dispatchEvent(
         new CustomEvent("lenis-scroll", { detail: { scroll } })
       );
-
-      // Also find any hero canvas on the page and call its handler
-      const canvas = document.getElementById("hero-canvas");
-      if (canvas && (canvas as unknown as Record<string, unknown>).__onScroll) {
-        (
-          (canvas as unknown as Record<string, (s: number) => void>).__onScroll
-        )(scroll);
-      }
     });
 
     // Animation loop
