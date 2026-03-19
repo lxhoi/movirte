@@ -1,7 +1,7 @@
 .strip {
   width: 100%;
   overflow: hidden;
-  background: transparent;
+  background: #45423e;
   border-bottom: 1px solid var(--movirte-border);
   padding: 10px 0;
 }
@@ -18,13 +18,13 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--movirte-ink);
+  color: #ffffff;
 }
 
 .sep {
   display: inline-block;
   margin: 0 18px;
-  color: var(--movirte-muted);
+  color: #ffffff;
   font-size: 0.7rem;
 }
 

@@ -1,154 +1,153 @@
 .pdp {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  min-height: calc(100vh - 50px);
+  background: var(--movirte-bg);
 }
 
-/* ── Gallery column ───────────────────── */
 .gallery {
-  position: sticky;
-  top: 74px;
-  align-self: start;
+  min-width: 0;
+  background: #e8e7e3;
 }
 
-/* ── Info column ──────────────────────── */
 .info {
-  padding-top: 8px;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 1px solid rgba(0, 0, 0, 0.07);
+  overflow-y: auto;
 }
 
 .vendor {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--movirte-muted);
-  margin-bottom: 4px;
+  color: #888;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 400;
-  color: var(--movirte-ink);
-  margin-bottom: 12px;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 .priceRow {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
 }
 
 .price {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--movirte-ink);
+  letter-spacing: 0.03em;
+  color: #111;
 }
 
 .salePrice {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #c0392b;
+  color: var(--movirte-sale);
 }
 
 .comparePrice {
-  font-size: 0.82rem;
-  color: var(--movirte-muted);
+  font-size: 0.75rem;
+  color: #888;
   text-decoration: line-through;
 }
 
-/* ── Actions ──────────────────────────── */
 .actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 24px;
-  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 48px;
+  gap: 12px;
+  align-items: stretch;
+  margin-top: 8px;
 }
 
 .addToCart {
-  flex: 1;
-  padding: 14px 24px;
-  background: var(--movirte-ink);
-  border: none;
+  width: 100%;
+  padding: 14px;
+  background: #111;
   color: #fff;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
   cursor: pointer;
+  font-family: inherit;
   transition: opacity 0.2s;
 }
 
-.addToCart:hover { opacity: 0.85; }
-
-.addToCart:disabled {
-  opacity: 0.5;
-  cursor: wait;
+.addToCart:hover {
+  opacity: 0.8;
 }
 
 .wishBtn {
-  width: 50px;
-  height: 50px;
-  border: 1px solid var(--movirte-border);
-  background: none;
-  cursor: pointer;
+  width: 48px;
+  min-width: 48px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s;
-  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
-
-.wishBtn:hover { border-color: var(--movirte-ink); }
 
 .wishBtn svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: none;
-  stroke: var(--movirte-ink);
+  stroke: currentColor;
   stroke-width: 1.5;
-  transition: fill 0.2s;
 }
 
-.wishlisted svg {
-  fill: var(--movirte-ink);
+.wishBtn:hover,
+.wishlisted {
+  background: #111;
+  color: #fff;
 }
 
-/* ── Toast ────────────────────────────── */
+.wishlisted svg path {
+  fill: currentColor;
+}
+
 .toast {
   position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--movirte-ink);
-  color: #fff;
-  padding: 12px 28px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  left: 24px;
+  bottom: 24px;
+  padding: 12px 16px;
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
   z-index: 60;
-  animation: toastIn 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  font-size: 0.78rem;
+  color: #111;
 }
 
-@keyframes toastIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-/* ── Responsive ───────────────────────── */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .pdp {
     grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 16px;
   }
-  .gallery {
-    position: static;
+
+  .info {
+    padding: 28px 24px;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+  }
+}
+
+@media (max-width: 640px) {
+  .info {
+    padding: 24px 20px;
+  }
+
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
   }
 }

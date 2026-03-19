@@ -1,37 +1,50 @@
 .wrapper {
   position: relative;
-  display: inline-block;
 }
 
 .trigger {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: 1px solid var(--movirte-border);
-  padding: 8px 14px;
+  gap: 4px;
+  min-height: 36px;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid rgba(76, 52, 36, 0.55);
+  border-radius: 4px;
+  color: var(--movirte-brown);
   cursor: pointer;
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
 .trigger:hover {
-  border-color: var(--movirte-ink);
+  border-color: var(--movirte-brown);
+  background: rgba(76, 52, 36, 0.03);
+}
+
+.label,
+.value {
+  font-family: var(--font-display-alt);
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .label {
-  color: var(--movirte-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .value {
-  color: var(--movirte-ink);
-  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .chevron {
-  font-size: 0.8rem;
-  transition: transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  transition: transform 0.2s ease;
 }
 
 .chevronOpen {
@@ -40,36 +53,55 @@
 
 .menu {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 8px);
   right: 0;
-  min-width: 200px;
-  background: var(--movirte-bg);
-  border: 1px solid var(--movirte-border);
-  z-index: 20;
-  list-style: none;
+  min-width: 220px;
   margin: 0;
-  padding: 4px 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  list-style: none;
+  background: #f6f2ec;
+  border: 1px solid rgba(76, 52, 36, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 14px 30px rgba(17, 17, 17, 0.1);
+  z-index: 40;
 }
 
 .option {
-  display: block;
   width: 100%;
+  display: block;
   text-align: left;
-  background: none;
-  border: none;
-  padding: 10px 16px;
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  color: var(--movirte-ink);
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--movirte-brown);
+  font-family: var(--font-display-alt);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
 .option:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(76, 52, 36, 0.07);
 }
 
 .optionActive {
-  font-weight: 600;
+  background: rgba(76, 52, 36, 0.1);
+}
+
+@media (max-width: 640px) {
+  .trigger {
+    padding: 0 10px;
+  }
+
+  .label,
+  .value {
+    font-size: 9px;
+  }
+
+  .menu {
+    min-width: 200px;
+  }
 }

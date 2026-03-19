@@ -1,21 +1,68 @@
+/* Scroll container — creates scroll room for the 511-frame sequence */
 .container {
   position: relative;
   width: 100%;
-  height: 500vh; /* Creates scroll room for 511 frames */
+  height: 500vh; /* Match original: body was 500vh */
 }
 
+/* Canvas — fixed, centered, behind everything */
 .canvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100vw;
+  max-height: 100vh;
   z-index: 1;
   pointer-events: none;
 }
 
+/* Product section — fixed fullscreen overlay, owns its own scroll */
+.productSection {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #eeede9;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(20px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px; /* Room for nav-title-bg strip */
+  box-sizing: border-box;
+  /* Hide scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.productSection::-webkit-scrollbar {
+  display: none;
+}
+
+.productSectionVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* ── Mobile / Tablet — no canvas, normal flow ─── */
 @media (max-width: 1024px) {
   .container {
     display: none;
+  }
+
+  .productSection {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    height: auto;
+    overflow-y: visible;
+    padding-top: 56px; /* Mobile header height */
   }
 }

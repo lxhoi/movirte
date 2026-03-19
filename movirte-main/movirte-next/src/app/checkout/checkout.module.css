@@ -1,0 +1,436 @@
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 56px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.5);
+  margin-bottom: 6px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 400;
+  color: var(--movirte-ink);
+}
+
+.backLink {
+  font-size: 0.78rem;
+  color: rgba(17, 17, 17, 0.72);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) 420px;
+  gap: 40px;
+  align-items: start;
+}
+
+.main,
+.sidebar {
+  min-width: 0;
+}
+
+.card,
+.summaryCard {
+  background: #f7f5f0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.card {
+  padding: 28px;
+}
+
+.summaryCard {
+  padding: 24px;
+  position: sticky;
+  top: 74px;
+}
+
+.expressCheckout {
+  text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sectionKicker,
+.summaryKicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 14px;
+}
+
+.expressButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.expressBtn {
+  flex: 1;
+  min-width: 120px;
+  max-width: 160px;
+  height: 44px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.shopPay {
+  background: #5a31f4;
+  color: #fff;
+}
+
+.paypal {
+  background: #ffc439;
+  color: #111;
+}
+
+.gpay {
+  background: #111;
+  color: #fff;
+}
+
+.orText {
+  font-size: 0.68rem;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 18px;
+}
+
+.section {
+  padding-top: 22px;
+  margin-top: 22px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.section:first-of-type {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.section h2,
+.summaryTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sectionHeader a {
+  font-size: 0.72rem;
+  color: #555;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.twoCol,
+.threeCol {
+  display: grid;
+  gap: 12px;
+}
+
+.twoCol {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.threeCol {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: #fff;
+  padding: 13px 14px;
+  font-size: 0.82rem;
+  color: #111;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #111;
+}
+
+.paymentOptions {
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #111;
+}
+
+.paymentOption:last-of-type {
+  border-bottom: none;
+}
+
+.selected {
+  background: #f0efeb;
+}
+
+.paymentLabel {
+  flex: 1;
+}
+
+.paymentBadges {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.cardBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 20px;
+  border-radius: 3px;
+  font-size: 0.48rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.visa {
+  background: #1a1f71;
+}
+
+.mc {
+  background: linear-gradient(135deg, #eb001b 40%, #f79e1b 100%);
+}
+
+.amex {
+  background: #2e77bc;
+}
+
+.cardFields {
+  padding: 16px 18px;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.76rem;
+  color: #555;
+}
+
+.lineItems {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.lineItem {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.lineThumb {
+  position: relative;
+  width: 72px;
+  height: 92px;
+  overflow: hidden;
+  background: #e8e6df;
+}
+
+.lineThumbImg {
+  object-fit: cover;
+}
+
+.lineThumbFallback {
+  width: 100%;
+  height: 100%;
+  background: #e8e6df;
+}
+
+.qtyBadge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.85);
+  color: #fff;
+  font-size: 0.62rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.lineMeta {
+  min-width: 0;
+}
+
+.lineTitle {
+  font-size: 0.8rem;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.lineVariant {
+  font-size: 0.68rem;
+  color: rgba(17, 17, 17, 0.56);
+}
+
+.linePrice {
+  font-size: 0.78rem;
+  color: #111;
+}
+
+.summaryRows {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 16px;
+  margin-top: 12px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.summaryTotal {
+  font-weight: 600;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.muted {
+  color: rgba(17, 17, 17, 0.55);
+}
+
+.empty {
+  text-align: center;
+  padding: 96px 24px;
+  background: #f7f5f0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  font-size: 0.82rem;
+  color: rgba(17, 17, 17, 0.62);
+  margin-bottom: 20px;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px 40px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .card,
+  .summaryCard {
+    padding: 18px;
+  }
+
+  .twoCol,
+  .threeCol {
+    grid-template-columns: 1fr;
+  }
+
+  .lineItem {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .linePrice {
+    grid-column: 2;
+  }
+}

@@ -13,6 +13,8 @@
   pointer-events: none;
   transform: translateX(-20px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  background: #eeede9;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .open {

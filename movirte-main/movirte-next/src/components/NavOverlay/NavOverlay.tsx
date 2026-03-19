@@ -1,18 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "./NavOverlay.module.css";
 import { NAV_ITEMS } from "@/lib/navigation";
 
 interface NavOverlayProps {
-  /** 0–1 scroll fraction, driven by HeroCanvas / LenisProvider */
+  /** Initial scroll fraction (0 on mount) */
   scrollFraction: number;
   onSearchOpen: () => void;
   onCartOpen: () => void;
   onSubnavToggle: (label: string) => void;
   activeSubnav: string | null;
+}
+
+export interface NavOverlayHandle {
+  update: (fraction: number) => void;
 }
 
 const ChevronIcon = () => (
@@ -21,40 +26,54 @@ const ChevronIcon = () => (
   </svg>
 );
 
-export default function NavOverlay({
-  scrollFraction,
-  onSearchOpen,
-  onCartOpen,
-  onSubnavToggle,
-  activeSubnav,
-}: NavOverlayProps) {
+const NavOverlay = forwardRef<NavOverlayHandle, NavOverlayProps>(function NavOverlay(
+  { onSearchOpen, onCartOpen, onSubnavToggle, activeSubnav },
+  ref
+) {
+  const router = useRouter();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const titleBgRef = useRef<HTMLDivElement>(null);
 
-  const [titleFlown, setTitleFlown] = useState(false);
-  const [subtitleFlown, setSubtitleFlown] = useState(false);
-  const [itemsFlown, setItemsFlown] = useState(false);
-  const [navSettled, setNavSettled] = useState(false);
-  const [itemsHidden, setItemsHidden] = useState(false);
+  // Track animation state via refs to avoid re-render cascades
+  const titleFlownRef = useRef(false);
+  const subtitleFlownRef = useRef(false);
+  const itemsFlownRef = useRef(false);
+  const navSettledRef = useRef(false);
+  const itemsHiddenRef = useRef(false);
 
-  // Drive all animations from scrollFraction
-  useEffect(() => {
-    const headingThreshold = 0.3;
-    const settleThreshold = 0.8;
+  const HEADING_THRESHOLD = 0.3;
+  const SETTLE_THRESHOLD = 0.8;
 
-    // Glassmorphism border opacity — fades by 20% scroll
+  const getGlassmorphismHref = useCallback((href: string, fallback?: string) => {
+    if (href && href !== "#") return href;
+    return fallback ?? "/";
+  }, []);
+
+  // Imperative scroll update — no React re-renders, pure DOM manipulation
+  const applyScroll = useCallback((scrollFraction: number) => {
+    // Glassmorphism border opacity — fades between 90%-99%
     if (contentRef.current) {
-      const frameOpacity = Math.max(0, 1 - scrollFraction * 5);
+      const fadeStart = 0.45;
+      const fadeEnd = 0.55;
+      const frameOpacity = scrollFraction < fadeStart
+        ? 1
+        : Math.max(0, 1 - (scrollFraction - fadeStart) / (fadeEnd - fadeStart));
       contentRef.current.style.setProperty("--frame-opacity", String(frameOpacity));
-      (contentRef.current as HTMLElement).querySelector(":scope")?.parentElement;
-      // Apply to ::before via inline var
     }
 
-    // Title fly at 30%
-    if (scrollFraction > headingThreshold) {
-      if (!titleFlown && titleRef.current) {
+    // Dark text at 99%
+    if (contentRef.current) {
+      contentRef.current.classList.toggle(styles.contentDark, scrollFraction > SETTLE_THRESHOLD);
+    }
+
+    // Title fly
+    if (scrollFraction > HEADING_THRESHOLD) {
+      if (!titleFlownRef.current && titleRef.current) {
         const rect = titleRef.current.getBoundingClientRect();
         const scaledHeight = rect.height * 0.38;
         const targetX = 68 - rect.left;
@@ -62,36 +81,40 @@ export default function NavOverlay({
         titleRef.current.style.setProperty("--fly-x", `${targetX}px`);
         titleRef.current.style.setProperty("--fly-y", `${targetY}px`);
         titleRef.current.style.transitionDelay = "0s";
-        setTitleFlown(true);
+        titleRef.current.classList.add(styles.titleFlown);
+        titleFlownRef.current = true;
       }
     } else {
-      if (titleFlown && titleRef.current) {
+      if (titleFlownRef.current && titleRef.current) {
         titleRef.current.style.transitionDelay = "0.12s";
-        setTitleFlown(false);
+        titleRef.current.classList.remove(styles.titleFlown);
+        titleFlownRef.current = false;
       }
     }
 
-    // Subtitle fly at 30%
-    if (scrollFraction > headingThreshold) {
-      if (!subtitleFlown && subtitleRef.current) {
+    // Subtitle fly
+    if (scrollFraction > HEADING_THRESHOLD) {
+      if (!subtitleFlownRef.current && subtitleRef.current) {
         const rect = subtitleRef.current.getBoundingClientRect();
         const targetX = 32 - rect.left;
         const targetY = 24 - rect.top;
         subtitleRef.current.style.setProperty("--fly-x", `${targetX}px`);
         subtitleRef.current.style.setProperty("--fly-y", `${targetY}px`);
         subtitleRef.current.style.transitionDelay = "0.15s";
-        setSubtitleFlown(true);
+        subtitleRef.current.classList.add(styles.subtitleFlown);
+        subtitleFlownRef.current = true;
       }
     } else {
-      if (subtitleFlown && subtitleRef.current) {
+      if (subtitleFlownRef.current && subtitleRef.current) {
         subtitleRef.current.style.transitionDelay = "0s";
-        setSubtitleFlown(false);
+        subtitleRef.current.classList.remove(styles.subtitleFlown);
+        subtitleFlownRef.current = false;
       }
     }
 
-    // Nav items fly to bottom-left at 30%
-    if (scrollFraction > headingThreshold) {
-      if (!itemsFlown) {
+    // Nav items fly to bottom-left
+    if (scrollFraction > HEADING_THRESHOLD) {
+      if (!itemsFlownRef.current) {
         const items = itemRefs.current.filter(Boolean) as HTMLElement[];
         const rects = items.map((el) => el.getBoundingClientRect());
         const gap = 6;
@@ -101,55 +124,69 @@ export default function NavOverlay({
         let accY = stackTop;
         items.forEach((el, j) => {
           const r = rects[j];
-          const flyX = 32 - r.left;
-          const flyY = accY - r.top;
-          el.style.setProperty("--fly-x", `${flyX}px`);
-          el.style.setProperty("--fly-y", `${flyY}px`);
+          el.style.setProperty("--fly-x", `${32 - r.left}px`);
+          el.style.setProperty("--fly-y", `${accY - r.top}px`);
           el.style.transitionDelay = `${j * 0.08}s`;
+          el.classList.add(styles.itemFlown);
           accY += r.height + gap;
         });
-        setItemsFlown(true);
+        itemsFlownRef.current = true;
       }
     } else {
-      if (itemsFlown) {
+      if (itemsFlownRef.current) {
         const items = itemRefs.current.filter(Boolean) as HTMLElement[];
         items.forEach((el, i) => {
           el.style.transitionDelay = `${(items.length - 1 - i) * 0.06}s`;
+          el.classList.remove(styles.itemFlown);
         });
-        setItemsFlown(false);
+        itemsFlownRef.current = false;
       }
     }
 
-    // Nav settles at 80%
-    setNavSettled(scrollFraction > settleThreshold);
-
-    // Reset hidden state if scroll goes back
-    if (scrollFraction <= settleThreshold && itemsHidden) {
-      setItemsHidden(false);
+    // Nav settles at last ~5 frames
+    const settled = scrollFraction > SETTLE_THRESHOLD;
+    if (settled !== navSettledRef.current) {
+      navSettledRef.current = settled;
+      toggleRef.current?.classList.toggle(styles.toggleBtnVisible, settled);
+      titleBgRef.current?.classList.toggle(styles.titleBgVisible, settled);
+      overlayRef.current?.querySelectorAll(`.${styles.chevron}`)
+        .forEach((ch) => ch.classList.toggle(styles.chevronVisible, settled));
+      document.body.classList.toggle("nav-settled", settled);
     }
-  }, [scrollFraction, titleFlown, subtitleFlown, itemsFlown, itemsHidden]);
 
-  const handleToggle = useCallback(() => {
-    setItemsHidden((h) => !h);
+    // Reset hidden state if scrolled back
+    if (!settled && itemsHiddenRef.current) {
+      itemsHiddenRef.current = false;
+      overlayRef.current?.classList.remove(styles.itemsHidden);
+      toggleRef.current?.classList.remove(styles.toggleX);
+      document.body.classList.remove("nav-collapsed");
+    }
   }, []);
 
-  const isDark = scrollFraction > 0.8;
+  // Expose imperative update handle
+  useImperativeHandle(ref, () => ({ update: applyScroll }), [applyScroll]);
+
+  const handleToggle = useCallback(() => {
+    itemsHiddenRef.current = !itemsHiddenRef.current;
+    overlayRef.current?.classList.toggle(styles.itemsHidden, itemsHiddenRef.current);
+    toggleRef.current?.classList.toggle(styles.toggleX, itemsHiddenRef.current);
+    document.body.classList.toggle("nav-collapsed", itemsHiddenRef.current);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove("nav-settled", "nav-collapsed");
+    };
+  }, []);
 
   return (
     <>
       {/* Nav overlay — centered panel */}
-      <div className={`${styles.overlay} ${itemsHidden ? styles.itemsHidden : ""}`}>
-        <div
-          ref={contentRef}
-          className={`${styles.content} ${isDark ? styles.contentDark : ""}`}
-          style={{ "--frame-opacity": Math.max(0, 1 - scrollFraction * 5) } as React.CSSProperties}
-        >
+      <div ref={overlayRef} className={styles.overlay}>
+        <div ref={contentRef} className={styles.content}>
           {/* Heading */}
           <div className={styles.heading}>
-            <h1
-              ref={titleRef}
-              className={`${styles.title} ${titleFlown ? styles.titleFlown : ""}`}
-            >
+            <h1 ref={titleRef} className={styles.title}>
               <Link href="/" style={{ textDecoration: "none" }}>
                 <Image
                   src="/brand-assets/homepage-logo.svg"
@@ -161,10 +198,7 @@ export default function NavOverlay({
                 />
               </Link>
             </h1>
-            <p
-              ref={subtitleRef}
-              className={`${styles.subtitle} ${subtitleFlown ? styles.subtitleFlown : ""}`}
-            >
+            <p ref={subtitleRef} className={styles.subtitle}>
               A new world of commerce.<br />150+ product updates.
             </p>
           </div>
@@ -175,20 +209,26 @@ export default function NavOverlay({
               <span
                 key={item.label}
                 ref={(el) => { itemRefs.current[i] = el; }}
-                className={`${styles.navRow} ${itemsFlown ? styles.itemFlown : ""}`}
+                className={styles.navRow}
               >
                 {item.children ? (
                   <>
                     <button
                       type="button"
                       className={styles.navLink}
-                      onClick={() => onSubnavToggle(item.label)}
+                      onClick={() => {
+                        if (!navSettledRef.current) {
+                          router.push(getGlassmorphismHref(item.href, item.children?.[0]?.href));
+                          return;
+                        }
+                        onSubnavToggle(item.label);
+                      }}
                     >
                       {item.label}
                     </button>
                     <button
                       type="button"
-                      className={`${styles.chevron} ${navSettled ? styles.chevronVisible : ""} ${activeSubnav === item.label ? styles.chevronOpen : ""}`}
+                      className={`${styles.chevron} ${activeSubnav === item.label ? styles.chevronOpen : ""}`}
                       onClick={() => onSubnavToggle(item.label)}
                       aria-label={`Open ${item.label} submenu`}
                     >
@@ -206,10 +246,11 @@ export default function NavOverlay({
         </div>
       </div>
 
-      {/* Toggle button — appears at 80% */}
+      {/* Toggle button */}
       <button
+        ref={toggleRef}
         type="button"
-        className={`${styles.toggleBtn} ${navSettled ? styles.toggleBtnVisible : ""} ${itemsHidden ? styles.toggleX : ""}`}
+        className={styles.toggleBtn}
         onClick={handleToggle}
         aria-label="Toggle navigation menu"
       >
@@ -219,7 +260,7 @@ export default function NavOverlay({
       </button>
 
       {/* Nav title background — 50px beige strip */}
-      <div className={`${styles.titleBg} ${navSettled ? styles.titleBgVisible : ""}`}>
+      <div ref={titleBgRef} className={styles.titleBg}>
         <div className={styles.titleIcons}>
           <Link href="/sign-in" className={styles.iconLink} aria-label="Sign in">
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -244,4 +285,6 @@ export default function NavOverlay({
       </div>
     </>
   );
-}
+});
+
+export default NavOverlay;

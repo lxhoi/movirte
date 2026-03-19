@@ -4,7 +4,6 @@ import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import LenisProvider from "@/components/LenisProvider/LenisProvider";
 import LayoutShell from "@/components/LayoutShell/LayoutShell";
-import Footer from "@/components/Footer/Footer";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -62,7 +61,6 @@ export default function RootLayout({
           <WishlistProvider>
             <LenisProvider>
               <LayoutShell>{children}</LayoutShell>
-              <Footer />
             </LenisProvider>
           </WishlistProvider>
         </CartProvider>

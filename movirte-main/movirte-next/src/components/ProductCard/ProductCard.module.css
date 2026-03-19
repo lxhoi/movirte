@@ -81,7 +81,7 @@
 
 /* ── Info ──────────────────────────────── */
 .info {
-  padding: 10px 0 0;
+  padding: 10px 12px 12px;
 }
 
 .vendor {
@@ -137,7 +137,7 @@
 }
 
 .listCard .info {
-  padding: 8px 0;
+  padding: 8px 12px 12px 0;
 }
 
 .listCard .name {

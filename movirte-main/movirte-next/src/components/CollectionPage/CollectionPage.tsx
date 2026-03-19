@@ -5,6 +5,8 @@ import ProductListGrid from "@/components/ProductListGrid/ProductListGrid";
 import FilterPanel, { type FilterState } from "@/components/FilterPanel/FilterPanel";
 import SortDropdown, { type SortOption } from "@/components/SortDropdown/SortDropdown";
 import Pagination from "@/components/Pagination/Pagination";
+import EditorialBanner from "@/components/EditorialBanner/EditorialBanner";
+import FeaturesBar from "@/components/FeaturesBar/FeaturesBar";
 import type { ProductCardData } from "@/components/ProductCard/ProductCard";
 import styles from "./CollectionPage.module.css";
 
@@ -12,9 +14,17 @@ interface CollectionPageProps {
   title: string;
   description?: string;
   products: ProductCardData[];
+  bannerImage?: string;
+  bannerAlt?: string;
 }
 
-export default function CollectionPage({ title, description, products }: CollectionPageProps) {
+export default function CollectionPage({ 
+  title, 
+  description, 
+  products,
+  bannerImage,
+  bannerAlt,
+}: CollectionPageProps) {
   const [sort, setSort] = useState<SortOption>("best-selling");
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({ sizes: [], types: [], inStockOnly: false });
@@ -42,6 +52,15 @@ export default function CollectionPage({ title, description, products }: Collect
 
   return (
     <div className={styles.container}>
+      {/* Editorial Banner */}
+      {bannerImage && (
+        <EditorialBanner 
+          image={bannerImage} 
+          alt={bannerAlt || title}
+          heading={title}
+        />
+      )}
+
       {/* Header */}
       <div className={styles.header}>
         <div>
@@ -62,6 +81,9 @@ export default function CollectionPage({ title, description, products }: Collect
 
       {/* Pagination */}
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+
+      {/* Features Bar */}
+      <FeaturesBar />
 
       {/* Filter drawer */}
       <FilterPanel open={filterOpen} onClose={() => setFilterOpen(false)} onApply={setFilters} />

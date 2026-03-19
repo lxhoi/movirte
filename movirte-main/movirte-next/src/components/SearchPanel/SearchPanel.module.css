@@ -12,6 +12,14 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
 }
 
+:global(body.nav-settled) .panel {
+  left: calc(100vw / 6);
+}
+
+:global(body.nav-settled.nav-collapsed) .panel {
+  left: 0;
+}
+
 .open {
   transform: translateY(0);
   opacity: 1;
@@ -63,4 +71,11 @@
 
 .close:hover {
   color: var(--movirte-ink);
+}
+
+@media (max-width: 1024px) {
+  :global(body.nav-settled) .panel,
+  :global(body.nav-settled.nav-collapsed) .panel {
+    left: 0;
+  }
 }

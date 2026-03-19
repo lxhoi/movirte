@@ -14,6 +14,28 @@
   pointer-events: none;
 }
 
+.overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw / 6);
+  height: 100%;
+  background: var(--movirte-bg);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+:global(body.nav-settled) .overlay::after {
+  opacity: 1;
+}
+
+:global(body.nav-settled) .itemsHidden.overlay::after {
+  opacity: 0;
+}
+
 /* Centered glassmorphism card */
 .content {
   width: min(460px, 80vw);
@@ -32,7 +54,7 @@
   color: #111;
 }
 
-/* Glassmorphism border/background — fades out by 20% scroll */
+/* Glassmorphism border/background — fades via --frame-opacity set by JS */
 .content::before {
   content: "";
   position: absolute;
@@ -40,6 +62,7 @@
   border: 2px solid rgba(255, 255, 255, 0.5);
   background: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(6px);
+  opacity: var(--frame-opacity, 1);
   transition: opacity 0.4s ease;
   pointer-events: none;
 }
@@ -242,8 +265,11 @@
   align-items: center;
   justify-content: center;
   padding: 6px;
+  background: none;
+  border: none;
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 /* ── Toggle button ────────────────────────────────── */

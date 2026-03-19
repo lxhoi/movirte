@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function BrandPage() {
   return (
-    <div>
+    <div className={styles.page}>
       {/* Hero */}
       <div className={styles.hero}>
         <Image src="/products/black acorn/ACRONHOODIE.webp" alt="MOVIRTE Brand" fill style={{ objectFit: "cover", opacity: 0.6 }} priority />

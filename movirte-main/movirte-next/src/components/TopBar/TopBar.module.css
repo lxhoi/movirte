@@ -1,30 +1,48 @@
-.bar {
+/* ── Top Bar — inner pages (matches listing.css #sidebar-topbar) ─── */
+
+.bar,
+.topbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
   height: 50px;
+  z-index: 55;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
+  justify-content: flex-end;
+  padding: 0 20px 0 0;
   background: var(--movirte-bg);
   border-bottom: 1px solid var(--movirte-border);
+  box-sizing: border-box;
 }
 
-.logo {
+/* MOVIRTE wordmark — positioned after toggle */
+.logo,
+.logoLink {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
+  left: 50px;
+  top: 0;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  height: 50px;
+  font-family: var(--font-display);
+  font-size: 1.29rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--movirte-ink);
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  z-index: 1;
 }
 
+/* Right-side icons */
 .icons {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 16px;
   margin-left: auto;
 }
 
@@ -37,15 +55,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.8;
   transition: opacity 0.2s;
 }
 
 .iconBtn:hover {
-  opacity: 0.6;
+  opacity: 1;
 }
 
+.iconBtn svg {
+  display: block;
+}
+
+/* ── Mobile / Tablet — hide desktop topbar ─── */
 @media (max-width: 1024px) {
-  .bar {
+  .bar,
+  .topbar {
     display: none;
   }
 }

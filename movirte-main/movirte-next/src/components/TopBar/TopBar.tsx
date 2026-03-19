@@ -12,21 +12,19 @@ interface TopBarProps {
 export default function TopBar({ onSearchOpen, onCartOpen }: TopBarProps) {
   return (
     <header className={styles.bar}>
-      {/* Profile */}
-      <Link href="/sign-in" className={styles.iconBtn} aria-label="Sign in">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      </Link>
-
-      {/* Center logo */}
+      {/* Left logo — same settled position as homepage */}
       <Link href="/" className={styles.logo}>
         <Image src="/brand-assets/homepage-logo.svg" alt="MOVIRTE" width={120} height={28} priority />
       </Link>
 
       {/* Right icons */}
       <div className={styles.icons}>
+        <Link href="/sign-in" className={styles.iconBtn} aria-label="Sign in">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </Link>
         <button type="button" className={styles.iconBtn} onClick={onSearchOpen} aria-label="Search">
           <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <circle cx="11" cy="11" r="8" />

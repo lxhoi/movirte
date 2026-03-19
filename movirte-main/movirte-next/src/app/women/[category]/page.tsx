@@ -5,6 +5,8 @@ import AnnouncementStrip from "@/components/AnnouncementStrip/AnnouncementStrip"
 
 const WOMEN_CATEGORIES: Record<string, { title: string; description: string }> = {
   "new-in": { title: "Women's New In", description: "The latest arrivals in women's fashion." },
+  "new-in-w": { title: "Women's New In", description: "The latest arrivals in women's fashion." },
+  sale: { title: "Women's Sale", description: "Reduced pieces from the women's collection." },
   sweats: { title: "Women's Sweatshirts", description: "Luxury sweatshirts and hoodies for women." },
   "t-shirts": { title: "Women's T-Shirts", description: "Premium cotton tees with feminine silhouettes." },
   shirts: { title: "Women's Shirts", description: "Contemporary women's shirts." },

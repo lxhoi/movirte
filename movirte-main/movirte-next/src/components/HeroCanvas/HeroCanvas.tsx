@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import styles from "./HeroCanvas.module.css";
 
 const FRAME_COUNT = 511;
 const EASE = 0.1;
+const PRODUCT_REVEAL_THRESHOLD = 0.8;
+const DESKTOP_MEDIA_QUERY = "(min-width: 1025px)";
+
+function subscribeDesktopQuery(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getDesktopSnapshot() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
+}
 
 /**
  * Build the URL for a given frame index.
@@ -27,29 +41,38 @@ function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement) {
 }
 
 interface HeroCanvasProps {
-  /** Called with scroll fraction (0–1) so parent can show/hide content sections */
+  /** Called with scroll fraction (0–1) so parent can drive nav animations */
   onScrollProgress?: (fraction: number) => void;
+  /** Content that appears inside the product-section overlay */
+  children?: React.ReactNode;
 }
 
-export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
+export default function HeroCanvas({ onScrollProgress, children }: HeroCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
   const rafRef = useRef<number>(0);
   const onScrollProgressRef = useRef(onScrollProgress);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const productRef = useRef<HTMLElement>(null);
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktopQuery,
+    getDesktopSnapshot,
+    () => false
+  );
+  const [contentVisible, setContentVisible] = useState(false);
+
+  // Reset product section scroll to top when it becomes visible
+  useEffect(() => {
+    if (contentVisible && productRef.current) {
+      productRef.current.scrollTop = 0;
+    }
+  }, [contentVisible]);
 
   // Keep the callback ref fresh
   useEffect(() => {
     onScrollProgressRef.current = onScrollProgress;
   }, [onScrollProgress]);
-
-  // Detect desktop
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setIsDesktop(window.matchMedia("(min-width: 1025px)").matches);
-  }, []);
 
   /* Preload frames & start animation loop */
   useEffect(() => {
@@ -115,6 +138,8 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
         FRAME_COUNT - 1,
         Math.floor(fraction * FRAME_COUNT)
       );
+      // Match the original static homepage: reveal the content at ~80% scroll.
+      setContentVisible(fraction > PRODUCT_REVEAL_THRESHOLD);
       onScrollProgressRef.current?.(fraction);
     };
     window.addEventListener("lenis-scroll", onLenisScroll);
@@ -126,11 +151,26 @@ export default function HeroCanvas({ onScrollProgress }: HeroCanvasProps) {
     };
   }, [isDesktop]);
 
-  if (!isDesktop) return null;
-
   return (
-    <div className={styles.container}>
-      <canvas ref={canvasRef} id="hero-canvas" className={styles.canvas} />
-    </div>
+    <>
+      {/* Scroll container — creates 500vh of scroll room (desktop only) */}
+      {isDesktop && (
+        <div className={styles.container}>
+          <canvas ref={canvasRef} id="hero-canvas" className={styles.canvas} />
+        </div>
+      )}
+
+      {/* Product section — fixed fullscreen overlay with own scroll,
+          starts hidden, fades in at 80% scroll.
+          On mobile: static + visible immediately. */}
+      <section
+        ref={productRef}
+        id="product-section"
+        data-lenis-prevent
+        className={`${styles.productSection} ${(!isDesktop || contentVisible) ? styles.productSectionVisible : ""}`}
+      >
+        {children}
+      </section>
+    </>
   );
 }

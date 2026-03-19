@@ -5,6 +5,7 @@ import AnnouncementStrip from "@/components/AnnouncementStrip/AnnouncementStrip"
 
 /** Men's category definitions — slug to display info */
 const MEN_CATEGORIES: Record<string, { title: string; description: string }> = {
+  "sale": { title: "Men's Sale", description: "Reduced pieces from the men's collection." },
   sweatshirts: { title: "Men's Sweatshirts", description: "Luxury sweatshirts and hoodies for men." },
   "t-shirts": { title: "Men's T-Shirts", description: "Premium cotton tees with signature MOVIRTE details." },
   shirts: { title: "Men's Shirts", description: "Contemporary shirts from casual to tailored." },

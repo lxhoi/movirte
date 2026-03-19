@@ -51,14 +51,16 @@ export default function ProductListGrid({
       </div>
 
       {/* Grid */}
-      <div
-        className={`${styles.grid} ${
-          view === "col2" ? styles.grid2 : view === "list" ? styles.gridList : styles.grid3
-        }`}
-      >
-        {products.map((p) => (
-          <ProductCard key={p.id} product={p} layout={view === "list" ? "list" : "grid"} />
-        ))}
+      <div className={styles.gridWrap}>
+        <div
+          className={`${styles.grid} ${
+            view === "col2" ? styles.grid2 : view === "list" ? styles.gridList : styles.grid3
+          }`}
+        >
+          {products.map((p) => (
+            <ProductCard key={p.id} product={p} layout={view === "list" ? "list" : "grid"} />
+          ))}
+        </div>
       </div>
     </div>
   );

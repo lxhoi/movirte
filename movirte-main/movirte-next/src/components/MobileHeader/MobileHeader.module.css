@@ -1,31 +1,53 @@
+/* ── Mobile Header & Drawer — matches product.css mobile styles ─── */
+
+/* Header */
 .header {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--movirte-bg);
+  border-bottom: 1px solid var(--movirte-border);
+  z-index: 100;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
-@media (max-width: 1024px) {
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    height: 50px;
-    padding: 0 16px;
-    background: var(--movirte-bg);
-    border-bottom: 1px solid var(--movirte-border);
-  }
+/* Logo — centered */
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--movirte-ink);
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.burger {
+/* Bag link */
+.bagBtn {
   background: none;
   border: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--movirte-ink);
   cursor: pointer;
+}
+
+/* Burger button */
+.burger {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
   padding: 4px;
 }
 
@@ -34,53 +56,38 @@
   width: 22px;
   height: 1.5px;
   background: var(--movirte-ink);
+  transition: all 0.25s;
 }
 
-.logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.bagBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--movirte-ink);
-}
-
-/* ── Overlay ─────────────────────────── */
+/* ── Drawer overlay ─── */
 .overlay {
+  display: none;
   position: fixed;
   inset: 0;
-  z-index: 110;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 200;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s;
 }
 
 .overlayOpen {
   opacity: 1;
-  pointer-events: auto;
 }
 
-/* ── Drawer ──────────────────────────── */
+/* ── Slide-in drawer ─── */
 .drawer {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  z-index: 120;
-  width: 300px;
-  max-width: 85vw;
+  width: 280px;
+  height: 100vh;
   background: var(--movirte-bg);
-  padding: 24px;
+  z-index: 300;
   transform: translateX(-100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .drawerOpen {
@@ -88,25 +95,30 @@
 }
 
 .close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
   background: none;
   border: none;
-  font-size: 1.2rem;
   cursor: pointer;
+  font-size: 1rem;
   color: var(--movirte-ink);
+  align-self: flex-end;
+  padding: 0;
+  margin-bottom: 24px;
 }
 
 .drawerLogo {
-  display: inline-flex;
-  margin-bottom: 32px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--movirte-ink);
+  text-decoration: none;
+  margin-bottom: 36px;
 }
 
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 18px;
 }
 
 .navLink {
@@ -116,17 +128,24 @@
   width: 100%;
   background: none;
   border: none;
-  padding: 10px 0;
-  font-size: 0.88rem;
-  letter-spacing: 0.06em;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
   color: var(--movirte-ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s;
+  padding: 0;
   cursor: pointer;
   text-align: left;
-  border-bottom: 1px solid var(--movirte-border);
+}
+
+.navLink:hover {
+  opacity: 0.55;
 }
 
 .navChevron {
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .navChevronOpen {
@@ -136,16 +155,27 @@
 .subItems {
   display: flex;
   flex-direction: column;
-  padding: 4px 0 8px 16px;
+  gap: 12px;
+  padding: 12px 0 4px 18px;
 }
 
 .subLink {
-  padding: 6px 0;
-  font-size: 0.78rem;
-  color: var(--movirte-muted);
-  transition: color 0.2s;
+  font-size: 0.95rem;
+  color: rgba(17, 17, 17, 0.78);
+  text-decoration: none;
 }
 
 .subLink:hover {
   color: var(--movirte-ink);
+}
+
+/* ── Show on tablet/mobile ─── */
+@media (max-width: 1024px) {
+  .header {
+    display: flex;
+  }
+
+  .overlay {
+    display: block;
+  }
 }

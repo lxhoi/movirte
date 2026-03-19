@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import TopBar from "@/components/TopBar/TopBar";
 import Navbar from "@/components/Navbar/Navbar";
@@ -9,6 +9,7 @@ import MobileHeader from "@/components/MobileHeader/MobileHeader";
 import SearchPanel from "@/components/SearchPanel/SearchPanel";
 import CartDrawer from "@/components/CartDrawer/CartDrawer";
 import ChatWidget from "@/components/ChatWidget/ChatWidget";
+import Footer from "@/components/Footer/Footer";
 import { MEN_ITEMS, WOMEN_ITEMS, GIFTING_ITEMS } from "@/lib/navigation";
 
 const SUBNAV_DATA: Record<string, { label: string; items: typeof MEN_ITEMS }> = {
@@ -21,7 +22,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const isHomepage = pathname === "/";
 
-  const [navCollapsed, setNavCollapsed] = useState(false);
+  const [navCollapsed, setNavCollapsed] = useState(!isHomepage);
   const [activeSubnav, setActiveSubnav] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -34,6 +35,17 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
     setNavCollapsed((c) => !c);
     setActiveSubnav(null);
   }, []);
+
+  useEffect(() => {
+    if (isHomepage) return;
+
+    document.body.classList.add("nav-settled");
+    document.body.classList.toggle("nav-collapsed", navCollapsed);
+
+    return () => {
+      document.body.classList.remove("nav-settled", "nav-collapsed");
+    };
+  }, [isHomepage, navCollapsed]);
 
   return (
     <>
@@ -76,6 +88,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
       {/* Page content — no top padding on homepage */}
       <main style={{ paddingTop: isHomepage ? 0 : 50 }}>{children}</main>
+      {!isHomepage && <Footer />}
     </>
   );
 }

@@ -1,59 +1,74 @@
-.nav {
+/* ── Pagination — matches new-in.html pagination styles ─── */
+
+.pagination {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 32px 0;
+  align-items: center;
+  gap: 16px;
+  margin: 48px 0 32px;
+  padding: 0 20px;
 }
 
-.arrow {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn {
   background: none;
-  border: 1px solid var(--movirte-border);
-  font-size: 0.9rem;
+  border: none;
+  padding: 8px;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.arrow:hover:not(:disabled) {
-  border-color: var(--movirte-ink);
+.btn:hover:not(:disabled) {
+  color: #171717;
+  opacity: 0.8;
 }
 
-.arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
+.btn:disabled {
+  color: #d4d4d4;
+  cursor: not-allowed;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 0;
 }
 
 .page {
+  background: none;
+  border: none;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 1px solid transparent;
-  font-size: 0.72rem;
-  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: #737373;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: color 0.15s ease;
 }
 
 .page:hover {
-  border-color: var(--movirte-border);
+  color: #404040;
 }
 
-.active {
-  border-color: var(--movirte-ink);
+.pageActive {
+  color: #171717;
   font-weight: 600;
+  border-bottom: 1.5px solid #171717;
 }
 
-.dots {
+.ellipsis {
   width: 36px;
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--movirte-muted);
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: #b0b0b0;
 }

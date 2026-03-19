@@ -1,13 +1,15 @@
+/* ── Footer — matches product.css pdp-footer ─── */
+
 .footer {
   background: var(--movirte-ink);
-  color: rgba(255, 255, 255, 0.7);
-  padding: 56px 48px 32px;
+  color: #ccc;
+  padding: 48px 48px 24px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
-  gap: 40px;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  gap: 48px;
   margin-bottom: 40px;
 }
 
@@ -18,47 +20,40 @@
 }
 
 .col h4 {
-  font-family: var(--font-body);
-  font-size: 0.62rem;
+  color: #fff;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 
-.col a {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.7);
-  transition: color 0.2s;
+.col a,
+.col p {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  text-decoration: none;
+  margin-bottom: 6px;
+  line-height: 1.5;
 }
 
 .col a:hover {
   color: #fff;
 }
 
-.about p {
-  font-size: 0.76rem;
-  line-height: 1.6;
-}
-
 .location {
-  margin-top: 8px;
-  font-size: 0.68rem !important;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: #666 !important;
+  font-size: 0.65rem !important;
+  margin-top: 12px;
 }
 
 /* Newsletter */
-.newsletter p {
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
-
 .form {
   display: flex;
-  margin-top: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #333;
+  overflow: hidden;
+  margin-top: 4px;
 }
 
 .form input {
@@ -68,28 +63,29 @@
   border: none;
   color: #fff;
   font-size: 0.72rem;
-  letter-spacing: 0.06em;
   outline: none;
+  font-family: inherit;
 }
 
 .form input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: #555;
 }
 
 .form button {
   padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #fff;
   border: none;
-  color: #fff;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  color: var(--movirte-ink);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s;
+  font-family: inherit;
+  transition: opacity 0.2s;
 }
 
 .form button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  opacity: 0.8;
 }
 
 /* Bottom bar */
@@ -97,14 +93,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.bottom p {
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.3);
+  border-top: 1px solid #222;
+  padding-top: 20px;
+  font-size: 0.65rem;
+  color: #555;
 }
 
 .social {
@@ -113,8 +105,9 @@
 }
 
 .social a {
+  color: #666;
+  text-decoration: none;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.5);
   transition: color 0.2s;
 }
 
@@ -122,7 +115,7 @@
   color: #fff;
 }
 
-/* ── Responsive ───────────────────────── */
+/* ── Responsive ─── */
 @media (max-width: 1024px) {
   .footer {
     padding: 40px 24px 24px;
@@ -130,11 +123,11 @@
 
   .grid {
     grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    gap: 32px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 24px;

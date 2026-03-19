@@ -35,21 +35,40 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
 
   return (
     <div className={styles.wrapper} ref={ref}>
-      <button className={styles.trigger} onClick={() => setOpen((o) => !o)}>
+      <button
+        type="button"
+        className={styles.trigger}
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
         <span className={styles.label}>Sort by:</span>
         <span className={styles.value}>{current?.label}</span>
-        <span className={`${styles.chevron} ${open ? styles.chevronOpen : ""}`}>▾</span>
+        <span className={`${styles.chevron} ${open ? styles.chevronOpen : ""}`} aria-hidden="true">
+          <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+            <path
+              d="M1 1l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </button>
       {open && (
-        <ul className={styles.menu}>
+        <ul className={styles.menu} role="menu">
           {OPTIONS.map((opt) => (
             <li key={opt.value}>
               <button
+                type="button"
                 className={`${styles.option} ${opt.value === value ? styles.optionActive : ""}`}
                 onClick={() => {
                   onChange(opt.value);
                   setOpen(false);
                 }}
+                role="menuitemradio"
+                aria-checked={opt.value === value}
               >
                 {opt.label}
               </button>

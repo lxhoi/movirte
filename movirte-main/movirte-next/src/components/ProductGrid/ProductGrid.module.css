@@ -1,36 +1,39 @@
 .section {
+  position: relative;
   padding: 0 0 40px;
 }
 
 /* ── Tabs ─────────────────────────────── */
 .tabs {
   display: flex;
-  gap: 24px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--movirte-border);
-  margin-bottom: 24px;
+  justify-content: center;
+  gap: 32px;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 20px 0 0;
+  background: var(--movirte-bg);
 }
 
 .tab {
   background: none;
   border: none;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--movirte-muted);
+  color: var(--movirte-ink);
   cursor: pointer;
-  padding: 4px 0;
+  padding: 0 0 6px;
   border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
 .tab:hover {
-  color: var(--movirte-ink);
+  opacity: 0.7;
 }
 
 .tabActive {
-  color: var(--movirte-ink);
   border-bottom-color: var(--movirte-ink);
 }
 
@@ -38,7 +41,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
+  padding: 40px;
 }
 
 .link {
@@ -58,7 +62,23 @@
 
 .img {
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+.baseImg {
+  opacity: 1;
+}
+
+.hoverImg {
+  opacity: 0;
+}
+
+.link:hover .baseImg {
+  opacity: 0;
+}
+
+.link:hover .hoverImg {
+  opacity: 1;
 }
 
 .link:hover .img {
@@ -67,61 +87,79 @@
 
 .wishlist {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  color: var(--movirte-ink);
+  padding: 0;
 }
 
-.link:hover .wishlist {
+.imageWrap:hover .wishlist,
+.wishlisted {
   opacity: 1;
+}
+
+.wishlist:hover {
+  background: rgba(17, 17, 17, 0.85);
+  color: #fff;
 }
 
 .wishlist svg {
   width: 16px;
   height: 16px;
   fill: none;
-  stroke: var(--movirte-ink);
+  stroke: currentColor;
   stroke-width: 1.5;
+}
+
+.wishlisted {
+  background: var(--movirte-ink);
+  color: #fff;
+}
+
+.wishlisted svg path {
+  fill: currentColor;
 }
 
 .name {
   margin-top: 10px;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 400;
   color: var(--movirte-ink);
 }
 
 .price {
-  font-size: 0.72rem;
-  color: var(--movirte-muted);
+  font-size: 0.74rem;
+  color: var(--movirte-ink);
 }
 
 /* ── CTA ──────────────────────────────── */
 .cta {
   text-align: center;
-  padding: 32px 0 8px;
+  margin: 24px 0;
 }
 
 .shopBtn {
   display: inline-block;
-  padding: 12px 48px;
-  border: 1px solid var(--movirte-ink);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  background: transparent;
   color: var(--movirte-ink);
-  transition: background 0.2s, color 0.2s;
+  padding: 12px 28px;
+  border: 1px solid var(--movirte-ink);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .shopBtn:hover {
@@ -129,17 +167,125 @@
   color: #fff;
 }
 
+.toast {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 260px;
+  max-width: 360px;
+  transform: translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 40;
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.toastThumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #f5f5f3;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toastThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.toastBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.toastLabel {
+  margin: 0 0 2px;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.55);
+}
+
+.toastTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--movirte-ink);
+}
+
+.toastCta {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border-radius: 7px;
+  background: #65664f;
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.toastCta:hover {
+  background: #5b5c47;
+}
+
 /* ── Responsive ───────────────────────── */
 @media (max-width: 1024px) {
+  .tabs {
+    padding: 16px 20px;
+    gap: 24px;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    padding: 24px 0;
   }
 }
 
 @media (max-width: 600px) {
+  .tabs {
+    margin-top: 12px;
+    padding: 14px 16px;
+  }
+
+  .tab,
+  .shopBtn {
+    font-size: 0.78rem;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    padding: 20px 0;
+  }
+
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    min-width: 0;
+    max-width: none;
   }
 }

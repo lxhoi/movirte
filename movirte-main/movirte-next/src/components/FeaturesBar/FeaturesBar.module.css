@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  padding: 40px 24px;
+  padding: 40px 40px;
   background: var(--movirte-bg);
 }
 
@@ -31,11 +31,17 @@
   line-height: 1.4;
 }
 
+@media (max-width: 1024px) {
+  .bar {
+    padding: 32px 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .bar {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    padding: 32px 16px;
+    padding: 28px 16px;
   }
 }
 
@@ -43,5 +49,6 @@
   .bar {
     grid-template-columns: 1fr;
     gap: 16px;
+    padding: 24px 16px;
   }
 }
