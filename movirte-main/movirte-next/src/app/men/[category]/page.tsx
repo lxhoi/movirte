@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CollectionPage from "@/components/CollectionPage/CollectionPage";
 import AnnouncementStrip from "@/components/AnnouncementStrip/AnnouncementStrip";
+import { fetchCollectionCards } from "@/lib/shopify/listings";
 
 /** Men's category definitions — slug to display info */
 const MEN_CATEGORIES: Record<string, { title: string; description: string }> = {
@@ -32,14 +33,6 @@ export async function generateMetadata({
   return { title: cat.title, description: cat.description };
 }
 
-/* TODO: Replace with fetchCollection({ handle: `men-${category}` }) */
-const PLACEHOLDER = [
-  { id: "1", handle: "acron-hoodie-black", title: "Acron Hoodie — Black", price: "£120", image: "/products/black acorn/ACRONHOODIE.webp" },
-  { id: "2", handle: "acron-graphic-tee", title: "Acron Graphic Tee", price: "£85", image: "/products/black acorn/acrontee.jpg" },
-  { id: "3", handle: "noir-heritage-pant", title: "Noir Heritage Pant", price: "£145", image: "/products/noir heritage pants/8904.webp" },
-  { id: "4", handle: "specialist-trucker-cap", title: "Specialist Trucker Cap", price: "£68", image: "/products/trucker cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp" },
-];
-
 export default async function MenCategoryPage({
   params,
 }: {
@@ -48,11 +41,21 @@ export default async function MenCategoryPage({
   const { category } = await params;
   const cat = MEN_CATEGORIES[category];
   if (!cat) notFound();
+  const collection = await fetchCollectionCards(
+    [`men-${category}`, category],
+    { first: 24, sortKey: category === "sale" ? "PRICE" : "BEST_SELLING" }
+  ).catch(() => null);
 
   return (
     <>
       <AnnouncementStrip />
-      <CollectionPage title={cat.title} description={cat.description} products={PLACEHOLDER} />
+      <CollectionPage
+        title={cat.title}
+        description={cat.description}
+        products={collection?.products ?? []}
+        bannerImage={collection?.image}
+        bannerAlt={collection?.title ?? cat.title}
+      />
     </>
   );
 }

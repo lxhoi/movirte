@@ -1,25 +1,26 @@
 .gallery {
   display: flex;
   gap: 12px;
+  align-items: flex-start;
 }
 
 /* ── Thumbnails ───────────────────────── */
 .thumbs {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: 72px;
+  gap: 10px;
+  width: 54px;
   flex-shrink: 0;
 }
 
 .thumb {
   position: relative;
-  width: 72px;
-  height: 90px;
+  width: 54px;
+  height: 80px;
   border: 1px solid transparent;
   cursor: pointer;
   padding: 0;
-  background: #e8e6df;
+  background: #f4f2ed;
   transition: border-color 0.2s;
   overflow: hidden;
 }
@@ -34,14 +35,23 @@
 .main {
   position: relative;
   flex: 1;
-  aspect-ratio: 3 / 4;
+  width: min(100%, 720px);
+  min-height: 860px;
+  height: min(calc(100vh - 150px), 980px);
+  max-width: 720px;
   overflow: hidden;
   cursor: zoom-in;
-  background: #e8e6df;
+  background: #f6f4ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .mainImg {
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s ease;
 }
 
@@ -145,5 +155,13 @@
     width: 56px;
     height: 70px;
     flex-shrink: 0;
+  }
+
+  .main {
+    min-height: auto;
+    height: min(68vh, 620px);
+    padding: 20px;
+    max-width: none;
+    width: 100%;
   }
 }

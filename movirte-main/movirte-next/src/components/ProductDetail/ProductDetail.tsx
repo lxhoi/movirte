@@ -1,24 +1,25 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import Link from "next/link";
 import ImageGallery from "@/components/ImageGallery/ImageGallery";
-import SizeSelector from "@/components/SizeSelector/SizeSelector";
-import ColorSwatches from "@/components/ColorSwatches/ColorSwatches";
 import Accordion from "@/components/Accordion/Accordion";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/lib/shopify/types";
 import styles from "./ProductDetail.module.css";
 
-/** Map colour names to CSS colours for swatches */
 const COLOR_MAP: Record<string, string> = {
   Black: "#111",
-  White: "#f5f5f0",
-  Navy: "#1a1a3e",
-  Grey: "#7a7a7a",
-  Cream: "#f0ead6",
+  White: "#f2efe7",
+  Navy: "#1b2240",
+  Grey: "#818181",
+  Gray: "#818181",
+  Cream: "#d8cfb9",
   Olive: "#4a5a3a",
   Brown: "#5c3a1e",
+  Cocoa: "#8b6914",
+  Sand: "#c4b896",
   Red: "#8b2020",
   Blue: "#2a4a7a",
   Green: "#2d5a3a",
@@ -28,71 +29,63 @@ interface ProductDetailProps {
   product: Product;
 }
 
+function formatMoney(amount: string, currencyCode: string) {
+  const symbol = currencyCode === "GBP" ? "£" : currencyCode === "USD" ? "$" : `${currencyCode} `;
+  return `${symbol}${parseFloat(amount).toFixed(2)}`;
+}
+
+function buildSku(handle: string) {
+  return handle.replace(/-/g, "-").toUpperCase();
+}
+
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem, loading: cartLoading } = useCart();
   const { isWishlisted, toggle: toggleWishlist } = useWishlist();
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
-  /* ── Parse options ───────────────────────────── */
-  const sizeOption = product.options.find(
-    (o) => o.name.toLowerCase() === "size"
-  );
+  const sizeOption = product.options.find((o) => o.name.toLowerCase() === "size");
   const colorOption = product.options.find(
     (o) => o.name.toLowerCase() === "color" || o.name.toLowerCase() === "colour"
   );
 
-  const [selectedSize, setSelectedSize] = useState<string | null>(
-    sizeOption?.values[0] ?? null
-  );
-  const [selectedColor, setSelectedColor] = useState<string | null>(
-    colorOption?.values[0] ?? null
-  );
+  const [selectedSize, setSelectedSize] = useState<string | null>(sizeOption?.values[0] ?? null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(colorOption?.values[0] ?? null);
 
-  /* ── Find matching variant ───────────────────── */
   const selectedVariant = useMemo(() => {
-    return product.variants.edges.find(({ node: v }) => {
-      const sizeMatch = !sizeOption || v.selectedOptions.some(
-        (o) => o.name.toLowerCase() === "size" && o.value === selectedSize
+    return product.variants.edges.find(({ node: variant }) => {
+      const sizeMatch = !sizeOption || variant.selectedOptions.some(
+        (option) => option.name.toLowerCase() === "size" && option.value === selectedSize
       );
-      const colorMatch = !colorOption || v.selectedOptions.some(
-        (o) => (o.name.toLowerCase() === "color" || o.name.toLowerCase() === "colour") && o.value === selectedColor
+      const colorMatch = !colorOption || variant.selectedOptions.some(
+        (option) =>
+          (option.name.toLowerCase() === "color" || option.name.toLowerCase() === "colour") &&
+          option.value === selectedColor
       );
       return sizeMatch && colorMatch;
     })?.node;
-  }, [product.variants.edges, selectedSize, selectedColor, sizeOption, colorOption]);
+  }, [colorOption, product.variants.edges, selectedColor, selectedSize, sizeOption]);
 
-  /* ── Size availability ───────────────────────── */
   const sizeAvailability = useMemo(() => {
     if (!sizeOption) return {};
-    const map: Record<string, boolean> = {};
-    sizeOption.values.forEach((size) => {
-      const variant = product.variants.edges.find(({ node: v }) => {
-        const sMatch = v.selectedOptions.some(
-          (o) => o.name.toLowerCase() === "size" && o.value === size
-        );
-        const cMatch = !colorOption || v.selectedOptions.some(
-          (o) => (o.name.toLowerCase() === "color" || o.name.toLowerCase() === "colour") && o.value === selectedColor
-        );
-        return sMatch && cMatch;
-      });
-      map[size] = variant?.node.availableForSale ?? false;
-    });
-    return map;
-  }, [product.variants.edges, sizeOption, colorOption, selectedColor]);
+    return Object.fromEntries(
+      sizeOption.values.map((size) => {
+        const variant = product.variants.edges.find(({ node }) => {
+          const matchesSize = node.selectedOptions.some(
+            (option) => option.name.toLowerCase() === "size" && option.value === size
+          );
+          const matchesColor = !colorOption || node.selectedOptions.some(
+            (option) =>
+              (option.name.toLowerCase() === "color" || option.name.toLowerCase() === "colour") &&
+              option.value === selectedColor
+          );
+          return matchesSize && matchesColor;
+        });
 
-  /* ── Images ──────────────────────────────────── */
-  const images = product.images.edges.map((e) => e.node);
+        return [size, variant?.node.availableForSale ?? false];
+      })
+    );
+  }, [colorOption, product.variants.edges, selectedColor, sizeOption]);
 
-  /* ── Price display ───────────────────────────── */
-  const price = selectedVariant?.price ?? product.priceRange.minVariantPrice;
-  const compareAt = selectedVariant?.compareAtPrice ?? null;
-  const currencySymbol = price.currencyCode === "GBP" ? "£" : "$";
-  const priceStr = `${currencySymbol}${parseFloat(price.amount).toFixed(2)}`;
-  const compareStr = compareAt
-    ? `${currencySymbol}${parseFloat(compareAt.amount).toFixed(2)}`
-    : null;
-
-  /* ── Color swatches data ─────────────────────── */
   const colors = colorOption
     ? colorOption.values.map((name) => ({
         name,
@@ -100,10 +93,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       }))
     : [];
 
-  /* ── Handlers ────────────────────────────────── */
+  const images = product.images.edges.map((edge) => edge.node);
+  const price = selectedVariant?.price ?? product.priceRange.minVariantPrice;
+  const compareAt = selectedVariant?.compareAtPrice ?? null;
+  const priceStr = formatMoney(price.amount, price.currencyCode);
+  const compareStr =
+    compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount)
+      ? formatMoney(compareAt.amount, compareAt.currencyCode)
+      : null;
+  const selectedSizeInStock = selectedSize ? sizeAvailability[selectedSize] !== false : true;
+
   const showToast = useCallback((msg: string) => {
     setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 2500);
+    window.setTimeout(() => setToastMsg(null), 2500);
   }, []);
 
   const handleAddToCart = async () => {
@@ -111,40 +113,38 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       showToast("Please select a size");
       return;
     }
+
     await addItem(selectedVariant.id);
-    showToast("Added to bag ✓");
+    showToast("Added to bag");
   };
 
   const handleWishlist = () => {
+    const productId = product.id;
+    const alreadyWishlisted = isWishlisted(productId);
     toggleWishlist({
-      productId: product.id,
+      productId,
       handle: product.handle,
       title: product.title,
       imageUrl: images[0]?.url ?? "",
       price: priceStr,
     });
-    showToast(
-      isWishlisted(product.id) ? "Removed from wishlist" : "Added to wishlist ♥"
-    );
+    showToast(alreadyWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
 
-  /* ── Accordion items ─────────────────────────── */
   const accordionItems = [
     {
       title: "Product Details",
-      defaultOpen: true,
       content: (
         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description }} />
       ),
     },
     {
-      title: "Shipping",
+      title: "Shipping & Returns",
       content: (
         <>
-          <p>UK Free Shipping on orders over £175.</p>
-          <p>International Free Shipping over £300.</p>
-          <p>Free Tote Bag with orders over £175.</p>
-          <p>Duties &amp; taxes prepaid for USA, Canada &amp; Europe.</p>
+          <p>Free UK delivery on orders over £175.</p>
+          <p>International shipping available with duties prepaid to selected regions.</p>
+          <p>Returns accepted on unworn items with tags attached.</p>
         </>
       ),
     },
@@ -152,75 +152,122 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       title: "Returns & Exchanges",
       content: (
         <>
-          <p>Free exchanges &amp; returns for UK orders within 14 days.</p>
-          <p>Items must be unworn, unwashed, and with tags attached.</p>
-          <p>International returns are the responsibility of the customer.</p>
+          <p>Free exchanges & returns for UK orders where eligible.</p>
+          <p>International return shipping costs may apply.</p>
         </>
       ),
     },
   ];
 
   return (
-    <div className={styles.pdp}>
-      {/* Gallery */}
-      <div className={styles.gallery}>
-        <ImageGallery images={images} />
+    <div className={styles.pageWrap}>
+      <div className={styles.breadcrumb}>
+        <Link href="/new-in">New In</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <span>{product.title}</span>
       </div>
 
-      {/* Info */}
-      <div className={styles.info}>
-        <p className={styles.vendor}>{product.vendor}</p>
-        <h1 className={styles.title}>{product.title}</h1>
-
-        <div className={styles.priceRow}>
-          <span className={compareStr ? styles.salePrice : styles.price}>{priceStr}</span>
-          {compareStr && <span className={styles.comparePrice}>{compareStr}</span>}
+      <div className={styles.main}>
+        <div className={styles.galleryCol}>
+          <ImageGallery images={images} />
         </div>
 
-        {/* Colour */}
-        {colors.length > 0 && (
-          <ColorSwatches
-            colors={colors}
-            selected={selectedColor}
-            onChange={setSelectedColor}
-          />
-        )}
+        <div className={styles.infoCol}>
+          <p className={styles.brand}>{product.vendor}</p>
+          <h1 className={styles.title}>{product.title}</h1>
+          <p className={styles.price}>{priceStr}</p>
+          {compareStr && <p className={styles.comparePrice}>{compareStr}</p>}
+          <p className={styles.desc}>
+            {product.description || "Crafted for quiet luxury with signature embroidery, rich fabrics, and a refined silhouette."}
+          </p>
 
-        {/* Size */}
-        {sizeOption && (
-          <SizeSelector
-            sizes={sizeOption.values}
-            selected={selectedSize}
-            onChange={setSelectedSize}
-            availability={sizeAvailability}
-          />
-        )}
+          {sizeOption && (
+            <div className={styles.optionSection}>
+              <div className={styles.optionLabelRow}>
+                <span className={styles.optionLabel}>Size</span>
+                <button type="button" className={styles.sizeGuide}>
+                  Size guide
+                </button>
+              </div>
+              <div className={styles.sizeGrid}>
+                {sizeOption.values.map((size) => {
+                  const available = sizeAvailability[size] !== false;
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      className={`${styles.sizeBtn} ${selectedSize === size ? styles.sizeBtnSelected : ""}`}
+                      onClick={() => setSelectedSize(size)}
+                      disabled={!available}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className={styles.stock}>{selectedSizeInStock ? "In stock" : "Out of stock"}</p>
+            </div>
+          )}
 
-        {/* Actions */}
-        <div className={styles.actions}>
+          <p className={styles.urgency}>
+            Order within the next 08 Hours 35 Minutes with Priority Shipping to receive by Fri, Mar 28.
+          </p>
+
+          {colors.length > 0 && (
+            <div className={styles.optionSection}>
+              <span className={styles.optionLabel}>Colour</span>
+              <div className={styles.swatches}>
+                {colors.map((color) => (
+                  <button
+                    key={color.name}
+                    type="button"
+                    className={`${styles.swatch} ${selectedColor === color.name ? styles.swatchSelected : ""}`}
+                    style={{ background: color.value }}
+                    title={color.name}
+                    aria-label={color.name}
+                    onClick={() => setSelectedColor(color.name)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <button
+            type="button"
             className={styles.addToCart}
             onClick={handleAddToCart}
             disabled={cartLoading}
           >
-            {cartLoading ? "ADDING…" : "ADD TO BAG"}
+            {cartLoading ? "ADDING..." : "ADD TO CART"}
           </button>
+
+          <button type="button" className={styles.shopPay}>
+            Buy with Shop Pay
+          </button>
+
           <button
-            className={`${styles.wishBtn} ${isWishlisted(product.id) ? styles.wishlisted : ""}`}
+            type="button"
+            className={styles.wishlistBtn}
             onClick={handleWishlist}
-            aria-label={isWishlisted(product.id) ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <svg viewBox="0 0 24 24" aria-hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
             </svg>
+            {isWishlisted(product.id) ? "Remove from wishlist" : "Add to wishlist"}
           </button>
-        </div>
 
-        {/* Accordion */}
-        <Accordion items={accordionItems} />
+          <p className={styles.clearpay}>
+            Clearpay available for orders between £70 - £2,500. <span aria-hidden="true">ⓘ</span>
+          </p>
+
+          <div className={styles.accordionWrap}>
+            <Accordion items={accordionItems} />
+          </div>
+
+          <p className={styles.sku}>SKU: {buildSku(product.handle)}</p>
+        </div>
       </div>
 
-      {/* Toast */}
       {toastMsg && <div className={styles.toast}>{toastMsg}</div>}
     </div>
   );

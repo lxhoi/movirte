@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CollectionPage from "@/components/CollectionPage/CollectionPage";
 import AnnouncementStrip from "@/components/AnnouncementStrip/AnnouncementStrip";
+import { fetchCollectionCards } from "@/lib/shopify/listings";
 
 const GIFTING_PAGES: Record<string, { title: string; description: string }> = {
   "gift-for-him": { title: "Gift for Him", description: "Curated luxury gifts for him. Hoodies, tees, caps, and accessories." },
@@ -25,11 +26,6 @@ export async function generateMetadata({
   return { title: page.title, description: page.description };
 }
 
-const PLACEHOLDER = [
-  { id: "1", handle: "acron-hoodie-black", title: "Acron Hoodie — Black", price: "£120", image: "/products/black acorn/ACRONHOODIE.webp" },
-  { id: "2", handle: "specialist-trucker-cap", title: "Specialist Trucker Cap", price: "£68", image: "/products/trucker cap/SPECIALIST_TRUCKER_CAP_FLAT_LAY.webp" },
-];
-
 export default async function GiftingPage({
   params,
 }: {
@@ -38,11 +34,21 @@ export default async function GiftingPage({
   const { slug } = await params;
   const page = GIFTING_PAGES[slug];
   if (!page) notFound();
+  const collection = await fetchCollectionCards(
+    [`gifting-${slug}`, slug],
+    { first: 24, sortKey: "BEST_SELLING" }
+  ).catch(() => null);
 
   return (
     <>
       <AnnouncementStrip />
-      <CollectionPage title={page.title} description={page.description} products={PLACEHOLDER} />
+      <CollectionPage
+        title={page.title}
+        description={page.description}
+        products={collection?.products ?? []}
+        bannerImage={collection?.image}
+        bannerAlt={collection?.title ?? page.title}
+      />
     </>
   );
 }
