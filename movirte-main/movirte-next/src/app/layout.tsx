@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import { Playfair_Display } from "next/font/google";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import LenisProvider from "@/components/LenisProvider/LenisProvider";
 import LayoutShell from "@/components/LayoutShell/LayoutShell";
 import "./globals.css";
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://movirte.com"),
@@ -55,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={playfairDisplay.variable}>
+    <html lang="en">
       <body>
         <CartProvider>
           <WishlistProvider>
